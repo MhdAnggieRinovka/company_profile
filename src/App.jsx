@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./App.css";
 import PaperStack from "./components/PaperStack";
 import { projects } from "./data/projects";
+import Footer from "./components/Footer";
 
 function App() {
   const [selectedProject, setSelectedProject] = useState(null);
@@ -41,6 +42,7 @@ function App() {
           </div>
         </div>
       )}
+      {!selectedProject && <Footer />}
     </main>
   );
 }
