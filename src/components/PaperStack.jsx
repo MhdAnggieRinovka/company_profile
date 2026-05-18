@@ -123,7 +123,7 @@ function AnimatedFrontCard({
 }
 
 function PaperStack({ projects, onReadStory }) {
-  const [activeIndex, setActiveIndex] = useState(1);
+  const [activeIndex, setActiveIndex] = useState(0);
   const [direction, setDirection] = useState("next");
 
   const prevIndex = (activeIndex + projects.length - 1) % projects.length;
