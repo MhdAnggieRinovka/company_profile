@@ -1,3 +1,6 @@
+/* ==========================================================================
+   1. GLOBAL & PAGE LAYOUT
+   ========================================================================== */
 .page {
   min-height: 100vh;
   padding: 40px 24px 80px;
@@ -30,6 +33,9 @@
   color: #5f5952;
 }
 
+/* ==========================================================================
+   2. PAPER STACK COMPONENT
+   ========================================================================== */
 .stack-wrap {
   max-width: 1200px;
   margin: 0 auto;
@@ -108,6 +114,9 @@
   pointer-events: auto;
 }
 
+/* ==========================================================================
+   3. NAVIGATION & BUTTONS
+   ========================================================================== */
 .nav-btn {
   width: 56px;
   height: 56px;
@@ -117,9 +126,7 @@
   font-size: 28px;
   color: #1f1b17;
   cursor: pointer;
-  transition:
-    transform 0.2s ease,
-    opacity 0.2s ease;
+  transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
 .nav-btn:hover {
@@ -150,6 +157,9 @@
   opacity: 0.72;
 }
 
+/* ==========================================================================
+   4. DETAIL MODAL DIALOG (OVERLAY WINDOW)
+   ========================================================================== */
 .detail-backdrop {
   position: fixed;
   inset: 0;
@@ -219,6 +229,9 @@
   min-height: 360px;
 }
 
+/* ==========================================================================
+   5. NAVIGATION FOOTER
+   ========================================================================== */
 .footer {
   position: fixed;
   left: 50%;
@@ -265,6 +278,9 @@
   opacity: 0.8;
 }
 
+/* ==========================================================================
+   6. RESPONSIVE MEDIA QUERIES (BREAKPOINTS)
+   ========================================================================== */
 @media (max-width: 1024px) {
   .page {
     padding: 32px 20px 64px;
@@ -339,6 +355,7 @@
     width: min(100%, 360px);
     border-radius: 24px;
     padding: 20px 18px 18px;
+    margin-top: -55px;
   }
 
   .paper-card h2 {
@@ -375,18 +392,29 @@
     font-size: 15px;
   }
 
+  /* --- KITA FIX DI SINI MENGGUNAKAN PADDING INTERNAL CARD --- */
   .detail-backdrop {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: flex-start; /* Mulai dari atas agar scroll di shell bekerja penuh */
+    justify-content: center;
     padding: 16px 12px;
-    align-items: flex-start;
-    overflow-y: auto;
+    z-index: 50;
   }
 
   .detail-shell {
     width: 100%;
-    max-height: none;
+    max-height: 90vh; /* Membatasi tinggi modal putih di mobile agar menyisakan ruang scroll */
+    overflow-y: scroll; /* Mengaktifkan scroll di dalam card putih */
     border-radius: 24px;
-    padding: 24px 16px 18px;
     margin-top: 8px;
+    
+    /* SOLUSI PASTI: Berikan padding bawah super besar (140px) khusus di dalam card putih ini.
+       Ini akan memaksa teks "Read the story" terangkat naik jauh ke atas menjauhi batas bawah card, 
+       sehingga ketika user men-scroll card-nya sampai mentok, teks tersebut otomatis lolos dari tindihan footer hitam. */
+    padding: 24px 16px 140px !important; 
+    -webkit-overflow-scrolling: touch;
   }
 
   .detail-close {
@@ -421,12 +449,15 @@
     min-height: 240px;
   }
 
+  /* --- DATA LAYOUT FIXED FOOTER DI MOBILE --- */
   .footer {
+    position: fixed;
     left: 16px;
     right: 16px;
     transform: none;
     bottom: max(12px, env(safe-area-inset-bottom));
     width: auto;
+    z-index: 100;
   }
 
   .footer-nav {
