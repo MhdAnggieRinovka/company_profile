@@ -333,10 +333,24 @@
     min-height: 660px;
     padding-top: 24px;
     overflow: visible;
+    position: relative;
+    display: flex;
+    justify-content: center;
   }
 
+  /* Cari baris ini di @media (max-width: 768px) */
   .paper-card {
-    width: min(100%, 360px);
+    width: min(92vw, 340px);
+    /* HAPUS ATAU UBAH BARIS DI BAWAH INI */
+    /* left: 50%; */
+    /* right: auto; */
+    /* inset-inline: auto; */
+    /* margin-inline: 0; */
+
+    /* GANTI DENGAN INI UNTUK MENYINKRONKAN DENGAN DESKTOP */
+    inset-inline: 0;
+    margin-inline: auto;
+
     border-radius: 24px;
     padding: 20px 18px 18px;
   }
