@@ -74,7 +74,7 @@ function getDesktopCardStyle(pos) {
 function getMobileCardStyle(pos) {
   if (pos === 0) {
     return {
-      x: 0,            // Tepat di tengah
+      x: 0,
       y: 0,
       scale: 1,
       opacity: 1,
@@ -86,34 +86,34 @@ function getMobileCardStyle(pos) {
 
   if (pos === 1) {
     return {
-      x: 14,           // Geser ke kanan sedikit untuk efek tumpukan
-      y: 10,
-      scale: 0.97,
-      opacity: 0.18,
-      rotate: 4,
-      zIndex: 20,
+      x: 30,
+      y: 18,
+      scale: 0.955,
+      opacity: 0.42,
+      rotate: 8.5,
+      zIndex: 24,
       pointerEvents: "none",
     };
   }
 
   if (pos === -1) {
     return {
-      x: -14,          // Geser ke kiri sedikit untuk efek tumpukan
-      y: 10,
-      scale: 0.97,
-      opacity: 0.12,
-      rotate: -4,
-      zIndex: 10,
+      x: -18,
+      y: 12,
+      scale: 0.968,
+      opacity: 0.22,
+      rotate: -6.5,
+      zIndex: 18,
       pointerEvents: "none",
     };
   }
 
   return {
-    x: pos > 0 ? 24 : -24,
-    y: 14,
-    scale: 0.95,
+    x: pos > 0 ? 48 : -28,
+    y: 26,
+    scale: 0.92,
     opacity: 0,
-    rotate: pos > 0 ? 5 : -5,
+    rotate: pos > 0 ? 12 : -9,
     zIndex: 0,
     pointerEvents: "none",
   };
@@ -189,12 +189,17 @@ function PaperStack({ projects, onReadStory }) {
                 <p>{project.description}</p>
               </div>
 
-              <div className="paper-grid">
+              <div
+                className={`paper-grid ${isMobile ? "paper-grid-mobile" : ""}`}
+              >
                 <div className="paper-block tall" />
-                <div className="paper-side">
-                  <div className="paper-block" />
-                  <div className="paper-block" />
-                </div>
+                {!isMobile && (
+                  <div className="paper-side">
+                    <div className="paper-block" />
+                    <div className="paper-block" />
+                  </div>
+                )}
+                {isMobile && <div className="paper-block mobile-secondary" />}
               </div>
 
               {isFront && (
