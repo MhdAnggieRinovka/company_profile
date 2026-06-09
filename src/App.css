@@ -49,7 +49,7 @@ video {
 }
 
 /* ==========================================================================
-   3. SITE HEADER (DIJAMIN NAVIGASI PAS DI TENGAH LAYAR)
+   3. SITE HEADER (DIJAMIN LOGO & NAVIGASI MASUK GARIS + PAS DI TENGAH)
    ========================================================================== */
 .site-header {
   width: 100%;
@@ -60,22 +60,19 @@ video {
   width: 100%;
   max-width: none;
   margin: 0;
-  padding: 8px 0 18px;
+  padding: 8px 0 18px; /* Jarak atas bawah di dalam garis */
   border-bottom: 1px solid var(--line);
-  
-  /* Menggunakan Flexbox dengan posisi relatif */
-  display: flex;
+
+  /* Grid 3 Kolom: Sisi kiri dan kanan punya space seimbang, tengah otomatis presisi */
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  justify-content: center; /* Memaksa flex items (navigasi) berada tepat di tengah */
-  position: relative;
 }
 
 .brand {
   display: inline-flex;
   align-items: center;
-  /* Mengunci logo di sebelah kiri tanpa mengganggu titik tengah navigasi */
-  position: absolute;
-  left: 0; 
+  justify-self: start; /* Mengunci logo di ujung paling kiri kolom pertama */
 }
 
 .brand img {
@@ -85,6 +82,7 @@ video {
 }
 
 .site-nav {
+  grid-column: 2; /* Memaksa navigasi menduduki kolom tengah */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -115,8 +113,8 @@ video {
 
 .hero-home__stage {
   width: 100%;
-  height: calc(100vh - 160px); 
-  min-height: 500px; 
+  height: calc(100vh - 160px);
+  min-height: 500px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -136,8 +134,8 @@ video {
 .hero-media__video {
   width: 100%;
   height: 100%;
-  object-fit: contain; 
-  object-position: center; 
+  object-fit: contain;
+  object-position: center;
   background: transparent;
 }
 
@@ -164,7 +162,7 @@ video {
   .hero-home {
     padding: 20px 0 24px;
   }
-  
+
   .hero-home__stage {
     height: calc(100vh - 140px);
   }
@@ -177,17 +175,12 @@ video {
   }
 
   .site-header__inner {
-    /* Kembalikan ke susunan vertikal normal jika di layar HP */
+    /* Di mobile kita ubah susunannya jadi vertikal biar rapi */
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     row-gap: 12px;
     padding-bottom: 14px;
-  }
-
-  .brand {
-    position: static; /* Lepas posisi absolute di mobile */
-    margin-bottom: 4px;
   }
 
   .brand img {
