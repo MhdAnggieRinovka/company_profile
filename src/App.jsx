@@ -9,9 +9,6 @@ export default function HomePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // Melacak perubahan state videoUrl langsung di level komponen agar pasti muncul di console
-  console.log("Current Video URL State:", videoUrl);
-
   useEffect(() => {
     let ignore = false;
 
@@ -71,12 +68,12 @@ export default function HomePage() {
       <header className="site-header">
         <div className="site-header__inner">
           <a href="/" className="brand" aria-label="KYUB home">
-            <img src="/logo-kyub.jpeg" alt="" />
+            <img src="/logo-kyub.jpeg" alt="KYUB" />
           </a>
 
           <nav className="site-nav" aria-label="Main navigation">
             <a href="#about">ABOUT</a>
-            <a href="#work">WORK</a>
+            <a href="#work">WORKS</a>
             <a href="#contacts">CONTACTS</a>
           </nav>
         </div>

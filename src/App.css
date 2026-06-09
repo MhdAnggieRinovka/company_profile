@@ -1,6 +1,3 @@
-/* ==========================================================================
-   1. GLOBAL VARIABLES & RESETS
-   ========================================================================== */
 :root {
   --bg: #ffffff;
   --text: #161616;
@@ -39,18 +36,13 @@ video {
   display: block;
 }
 
-/* ==========================================================================
-   2. MAIN PAGE LAYOUT
-   ========================================================================== */
 .home-page {
   width: 100%;
   min-height: 100vh;
   background: var(--bg);
 }
 
-/* ==========================================================================
-   3. SITE HEADER (DIJAMIN LOGO & NAVIGASI MASUK GARIS + PAS DI TENGAH)
-   ========================================================================== */
+/* HEADER DESKTOP */
 .site-header {
   width: 100%;
   padding: 18px 32px 0;
@@ -60,10 +52,8 @@ video {
   width: 100%;
   max-width: none;
   margin: 0;
-  padding: 8px 0 18px; /* Jarak atas bawah di dalam garis */
+  padding: 8px 0 18px;
   border-bottom: 1px solid var(--line);
-
-  /* Grid 3 Kolom: Sisi kiri dan kanan punya space seimbang, tengah otomatis presisi */
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
@@ -72,7 +62,7 @@ video {
 .brand {
   display: inline-flex;
   align-items: center;
-  justify-self: start; /* Mengunci logo di ujung paling kiri kolom pertama */
+  justify-self: start;
 }
 
 .brand img {
@@ -82,7 +72,7 @@ video {
 }
 
 .site-nav {
-  grid-column: 2; /* Memaksa navigasi menduduki kolom tengah */
+  grid-column: 2;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -96,9 +86,7 @@ video {
   color: #272727;
 }
 
-/* ==========================================================================
-   4. HERO HOME (DIJAMIN FULL WIDTH & PAS DI TENGAH)
-   ========================================================================== */
+/* HERO */
 .hero-home {
   width: 100%;
   padding: 24px 0 32px;
@@ -149,11 +137,7 @@ video {
   border: 1px solid var(--line);
 }
 
-/* ==========================================================================
-   5. RESPONSIVE BREAKPOINTS (TABLET & MOBILE)
-   ========================================================================== */
-
-/* TABLET (1024px) */
+/* TABLET */
 @media (max-width: 1024px) {
   .site-header {
     padding: 18px 20px 0;
@@ -165,46 +149,119 @@ video {
 
   .hero-home__stage {
     height: calc(100vh - 140px);
+    min-height: 420px;
   }
 }
 
-/* MOBILE (768px) */
+/* MOBILE */
 @media (max-width: 768px) {
+  .home-page {
+    padding-bottom: 78px;
+  }
+
   .site-header {
-    padding: 16px 16px 0;
+    padding: 18px 16px 0;
   }
 
   .site-header__inner {
-    /* Di mobile kita ubah susunannya jadi vertikal biar rapi */
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    row-gap: 12px;
-    padding-bottom: 14px;
+    position: relative;
+    border-bottom: none;
+    padding: 0;
+    display: block;
+  }
+
+  .brand {
+    width: 100%;
+    justify-content: center;
   }
 
   .brand img {
-    width: 108px;
+    width: 92px;
+    margin: 0 auto;
   }
 
   .site-nav {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 50;
     width: 100%;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-    gap: 20px;
+    grid-column: auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    background: #fff;
+    border-top: 1px solid var(--line);
+    padding: 14px 10px calc(14px + env(safe-area-inset-bottom));
   }
 
   .site-nav a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
     font-size: 11px;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.12em;
+    text-align: center;
   }
 
   .hero-home {
-    padding: 16px 0 20px;
+    padding: 28px 0 20px;
+  }
+
+  .hero-home__frame {
+    padding: 0 16px;
   }
 
   .hero-home__stage {
-    height: 50vh;
-    min-height: 320px;
+    height: auto;
+    min-height: calc(100vh - 220px);
+    align-items: center;
+  }
+
+  .hero-media {
+    width: 100%;
+    height: auto;
+  }
+
+  .hero-media__video {
+    width: 100%;
+    height: auto;
+    max-height: 52vh;
+    object-fit: contain;
+  }
+
+  .hero-media__placeholder {
+    aspect-ratio: 1 / 1;
+    height: auto;
+  }
+}
+
+/* SMALL MOBILE */
+@media (max-width: 480px) {
+  .brand img {
+    width: 86px;
+  }
+
+  .hero-home {
+    padding-top: 24px;
+  }
+
+  .hero-home__frame {
+    padding: 0 12px;
+  }
+
+  .hero-home__stage {
+    min-height: calc(100vh - 210px);
+  }
+
+  .hero-media__video {
+    max-height: 48vh;
+  }
+
+  .site-nav a {
+    font-size: 10px;
+    letter-spacing: 0.1em;
   }
 }
