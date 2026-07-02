@@ -2,14 +2,16 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import "./work-detail.css";
 
-const WORK_DETAIL_API = "https://cms.kyubstudio.com/wp-json/wp/v2/portfolio?slug=";
+const WORK_DETAIL_API =
+  "https://cms.kyubstudio.com/wp-json/wp/v2/portfolio?slug=";
 
 export default function WorkDetail() {
   const { slug } = useParams();
   const [workItem, setWorkItem] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
+  console.log("slug:", slug);
+  console.log("workItem:", workItem);
   useEffect(() => {
     let ignore = false;
 
@@ -63,28 +65,30 @@ export default function WorkDetail() {
     const acf = workItem.acf;
     const items = [];
 
-    if (acf.cover_image?.url) {
+    if (acf.coverimage?.url) {
       items.push({
-        key: "cover_image",
+        key: "coverimage",
         image:
-          acf.cover_image.sizes?.large ||
-          acf.cover_image.sizes?.medium_large ||
-          acf.cover_image.url,
-        alt: acf.cover_image.alt || workItem.title?.rendered || "",
+          acf.coverimage.sizes?.large ||
+          acf.coverimage.sizes?.medium_large ||
+          acf.coverimage.sizes?.mediumlarge ||
+          acf.coverimage.url,
+        alt: acf.coverimage.alt || workItem.title?.rendered || "",
         description: "",
       });
     }
 
     for (let i = 1; i <= 10; i += 1) {
-      const imageField = acf[`image_${i}`];
-      const descriptionField = acf[`description_${i}`] || "";
+      const imageField = acf[`image${i}`];
+      const descriptionField = acf[`description${i}`] || "";
 
       if (imageField?.url) {
         items.push({
-          key: `image_${i}`,
+          key: `image${i}`,
           image:
             imageField.sizes?.large ||
             imageField.sizes?.medium_large ||
+            imageField.sizes?.mediumlarge ||
             imageField.url,
           alt: imageField.alt || workItem.title?.rendered || `Work image ${i}`,
           description: descriptionField,
@@ -106,14 +110,16 @@ export default function WorkDetail() {
   if (error || !workItem) {
     return (
       <main className="work-detail-page">
-        <div className="work-detail__feedback">{error || "Work detail tidak ditemukan."}</div>
+        <div className="work-detail__feedback">
+          {error || "Work detail tidak ditemukan."}
+        </div>
       </main>
     );
   }
 
   const title = workItem.title?.rendered?.replace(/&#038;/g, "&") || "Untitled";
   const year = workItem.acf?.year || "";
-  const category = workItem.acf?.portfolio_category?.name || "Uncategorized";
+  const category = workItem.acf?.portfoliocategory?.name || "Uncategorized";
 
   return (
     <main className="work-detail-page">
@@ -129,14 +135,20 @@ export default function WorkDetail() {
             {category}
             {year ? ` / ${year}` : ""}
           </p>
-          <h1>{title}</h1>
+          <h1
+            dangerouslySetInnerHTML={{
+              __html: workItem.title?.rendered || "Untitled",
+            }}
+          />
         </header>
 
         <div className="work-detail__gallery">
           {galleryItems.map((item) => (
             <figure className="work-detail__figure" key={item.key}>
               <img src={item.image} alt={item.alt} loading="lazy" />
-              {item.description ? <figcaption>{item.description}</figcaption> : null}
+              {item.description ? (
+                <figcaption>{item.description}</figcaption>
+              ) : null}
             </figure>
           ))}
         </div>

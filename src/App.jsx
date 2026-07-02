@@ -1,4 +1,6 @@
+import { Routes, Route, Link } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
+import WorkDetail from "./WorkDetail.jsx";
 import "./App.css";
 
 const HOME_API_URL = "https://cms.kyubstudio.com/wp-json/wp/v2/home_video";
@@ -7,7 +9,7 @@ const WORKS_API_URL =
 
 const FILTERS = ["All", "Branding", "Illustration", "Invitation", "Packaging"];
 
-export default function HomePage() {
+function HomePage() {
   const [activePage, setActivePage] = useState("home");
   const [videoUrl, setVideoUrl] = useState("");
   const [title, setTitle] = useState("Home Video");
@@ -142,14 +144,14 @@ export default function HomePage() {
   function goPrevWork() {
     if (!filteredWorks.length) return;
     setActiveWorkIndex((prev) =>
-      prev === 0 ? filteredWorks.length - 1 : prev - 1
+      prev === 0 ? filteredWorks.length - 1 : prev - 1,
     );
   }
 
   function goNextWork() {
     if (!filteredWorks.length) return;
     setActiveWorkIndex((prev) =>
-      prev === filteredWorks.length - 1 ? 0 : prev + 1
+      prev === filteredWorks.length - 1 ? 0 : prev + 1,
     );
   }
 
@@ -487,19 +489,16 @@ export default function HomePage() {
                         &#8249;
                       </button>
 
-                      <a
-                        href={`/work/${activeWork.slug}`}
+                      <Link
+                        to={`/work/${activeWork.slug}`}
                         style={{
+                          display: "block",
+                          width: "100%",
                           textDecoration: "none",
-                          fontFamily: 'Georgia, "Times New Roman", serif',
-                          fontSize: window.innerWidth <= 768 ? "17px" : "22px",
-                          fontStyle: "italic",
-                          color: "#2b2621",
-                          textAlign: "center",
                         }}
                       >
-                        Read the Story
-                      </a>
+                        Read the story
+                      </Link>
 
                       <button
                         type="button"
@@ -687,5 +686,14 @@ export default function HomePage() {
         </section>
       )}
     </main>
+  );
+}
+
+export default function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/work/:slug" element={<WorkDetail />} />
+    </Routes>
   );
 }
