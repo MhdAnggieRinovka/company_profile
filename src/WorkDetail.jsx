@@ -65,22 +65,22 @@ export default function WorkDetail() {
     const acf = workItem.acf;
     const items = [];
 
-    if (acf.coverimage?.url) {
+    if (acf.cover_image?.url) {
       items.push({
-        key: "coverimage",
+        key: "cover_image",
         image:
-          acf.coverimage.sizes?.large ||
-          acf.coverimage.sizes?.medium_large ||
-          acf.coverimage.sizes?.mediumlarge ||
-          acf.coverimage.url,
-        alt: acf.coverimage.alt || workItem.title?.rendered || "",
+          acf.cover_image.sizes?.large ||
+          acf.cover_image.sizes?.medium_large ||
+          acf.cover_image.sizes?.medium ||
+          acf.cover_image.url,
+        alt: acf.cover_image.alt || workItem.title?.rendered || "",
         description: "",
       });
     }
 
     for (let i = 1; i <= 10; i += 1) {
-      const imageField = acf[`image${i}`];
-      const descriptionField = acf[`description${i}`] || "";
+      const imageField = acf[`image_${i}`];
+      const descriptionField = acf[`description_${i}`] || "";
 
       if (imageField?.url) {
         items.push({
@@ -119,7 +119,7 @@ export default function WorkDetail() {
 
   const title = workItem.title?.rendered?.replace(/&#038;/g, "&") || "Untitled";
   const year = workItem.acf?.year || "";
-  const category = workItem.acf?.portfoliocategory?.name || "Uncategorized";
+  const category = workItem.acf?.portfolio_category?.name || "Uncategorized";
 
   return (
     <main className="work-detail-page">
