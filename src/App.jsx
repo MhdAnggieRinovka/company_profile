@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import "./app.css";
+import "./App.css";
 
 const HOME_API_URL = "https://cms.kyubstudio.com/wp-json/wp/v2/home_video";
 const WORKS_API_URL =
