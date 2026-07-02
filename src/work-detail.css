@@ -1,113 +1,208 @@
 .work-detail-page {
-  width: 100%;
   min-height: 100vh;
   background: #ffffff;
-  color: #161616;
 }
 
 .work-detail {
   width: 100%;
-  max-width: 1100px;
+  max-width: 1440px;
   margin: 0 auto;
-  padding: 32px 24px 80px;
+  padding: 24px 0 90px;
 }
 
 .work-detail__topbar {
-  display: flex;
-  justify-content: flex-start;
-  margin-bottom: 28px;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
 }
 
 .work-detail__back {
+  display: inline-block;
   text-decoration: none;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 12px;
+  font-size: 11px;
   line-height: 1;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: #8b847d;
+  color: #a0978e;
+  transition: color 0.2s ease;
 }
 
 .work-detail__back:hover {
-  color: #17130f;
+  color: #201a16;
 }
 
 .work-detail__header {
-  margin-bottom: 36px;
+  max-width: 760px;
+  margin: 28px auto 52px;
+  padding: 0 24px;
   text-align: center;
 }
 
 .work-detail__meta {
-  margin: 0 0 12px;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 12px;
-  line-height: 1.4;
-  letter-spacing: 0.16em;
+  margin: 0 0 18px;
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: #8b847d;
+  color: #a0978e;
 }
 
-.work-detail__header h1 {
+.work-detail__title {
   margin: 0;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 38px;
+  font-size: clamp(42px, 6vw, 76px);
   font-weight: 400;
-  line-height: 1.15;
-  color: #17130f;
+  line-height: 0.95;
+  color: #171310;
 }
 
 .work-detail__gallery {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 36px;
+  width: 100%;
+}
+
+.work-detail__block {
+  width: 100%;
+  margin-bottom: 54px;
 }
 
 .work-detail__figure {
+  width: 100%;
   margin: 0;
 }
 
 .work-detail__figure img {
+  display: block;
   width: 100%;
   height: auto;
-  display: block;
-  background: #f3eee8;
 }
 
-.work-detail__figure figcaption {
-  margin-top: 14px;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 14px;
-  line-height: 1.75;
-  color: #5f5953;
+.work-detail__caption-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 24px 20px 0;
+}
+
+.work-detail__caption {
+  max-width: 610px;
+  margin: 0;
+  text-align: center;
+  font-size: 10px;
+  line-height: 2.1;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #a0978e;
+}
+
+.related-projects {
+  padding: 8px 20px 0;
+}
+
+.related-projects__title {
+  margin: 0 0 26px;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #a0978e;
+}
+
+.related-projects__grid {
+  max-width: 980px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.related-projects__item {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.related-projects__thumb {
+  width: 100%;
+  background: #f3eee8;
+  overflow: hidden;
+}
+
+.related-projects__thumb img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1.18;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.related-projects__item:hover .related-projects__thumb img {
+  transform: scale(1.03);
+}
+
+.related-projects__name {
+  margin: 8px 0 0;
+  text-align: center;
+  font-size: 10px;
+  line-height: 1.5;
+  color: #5a5149;
 }
 
 .work-detail__feedback {
   padding: 80px 24px;
   text-align: center;
-  font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
-  color: #817b74;
+  color: #7f776f;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
+  .related-projects__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
   .work-detail {
-    padding: 24px 16px 64px;
+    padding: 22px 0 70px;
+  }
+
+  .work-detail__topbar,
+  .work-detail__header,
+  .work-detail__caption-wrap,
+  .related-projects {
+    padding-left: 16px;
+    padding-right: 16px;
   }
 
   .work-detail__header {
-    margin-bottom: 28px;
+    margin: 24px auto 38px;
   }
 
-  .work-detail__header h1 {
-    font-size: 28px;
+  .work-detail__meta {
+    font-size: 10px;
+    letter-spacing: 0.18em;
   }
 
-  .work-detail__gallery {
-    gap: 24px;
+  .work-detail__title {
+    font-size: 42px;
+    line-height: 1;
   }
 
-  .work-detail__figure figcaption {
-    font-size: 13px;
-    line-height: 1.7;
+  .work-detail__block {
+    margin-bottom: 40px;
+  }
+
+  .work-detail__caption {
+    font-size: 10px;
+    line-height: 1.95;
+  }
+
+  .related-projects__grid {
+    gap: 14px;
+  }
+
+  .related-projects__name {
+    font-size: 10px;
   }
 }

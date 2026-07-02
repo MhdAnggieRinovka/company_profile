@@ -5,13 +5,23 @@ import "./work-detail.css";
 const WORK_DETAIL_API =
   "https://cms.kyubstudio.com/wp-json/wp/v2/portfolio?slug=";
 
+const RELATED_WORKS_API =
+  "https://cms.kyubstudio.com/wp-json/wp/v2/portfolio?orderby=date&order=desc";
+
+const FALLBACK_TEXTS = [
+  "Lorem ipsum dolor sit amet consectetur. Dui eu velit adipiscing sit imperdiet arcu aliquam massa. Lorem ipsum dolor sit amet consectetur adipiscing elit.",
+  "Lorem ipsum dolor sit amet consectetur. Quis at adipiscing et imperdiet et ipsum in nunc. Purus fermentum nisl at augue viverra luctus.",
+  "Lorem ipsum dolor sit amet consectetur. Aenean commodo justo at faucibus gravida, tortor lectus tincidunt augue, sed posuere libero purus in risus.",
+  "Lorem ipsum dolor sit amet consectetur. Sed non justo sed lorem feugiat gravida quis nec velit. Integer aliquet tortor vel lacus tempor varius.",
+];
+
 export default function WorkDetail() {
   const { slug } = useParams();
   const [workItem, setWorkItem] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  console.log("slug:", slug);
-  console.log("workItem:", workItem);
+  const [relatedWorks, setRelatedWorks] = useState([]);
+
   useEffect(() => {
     let ignore = false;
 
@@ -59,6 +69,88 @@ export default function WorkDetail() {
     };
   }, [slug]);
 
+  useEffect(() => {
+    if (!workItem?.acf?.portfolio_category?.name) return;
+
+    let ignore = false;
+
+    async function fetchRelatedWorks() {
+      try {
+        const response = await fetch(RELATED_WORKS_API, {
+          method: "GET",
+          headers: { Accept: "application/json" },
+        });
+
+        if (!response.ok) {
+          throw new Error(`Failed to fetch related works: ${response.status}`);
+        }
+
+        const json = await response.json();
+        const currentCategory = workItem.acf?.portfolio_category?.name;
+
+        let mapped = json
+          .filter((item) => item.slug !== workItem.slug)
+          .filter(
+            (item) => item.acf?.portfolio_category?.name === currentCategory,
+          )
+          .map((item) => ({
+            id: item.id,
+            slug: item.slug,
+            title: item.title?.rendered?.replace(/&#038;/g, "&") || "Untitled",
+            image:
+              item.acf?.cover_image?.sizes?.medium_large ||
+              item.acf?.cover_image?.sizes?.large ||
+              item.acf?.cover_image?.sizes?.medium ||
+              item.acf?.cover_image?.url ||
+              "",
+            year: item.acf?.year || "",
+          }))
+          .filter((item) => item.image);
+
+        if (mapped.length < 4) {
+          const fallback = json
+            .filter((item) => item.slug !== workItem.slug)
+            .map((item) => ({
+              id: item.id,
+              slug: item.slug,
+              title: item.title?.rendered?.replace(/&#038;/g, "&") || "Untitled",
+              image:
+                item.acf?.cover_image?.sizes?.medium_large ||
+                item.acf?.cover_image?.sizes?.large ||
+                item.acf?.cover_image?.sizes?.medium ||
+                item.acf?.cover_image?.url ||
+                "",
+              year: item.acf?.year || "",
+            }))
+            .filter((item) => item.image);
+
+          const merged = [...mapped];
+          fallback.forEach((item) => {
+            if (!merged.find((existing) => existing.id === item.id) && merged.length < 4) {
+              merged.push(item);
+            }
+          });
+
+          mapped = merged;
+        }
+
+        if (!ignore) {
+          setRelatedWorks(mapped.slice(0, 4));
+        }
+      } catch (err) {
+        if (!ignore) {
+          setRelatedWorks([]);
+        }
+      }
+    }
+
+    fetchRelatedWorks();
+
+    return () => {
+      ignore = true;
+    };
+  }, [workItem]);
+
   const galleryItems = useMemo(() => {
     if (!workItem?.acf) return [];
 
@@ -84,14 +176,16 @@ export default function WorkDetail() {
 
       if (imageField?.url) {
         items.push({
-          key: `image${i}`,
+          key: `image_${i}`,
           image:
             imageField.sizes?.large ||
             imageField.sizes?.medium_large ||
-            imageField.sizes?.mediumlarge ||
+            imageField.sizes?.medium ||
             imageField.url,
           alt: imageField.alt || workItem.title?.rendered || `Work image ${i}`,
-          description: descriptionField,
+          description:
+            descriptionField ||
+            FALLBACK_TEXTS[(i - 1) % FALLBACK_TEXTS.length],
         });
       }
     }
@@ -117,7 +211,6 @@ export default function WorkDetail() {
     );
   }
 
-  const title = workItem.title?.rendered?.replace(/&#038;/g, "&") || "Untitled";
   const year = workItem.acf?.year || "";
   const category = workItem.acf?.portfolio_category?.name || "Uncategorized";
 
@@ -135,7 +228,9 @@ export default function WorkDetail() {
             {category}
             {year ? ` / ${year}` : ""}
           </p>
+
           <h1
+            className="work-detail__title"
             dangerouslySetInnerHTML={{
               __html: workItem.title?.rendered || "Untitled",
             }}
@@ -143,15 +238,42 @@ export default function WorkDetail() {
         </header>
 
         <div className="work-detail__gallery">
-          {galleryItems.map((item) => (
-            <figure className="work-detail__figure" key={item.key}>
-              <img src={item.image} alt={item.alt} loading="lazy" />
-              {item.description ? (
-                <figcaption>{item.description}</figcaption>
+          {galleryItems.map((item, index) => (
+            <section className="work-detail__block" key={item.key}>
+              <figure className="work-detail__figure">
+                <img src={item.image} alt={item.alt} loading="lazy" />
+              </figure>
+
+              {index > 0 && item.description ? (
+                <div className="work-detail__caption-wrap">
+                  <p className="work-detail__caption">{item.description}</p>
+                </div>
               ) : null}
-            </figure>
+            </section>
           ))}
         </div>
+
+        {relatedWorks.length > 0 && (
+          <section className="related-projects">
+            <h2 className="related-projects__title">Related Projects</h2>
+
+            <div className="related-projects__grid">
+              {relatedWorks.map((item) => (
+                <Link
+                  key={item.id}
+                  to={`/work/${item.slug}`}
+                  className="related-projects__item"
+                >
+                  <div className="related-projects__thumb">
+                    <img src={item.image} alt={item.title} loading="lazy" />
+                  </div>
+
+                  <p className="related-projects__name">{item.title}</p>
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
       </section>
     </main>
   );
