@@ -124,8 +124,21 @@ function HomePage() {
   }, [activePage]);
 
   const filteredWorks = useMemo(() => {
-    if (activeFilter === "All") return worksData;
-    return worksData.filter((item) => item.category === activeFilter);
+    let result =
+      activeFilter === "All"
+        ? [...worksData]
+        : worksData.filter((item) => item.category === activeFilter);
+
+    if (activeFilter === "Branding") {
+      const drEllsIndex = result.findIndex((item) => item.slug === "907");
+
+      if (drEllsIndex > 0) {
+        const [drEllsItem] = result.splice(drEllsIndex, 1);
+        result.unshift(drEllsItem);
+      }
+    }
+
+    return result;
   }, [worksData, activeFilter]);
 
   useEffect(() => {
