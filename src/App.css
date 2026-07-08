@@ -414,3 +414,88 @@ body {
     font-size: 38px;
   }
 }
+
+/* MOBILE */
+@media (max-width: 768px) {
+  /* .home-page {
+    padding-bottom: 78px;
+  } */
+
+  /* .site-header {
+    padding: 18px 16px 0;
+  } */
+
+  /* .site-header__inner {
+    position: relative;
+    border-bottom: none;
+    padding: 0;
+    display: block;
+  } */
+
+  /* .brand {
+    width: 100%;
+    justify-content: center;
+  } */
+
+  /* .brand img {
+    width: 92px;
+    margin: 0 auto;
+  } */
+
+  .site-nav {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 50;
+    width: 100%;
+    grid-column: auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    background: #fff;
+    border-top: 1px solid var(--line);
+    padding: 14px 10px calc(14px + env(safe-area-inset-bottom));
+  }
+
+  .site-nav a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-align: center;
+  }
+
+  .hero-home {
+    padding: 28px 0 20px;
+  }
+
+  .hero-home__frame {
+    padding: 0 16px;
+  }
+
+  .hero-home__stage {
+    height: auto;
+    min-height: calc(100vh - 220px);
+    align-items: center;
+  }
+
+  .hero-media {
+    width: 100%;
+    height: auto;
+  }
+
+  .hero-media__video {
+    width: 100%;
+    height: auto;
+    max-height: 52vh;
+    object-fit: contain;
+  }
+
+  .hero-media__placeholder {
+    aspect-ratio: 1 / 1;
+    height: auto;
+  }
+}

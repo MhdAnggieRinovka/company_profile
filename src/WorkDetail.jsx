@@ -6,7 +6,7 @@ const WORK_DETAIL_API =
   "https://cms.kyubstudio.com/wp-json/wp/v2/portfolio?slug=";
 
 const RELATED_WORKS_API =
-  "https://cms.kyubstudio.com/wp-json/wp/v2/portfolio?orderby=date&order=desc";
+  "https://cms.kyubstudio.com/wp-json/wp/v2/portfolio?_embed&per_page=4&orderby=date&order=desc&page=1&exclude=";
 
 const FALLBACK_TEXTS = [
   "Lorem ipsum dolor sit amet consectetur. Dui eu velit adipiscing sit imperdiet arcu aliquam massa. Lorem ipsum dolor sit amet consectetur adipiscing elit.",
@@ -76,7 +76,8 @@ export default function WorkDetail() {
 
     async function fetchRelatedWorks() {
       try {
-        const response = await fetch(RELATED_WORKS_API, {
+        console.log(workItem)
+        const response = await fetch(`${RELATED_WORKS_API}${workItem.id}&portfolio-category=${encodeURIComponent(workItem["portfolio-category"]?.[0])}`, {
           method: "GET",
           headers: { Accept: "application/json" },
         });
@@ -89,10 +90,10 @@ export default function WorkDetail() {
         const currentCategory = workItem.acf?.portfolio_category?.name;
 
         let mapped = json
-          .filter((item) => item.slug !== workItem.slug)
-          .filter(
-            (item) => item.acf?.portfolio_category?.name === currentCategory,
-          )
+          // .filter((item) => item.slug !== workItem.slug)
+          // .filter(
+          //   (item) => item.acf?.portfolio_category?.name === currentCategory,
+          // )
           .map((item) => ({
             id: item.id,
             slug: item.slug,
@@ -157,18 +158,18 @@ export default function WorkDetail() {
     const acf = workItem.acf;
     const items = [];
 
-    if (acf.cover_image?.url) {
-      items.push({
-        key: "cover_image",
-        image:
-          acf.cover_image.sizes?.large ||
-          acf.cover_image.sizes?.medium_large ||
-          acf.cover_image.sizes?.medium ||
-          acf.cover_image.url,
-        alt: acf.cover_image.alt || workItem.title?.rendered || "",
-        description: "",
-      });
-    }
+    // if (acf.cover_image?.url) {
+    //   items.push({
+    //     key: "cover_image",
+    //     image:
+    //       acf.cover_image.sizes?.large ||
+    //       acf.cover_image.sizes?.medium_large ||
+    //       acf.cover_image.sizes?.medium ||
+    //       acf.cover_image.url,
+    //     alt: acf.cover_image.alt || workItem.title?.rendered || "",
+    //     description: "",
+    //   });
+    // }
 
     for (let i = 1; i <= 10; i += 1) {
       const imageField = acf[`image_${i}`];
