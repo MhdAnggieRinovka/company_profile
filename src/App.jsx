@@ -1,4 +1,4 @@
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route, Link, useSearchParams } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
 import WorkDetail from "./WorkDetail.jsx";
 import "./App.css";
@@ -10,7 +10,10 @@ const WORKS_API_URL =
 const FILTERS = ["All", "Branding", "Illustration", "Invitation", "Packaging"];
 
 function HomePage() {
-  const [activePage, setActivePage] = useState("about");
+  const [searchParams] = useSearchParams();
+  const initialPage = searchParams.get("page") === "works" ? "works" : "about";
+
+  const [activePage, setActivePage] = useState(initialPage);
   const [videoUrl, setVideoUrl] = useState("");
   const [title, setTitle] = useState("Home Video");
   const [loading, setLoading] = useState(true);
@@ -22,6 +25,11 @@ function HomePage() {
   const [activeFilter, setActiveFilter] = useState("All");
   const [activeWorkIndex, setActiveWorkIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  useEffect(() => {
+    const pageParam = searchParams.get("page");
+    setActivePage(pageParam === "works" ? "works" : "about");
+  }, [searchParams]);
 
   useEffect(() => {
     function handleResize() {

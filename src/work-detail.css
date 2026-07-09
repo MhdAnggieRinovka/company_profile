@@ -5,30 +5,8 @@
 
 .work-detail {
   width: 100%;
-  /* max-width: 1440px; */
   margin: 0 auto;
   padding: 24px 0 90px;
-}
-
-.work-detail__topbar {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 0 24px;
-}
-
-.work-detail__back {
-  display: inline-block;
-  text-decoration: none;
-  font-size: 11px;
-  line-height: 1;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: #a0978e;
-  transition: color 0.2s ease;
-}
-
-.work-detail__back:hover {
-  color: #201a16;
 }
 
 .work-detail__header {
@@ -63,7 +41,14 @@
 
 .work-detail__block {
   width: 100%;
+}
+
+.work-detail__block.has-caption {
   margin-bottom: 54px;
+}
+
+.work-detail__block.no-caption {
+  margin-bottom: 0;
 }
 
 .work-detail__figure {
@@ -75,6 +60,66 @@
   display: block;
   width: 100%;
   height: auto;
+}
+
+.work-detail__actions {
+  width: 100%;
+  margin: 0;
+  padding: 16px 24px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 34px;
+  border-bottom: 2px solid #1e73be;
+}
+
+.work-detail__action-link,
+.work-detail__action-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  text-decoration: none;
+  color: #111111;
+  cursor: pointer;
+}
+
+.work-detail__action-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  color: #111111;
+  flex: 0 0 auto;
+}
+
+.work-detail__action-icon svg {
+  display: block;
+  width: 16px;
+  height: 16px;
+}
+
+.work-detail__action-icon--close {
+  font-size: 24px;
+  line-height: 1;
+  transform: translateY(-1px);
+}
+
+.work-detail__action-text {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 16px;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1;
+  color: #111111;
+}
+
+.work-detail__action-link:hover,
+.work-detail__action-button:hover {
+  opacity: 0.7;
 }
 
 .work-detail__caption-wrap {
@@ -95,7 +140,7 @@
 }
 
 .related-projects {
-  padding: 8px 20px 0;
+  padding: 40px 20px 0;
 }
 
 .related-projects__title {
@@ -167,7 +212,6 @@
     padding: 22px 0 70px;
   }
 
-  .work-detail__topbar,
   .work-detail__header,
   .work-detail__caption-wrap,
   .related-projects {
@@ -189,8 +233,21 @@
     line-height: 1;
   }
 
-  .work-detail__block {
+  .work-detail__actions {
+    padding: 14px 16px 12px;
+    gap: 24px;
+  }
+
+  .work-detail__action-text {
+    font-size: 15px;
+  }
+
+  .work-detail__block.has-caption {
     margin-bottom: 40px;
+  }
+
+  .work-detail__block.no-caption {
+    margin-bottom: 0;
   }
 
   .work-detail__caption {

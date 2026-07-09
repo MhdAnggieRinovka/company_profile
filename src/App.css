@@ -327,10 +327,15 @@ body {
 
 .works-carousel__story-link {
   text-decoration: none;
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 18px;
+  font-family: "Spectral", serif;
+  font-weight: 500;
   font-style: italic;
-  color: #2b2621;
+  font-size: 16px;
+  line-height: 1;
+  letter-spacing: 0;
+  text-align: center;
+  vertical-align: middle;
+  color: #000000;
 }
 
 .works-carousel__story-link:hover {

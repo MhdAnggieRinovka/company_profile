@@ -6,14 +6,20 @@ const WORK_DETAIL_API =
   "https://cms.kyubstudio.com/wp-json/wp/v2/portfolio?slug=";
 
 const RELATED_WORKS_API =
-  "https://cms.kyubstudio.com/wp-json/wp/v2/portfolio?_embed&per_page=4&orderby=date&order=desc&page=1&exclude=";
+  "https://cms.kyubstudio.com/wp-json/wp/v2/portfolio?_embed&per_page=12&orderby=date&order=desc&exclude=";
 
 const FALLBACK_TEXTS = [
   "Lorem ipsum dolor sit amet consectetur. Dui eu velit adipiscing sit imperdiet arcu aliquam massa. Lorem ipsum dolor sit amet consectetur adipiscing elit.",
   "Lorem ipsum dolor sit amet consectetur. Quis at adipiscing et imperdiet et ipsum in nunc. Purus fermentum nisl at augue viverra luctus.",
   "Lorem ipsum dolor sit amet consectetur. Aenean commodo justo at faucibus gravida, tortor lectus tincidunt augue, sed posuere libero purus in risus.",
-  "Lorem ipsum dolor sit amet consectetur. Sed non justo sed lorem feugiat gravida quis nec velit. Integer aliquet tortor vel lacus tempor varius.",
 ];
+
+function decodeHtml(text = "") {
+  return text
+    .replace(/&#038;/g, "&")
+    .replace(/&#8217;/g, "'")
+    .replace(/&amp;/g, "&");
+}
 
 export default function WorkDetail() {
   const { slug } = useParams();
@@ -70,14 +76,13 @@ export default function WorkDetail() {
   }, [slug]);
 
   useEffect(() => {
-    if (!workItem?.acf?.portfolio_category?.name) return;
+    if (!workItem?.id) return;
 
     let ignore = false;
 
     async function fetchRelatedWorks() {
       try {
-        console.log(workItem)
-        const response = await fetch(`${RELATED_WORKS_API}${workItem.id}&portfolio-category=${encodeURIComponent(workItem["portfolio-category"]?.[0])}`, {
+        const response = await fetch(`${RELATED_WORKS_API}${workItem.id}`, {
           method: "GET",
           headers: { Accept: "application/json" },
         });
@@ -87,56 +92,48 @@ export default function WorkDetail() {
         }
 
         const json = await response.json();
-        const currentCategory = workItem.acf?.portfolio_category?.name;
 
-        let mapped = json
-          // .filter((item) => item.slug !== workItem.slug)
-          // .filter(
-          //   (item) => item.acf?.portfolio_category?.name === currentCategory,
-          // )
-          .map((item) => ({
-            id: item.id,
-            slug: item.slug,
-            title: item.title?.rendered?.replace(/&#038;/g, "&") || "Untitled",
-            image:
-              item.acf?.cover_image?.sizes?.medium_large ||
-              item.acf?.cover_image?.sizes?.large ||
-              item.acf?.cover_image?.sizes?.medium ||
-              item.acf?.cover_image?.url ||
-              "",
-            year: item.acf?.year || "",
-          }))
-          .filter((item) => item.image);
+        const currentCategorySlug =
+          workItem.acf?.portfolio_category?.slug ||
+          workItem.acf?.portfoliocategory?.slug ||
+          "";
 
-        if (mapped.length < 4) {
-          const fallback = json
-            .filter((item) => item.slug !== workItem.slug)
-            .map((item) => ({
+        const mapped = json
+          .map((item) => {
+            const itemCategorySlug =
+              item.acf?.portfolio_category?.slug ||
+              item.acf?.portfoliocategory?.slug ||
+              "";
+
+            const cover = item.acf?.cover_image || item.acf?.coverimage || null;
+
+            const image =
+              cover?.sizes?.medium_large ||
+              cover?.sizes?.large ||
+              cover?.sizes?.medium ||
+              cover?.url ||
+              "";
+
+            return {
               id: item.id,
               slug: item.slug,
-              title: item.title?.rendered?.replace(/&#038;/g, "&") || "Untitled",
-              image:
-                item.acf?.cover_image?.sizes?.medium_large ||
-                item.acf?.cover_image?.sizes?.large ||
-                item.acf?.cover_image?.sizes?.medium ||
-                item.acf?.cover_image?.url ||
-                "",
+              title: decodeHtml(item.title?.rendered || "Untitled"),
+              image,
               year: item.acf?.year || "",
-            }))
-            .filter((item) => item.image);
-
-          const merged = [...mapped];
-          fallback.forEach((item) => {
-            if (!merged.find((existing) => existing.id === item.id) && merged.length < 4) {
-              merged.push(item);
-            }
-          });
-
-          mapped = merged;
-        }
+              categorySlug: itemCategorySlug,
+            };
+          })
+          .filter((item) => item.slug !== workItem.slug)
+          .filter((item) => item.image)
+          .sort((a, b) => {
+            const aMatch = a.categorySlug === currentCategorySlug ? 0 : 1;
+            const bMatch = b.categorySlug === currentCategorySlug ? 0 : 1;
+            return aMatch - bMatch;
+          })
+          .slice(0, 4);
 
         if (!ignore) {
-          setRelatedWorks(mapped.slice(0, 4));
+          setRelatedWorks(mapped);
         }
       } catch (err) {
         if (!ignore) {
@@ -158,41 +155,79 @@ export default function WorkDetail() {
     const acf = workItem.acf;
     const items = [];
 
-    // if (acf.cover_image?.url) {
-    //   items.push({
-    //     key: "cover_image",
-    //     image:
-    //       acf.cover_image.sizes?.large ||
-    //       acf.cover_image.sizes?.medium_large ||
-    //       acf.cover_image.sizes?.medium ||
-    //       acf.cover_image.url,
-    //     alt: acf.cover_image.alt || workItem.title?.rendered || "",
-    //     description: "",
-    //   });
-    // }
-
     for (let i = 1; i <= 10; i += 1) {
-      const imageField = acf[`image_${i}`];
-      const descriptionField = acf[`description_${i}`] || "";
+      const imageField = acf[`image_${i}`] || acf[`image${i}`];
+      const descriptionField =
+        acf[`description_${i}`] || acf[`description${i}`] || "";
 
       if (imageField?.url) {
-        items.push({
-          key: `image_${i}`,
-          image:
-            imageField.sizes?.large ||
-            imageField.sizes?.medium_large ||
-            imageField.sizes?.medium ||
-            imageField.url,
-          alt: imageField.alt || workItem.title?.rendered || `Work image ${i}`,
-          description:
-            descriptionField ||
-            FALLBACK_TEXTS[(i - 1) % FALLBACK_TEXTS.length],
-        });
+        const imageUrl =
+          imageField.sizes?.large ||
+          imageField.sizes?.medium_large ||
+          imageField.sizes?.medium ||
+          imageField.url;
+
+        if (!items.find((existing) => existing.image === imageUrl)) {
+          items.push({
+            key: `image_${i}`,
+            image: imageUrl,
+            alt:
+              imageField.alt || workItem.title?.rendered || `Work image ${i}`,
+            description:
+              descriptionField ||
+              (i <= 3 ? FALLBACK_TEXTS[(i - 1) % FALLBACK_TEXTS.length] : ""),
+          });
+        }
       }
+    }
+
+    const coverImage = acf.cover_image || acf.coverimage;
+
+    if (items.length === 0 && coverImage?.url) {
+      items.push({
+        key: "cover_image",
+        image:
+          coverImage.sizes?.large ||
+          coverImage.sizes?.medium_large ||
+          coverImage.sizes?.medium ||
+          coverImage.url,
+        alt: coverImage.alt || workItem.title?.rendered || "Cover image",
+        description: FALLBACK_TEXTS[0],
+      });
     }
 
     return items;
   }, [workItem]);
+
+  async function handleShare() {
+    const shareData = {
+      title: decodeHtml(workItem?.title?.rendered || "KYUB Work"),
+      url: window.location.href,
+    };
+
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+        return;
+      }
+
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(window.location.href);
+        alert("Link copied");
+        return;
+      }
+
+      const textArea = document.createElement("textarea");
+      textArea.value = window.location.href;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textArea);
+      alert("Link copied");
+    } catch (error) {
+      console.error("Share failed", error);
+    }
+  }
 
   if (loading) {
     return (
@@ -213,17 +248,14 @@ export default function WorkDetail() {
   }
 
   const year = workItem.acf?.year || "";
-  const category = workItem.acf?.portfolio_category?.name || "Uncategorized";
+  const category =
+    workItem.acf?.portfolio_category?.name ||
+    workItem.acf?.portfoliocategory?.name ||
+    "Uncategorized";
 
   return (
     <main className="work-detail-page">
       <section className="work-detail">
-        <div className="work-detail__topbar">
-          <Link to="/" className="work-detail__back">
-            Back to works
-          </Link>
-        </div>
-
         <header className="work-detail__header">
           <p className="work-detail__meta">
             {category}
@@ -239,19 +271,101 @@ export default function WorkDetail() {
         </header>
 
         <div className="work-detail__gallery">
-          {galleryItems.map((item, index) => (
-            <section className="work-detail__block" key={item.key}>
-              <figure className="work-detail__figure">
-                <img src={item.image} alt={item.alt} loading="lazy" />
-              </figure>
+          {galleryItems.map((item, index) => {
+            const hasCaption = index < 3 && !!item.description;
 
-              {index > 0 && item.description ? (
-                <div className="work-detail__caption-wrap">
-                  <p className="work-detail__caption">{item.description}</p>
-                </div>
-              ) : null}
-            </section>
-          ))}
+            return (
+              <section
+                className={`work-detail__block ${
+                  hasCaption ? "has-caption" : "no-caption"
+                }`}
+                key={item.key}
+              >
+                <figure className="work-detail__figure">
+                  <img src={item.image} alt={item.alt} loading="lazy" />
+                </figure>
+
+                {index === 0 ? (
+                  <>
+                    <div className="work-detail__actions">
+                      <Link
+                        to="/?page=works"
+                        className="work-detail__action-link"
+                      >
+                        <span
+                          className="work-detail__action-icon work-detail__action-icon--close"
+                          aria-hidden="true"
+                        >
+                          ×
+                        </span>
+                        <span className="work-detail__action-text">Close</span>
+                      </Link>
+
+                      <button
+                        type="button"
+                        className="work-detail__action-button"
+                        onClick={handleShare}
+                      >
+                        <span
+                          className="work-detail__action-icon"
+                          aria-hidden="true"
+                        >
+                          <svg
+                            viewBox="0 0 24 24"
+                            width="16"
+                            height="16"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <circle
+                              cx="18"
+                              cy="5"
+                              r="2.2"
+                              stroke="currentColor"
+                              strokeWidth="1.6"
+                            />
+                            <circle
+                              cx="6"
+                              cy="12"
+                              r="2.2"
+                              stroke="currentColor"
+                              strokeWidth="1.6"
+                            />
+                            <circle
+                              cx="18"
+                              cy="19"
+                              r="2.2"
+                              stroke="currentColor"
+                              strokeWidth="1.6"
+                            />
+                            <path
+                              d="M7.9 10.9L16.1 6.1M7.9 13.1L16.1 17.9"
+                              stroke="currentColor"
+                              strokeWidth="1.6"
+                              strokeLinecap="round"
+                            />
+                          </svg>
+                        </span>
+                        <span className="work-detail__action-text">Share</span>
+                      </button>
+                    </div>
+
+                    {hasCaption ? (
+                      <div className="work-detail__caption-wrap">
+                        <p className="work-detail__caption">
+                          {item.description}
+                        </p>
+                      </div>
+                    ) : null}
+                  </>
+                ) : hasCaption ? (
+                  <div className="work-detail__caption-wrap">
+                    <p className="work-detail__caption">{item.description}</p>
+                  </div>
+                ) : null}
+              </section>
+            );
+          })}
         </div>
 
         {relatedWorks.length > 0 && (
