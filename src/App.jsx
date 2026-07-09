@@ -10,7 +10,7 @@ const WORKS_API_URL =
 const FILTERS = ["All", "Branding", "Illustration", "Invitation", "Packaging"];
 
 function HomePage() {
-  const [activePage, setActivePage] = useState("home");
+  const [activePage, setActivePage] = useState("about");
   const [videoUrl, setVideoUrl] = useState("");
   const [title, setTitle] = useState("Home Video");
   const [loading, setLoading] = useState(true);
@@ -21,6 +21,16 @@ function HomePage() {
   const [worksError, setWorksError] = useState("");
   const [activeFilter, setActiveFilter] = useState("All");
   const [activeWorkIndex, setActiveWorkIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  useEffect(() => {
+    function handleResize() {
+      setIsMobile(window.innerWidth <= 768);
+    }
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     let ignore = false;
@@ -175,20 +185,31 @@ function HomePage() {
     return filteredWorks[index];
   }
 
+  function goToWorkByOffset(offset) {
+    if (!filteredWorks.length) return;
+    const index =
+      (activeWorkIndex + offset + filteredWorks.length) % filteredWorks.length;
+    setActiveWorkIndex(index);
+  }
+
   const leftItemOne = getSideItem(-2);
   const leftItemTwo = getSideItem(-1);
   const rightItemOne = getSideItem(1);
   const rightItemTwo = getSideItem(2);
 
   return (
-    <main className="home-page">
+    <main
+      className={
+        showWorks ? "home-page home-page--works" : "home-page home-page--about"
+      }
+    >
       <header className="site-header">
         <div className="site-header__inner">
           <button
             type="button"
             className="brand-button"
             aria-label="KYUB home"
-            onClick={() => setActivePage("home")}
+            onClick={() => setActivePage("about")}
           >
             <img src="/logo-kyub.jpeg" alt="KYUB" />
           </button>
@@ -229,29 +250,8 @@ function HomePage() {
 
       {showWorks ? (
         <section className="works-page" aria-label="Works listing">
-          <div
-            className="works-filter-wrap"
-            style={{
-              width: "100%",
-              display: "flex",
-              justifyContent: "center",
-              borderBottom: "1px solid rgba(22, 22, 22, 0.06)",
-            }}
-          >
-            <div
-              className="works-filter-row"
-              style={{
-                width: "100%",
-                maxWidth: "980px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: "34px",
-                padding: "22px 0 36px",
-                margin: "0 auto",
-                flexWrap: "wrap",
-              }}
-            >
+          <div className="works-filter-wrap">
+            <div className="works-filter-row">
               {FILTERS.map((filter) => (
                 <button
                   key={filter}
@@ -281,377 +281,130 @@ function HomePage() {
             !worksError &&
             filteredWorks.length > 0 &&
             activeWork && (
-              <div
-                style={{
-                  width: "100%",
-                  maxWidth: "1240px",
-                  margin: "0 auto",
-                  padding: "26px 0 40px",
-                }}
-              >
-                <h2
-                  style={{
-                    margin: "0 0 24px",
-                    textAlign: "center",
-                    fontFamily: 'Georgia, "Times New Roman", serif',
-                    fontSize: "28px",
-                    fontWeight: 400,
-                    lineHeight: 1.2,
-                    color: "#2b2621",
-                  }}
-                >
-                  {activeWork.title}
-                </h2>
+              <div className="works-carousel">
+                <h2 className="works-carousel__title">{activeWork.title}</h2>
 
-                <div
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns:
-                      window.innerWidth <= 768
-                        ? "34px minmax(0, 1fr) 34px"
-                        : "44px 140px minmax(0, 560px) 140px 44px",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: window.innerWidth <= 768 ? "10px" : "18px",
-                  }}
-                >
+                <div className="works-carousel__media-row">
+                  {!isMobile && (
+                    <div className="works-carousel__side">
+                      {leftItemOne && (
+                        <button
+                          type="button"
+                          className="works-side-card"
+                          onClick={() => goToWorkByOffset(-2)}
+                          aria-label={`Show ${leftItemOne.title}`}
+                        >
+                          <span className="works-side-card__year">
+                            {leftItemOne.year}
+                          </span>
+                          <span className="works-side-card__category">
+                            {leftItemOne.category}
+                          </span>
+                          <span className="works-side-card__name">
+                            {leftItemOne.title}
+                          </span>
+                        </button>
+                      )}
+
+                      {leftItemTwo && (
+                        <button
+                          type="button"
+                          className="works-side-card"
+                          onClick={() => goToWorkByOffset(-1)}
+                          aria-label={`Show ${leftItemTwo.title}`}
+                        >
+                          <span className="works-side-card__year">
+                            {leftItemTwo.year}
+                          </span>
+                          <span className="works-side-card__category">
+                            {leftItemTwo.category}
+                          </span>
+                          <span className="works-side-card__name">
+                            {leftItemTwo.title}
+                          </span>
+                        </button>
+                      )}
+                    </div>
+                  )}
+
+                  <Link
+                    to={`/work/${activeWork.slug}`}
+                    className="works-carousel__hero-link"
+                  >
+                    <div className="works-carousel__hero">
+                      <img
+                        src={activeWork.image}
+                        alt={activeWork.alt}
+                        loading="lazy"
+                      />
+                    </div>
+                  </Link>
+
+                  {!isMobile && (
+                    <div className="works-carousel__side">
+                      {rightItemOne && (
+                        <button
+                          type="button"
+                          className="works-side-card"
+                          onClick={() => goToWorkByOffset(1)}
+                          aria-label={`Show ${rightItemOne.title}`}
+                        >
+                          <span className="works-side-card__year">
+                            {rightItemOne.year}
+                          </span>
+                          <span className="works-side-card__category">
+                            {rightItemOne.category}
+                          </span>
+                          <span className="works-side-card__name">
+                            {rightItemOne.title}
+                          </span>
+                        </button>
+                      )}
+
+                      {rightItemTwo && (
+                        <button
+                          type="button"
+                          className="works-side-card"
+                          onClick={() => goToWorkByOffset(2)}
+                          aria-label={`Show ${rightItemTwo.title}`}
+                        >
+                          <span className="works-side-card__year">
+                            {rightItemTwo.year}
+                          </span>
+                          <span className="works-side-card__category">
+                            {rightItemTwo.category}
+                          </span>
+                          <span className="works-side-card__name">
+                            {rightItemTwo.title}
+                          </span>
+                        </button>
+                      )}
+                    </div>
+                  )}
+                </div>
+
+                <div className="works-carousel__footer">
                   <button
                     type="button"
                     onClick={goPrevWork}
                     aria-label="Previous work"
-                    style={{
-                      border: 0,
-                      background: "transparent",
-                      padding: 0,
-                      cursor: "pointer",
-                      fontSize: window.innerWidth <= 768 ? "38px" : "56px",
-                      lineHeight: 1,
-                      color: "#2b2621",
-                    }}
+                    className="works-carousel__footer-arrow"
                   >
                     &#8249;
                   </button>
 
-                  {window.innerWidth > 768 && (
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        gap: "18px",
-                      }}
-                    >
-                      {leftItemOne && (
-                        <div
-                          style={{
-                            width: "64px",
-                            height: "400px",
-                            border: "1px solid rgba(22,22,22,0.12)",
-                            background: "#fff",
-                            padding: "12px 8px",
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "center",
-                            justifyContent: "space-between",
-                          }}
-                        >
-                          <span
-                            style={{
-                              writingMode: "vertical-rl",
-                              transform: "rotate(180deg)",
-                              fontSize: "11px",
-                              color: "#c0b8b0",
-                            }}
-                          >
-                            {leftItemOne.year}
-                          </span>
-                          <span
-                            style={{
-                              writingMode: "vertical-rl",
-                              transform: "rotate(180deg)",
-                              fontSize: "12px",
-                              color: "#8b847d",
-                            }}
-                          >
-                            {leftItemOne.category}
-                          </span>
-                          <span
-                            style={{
-                              writingMode: "vertical-rl",
-                              transform: "rotate(180deg)",
-                              fontSize: "12px",
-                              color: "#6b645d",
-                              fontFamily: 'Georgia, "Times New Roman", serif',
-                            }}
-                          >
-                            {leftItemOne.title}
-                          </span>
-                        </div>
-                      )}
-
-                      {leftItemTwo && (
-                        <div
-                          style={{
-                            width: "64px",
-                            height: "400px",
-                            border: "1px solid rgba(22,22,22,0.12)",
-                            background: "#fff",
-                            padding: "12px 8px",
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "center",
-                            justifyContent: "space-between",
-                          }}
-                        >
-                          <span
-                            style={{
-                              writingMode: "vertical-rl",
-                              transform: "rotate(180deg)",
-                              fontSize: "11px",
-                              color: "#c0b8b0",
-                            }}
-                          >
-                            {leftItemTwo.year}
-                          </span>
-                          <span
-                            style={{
-                              writingMode: "vertical-rl",
-                              transform: "rotate(180deg)",
-                              fontSize: "12px",
-                              color: "#8b847d",
-                            }}
-                          >
-                            {leftItemTwo.category}
-                          </span>
-                          <span
-                            style={{
-                              writingMode: "vertical-rl",
-                              transform: "rotate(180deg)",
-                              fontSize: "12px",
-                              color: "#6b645d",
-                              fontFamily: 'Georgia, "Times New Roman", serif',
-                            }}
-                          >
-                            {leftItemTwo.title}
-                          </span>
-                        </div>
-                      )}
-                    </div>
-                  )}
-
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                    }}
+                  <Link
+                    to={`/work/${activeWork.slug}`}
+                    className="works-carousel__story-link"
                   >
-                    <a
-                      href={`/work/${activeWork.slug}`}
-                      style={{
-                        display: "block",
-                        width: "100%",
-                        textDecoration: "none",
-                      }}
-                    >
-                      <div
-                        style={{
-                          width: "100%",
-                          aspectRatio: "1 / 1",
-                          overflow: "hidden",
-                          background: "#f1ece6",
-                        }}
-                      >
-                        <img
-                          src={activeWork.image}
-                          alt={activeWork.alt}
-                          loading="lazy"
-                          style={{
-                            width: "100%",
-                            height: "100%",
-                            display: "block",
-                            objectFit: "cover",
-                          }}
-                        />
-                      </div>
-                    </a>
-
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        gap: window.innerWidth <= 768 ? "24px" : "56px",
-                        marginTop: window.innerWidth <= 768 ? "18px" : "24px",
-                      }}
-                    >
-                      <button
-                        type="button"
-                        onClick={goPrevWork}
-                        aria-label="Previous work"
-                        style={{
-                          border: 0,
-                          background: "transparent",
-                          padding: 0,
-                          cursor: "pointer",
-                          fontSize: window.innerWidth <= 768 ? "38px" : "48px",
-                          lineHeight: 1,
-                          color: "#2b2621",
-                        }}
-                      >
-                        &#8249;
-                      </button>
-
-                      <Link
-                        to={`/work/${activeWork.slug}`}
-                        style={{
-                          display: "block",
-                          width: "100%",
-                          textDecoration: "none",
-                        }}
-                      >
-                        Read the story
-                      </Link>
-
-                      <button
-                        type="button"
-                        onClick={goNextWork}
-                        aria-label="Next work"
-                        style={{
-                          border: 0,
-                          background: "transparent",
-                          padding: 0,
-                          cursor: "pointer",
-                          fontSize: window.innerWidth <= 768 ? "38px" : "48px",
-                          lineHeight: 1,
-                          color: "#2b2621",
-                        }}
-                      >
-                        &#8250;
-                      </button>
-                    </div>
-                  </div>
-
-                  {window.innerWidth > 768 && (
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        gap: "18px",
-                      }}
-                    >
-                      {rightItemOne && (
-                        <div
-                          style={{
-                            width: "64px",
-                            height: "400px",
-                            border: "1px solid rgba(22,22,22,0.12)",
-                            background: "#fff",
-                            padding: "12px 8px",
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "center",
-                            justifyContent: "space-between",
-                          }}
-                        >
-                          <span
-                            style={{
-                              writingMode: "vertical-rl",
-                              transform: "rotate(180deg)",
-                              fontSize: "11px",
-                              color: "#c0b8b0",
-                            }}
-                          >
-                            {rightItemOne.year}
-                          </span>
-                          <span
-                            style={{
-                              writingMode: "vertical-rl",
-                              transform: "rotate(180deg)",
-                              fontSize: "12px",
-                              color: "#8b847d",
-                            }}
-                          >
-                            {rightItemOne.category}
-                          </span>
-                          <span
-                            style={{
-                              writingMode: "vertical-rl",
-                              transform: "rotate(180deg)",
-                              fontSize: "12px",
-                              color: "#6b645d",
-                              fontFamily: 'Georgia, "Times New Roman", serif',
-                            }}
-                          >
-                            {rightItemOne.title}
-                          </span>
-                        </div>
-                      )}
-
-                      {rightItemTwo && (
-                        <div
-                          style={{
-                            width: "64px",
-                            height: "400px",
-                            border: "1px solid rgba(22,22,22,0.12)",
-                            background: "#fff",
-                            padding: "12px 8px",
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "center",
-                            justifyContent: "space-between",
-                          }}
-                        >
-                          <span
-                            style={{
-                              writingMode: "vertical-rl",
-                              transform: "rotate(180deg)",
-                              fontSize: "11px",
-                              color: "#c0b8b0",
-                            }}
-                          >
-                            {rightItemTwo.year}
-                          </span>
-                          <span
-                            style={{
-                              writingMode: "vertical-rl",
-                              transform: "rotate(180deg)",
-                              fontSize: "12px",
-                              color: "#8b847d",
-                            }}
-                          >
-                            {rightItemTwo.category}
-                          </span>
-                          <span
-                            style={{
-                              writingMode: "vertical-rl",
-                              transform: "rotate(180deg)",
-                              fontSize: "12px",
-                              color: "#6b645d",
-                              fontFamily: 'Georgia, "Times New Roman", serif',
-                            }}
-                          >
-                            {rightItemTwo.title}
-                          </span>
-                        </div>
-                      )}
-                    </div>
-                  )}
+                    Read the story
+                  </Link>
 
                   <button
                     type="button"
                     onClick={goNextWork}
                     aria-label="Next work"
-                    style={{
-                      border: 0,
-                      background: "transparent",
-                      padding: 0,
-                      cursor: "pointer",
-                      fontSize: window.innerWidth <= 768 ? "38px" : "56px",
-                      lineHeight: 1,
-                      color: "#2b2621",
-                    }}
+                    className="works-carousel__footer-arrow"
                   >
                     &#8250;
                   </button>
