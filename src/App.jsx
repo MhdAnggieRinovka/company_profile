@@ -10,10 +10,16 @@ const WORKS_API_URL =
 const FILTERS = ["All", "Branding", "Illustration", "Invitation", "Packaging"];
 
 function HomePage() {
-  const [searchParams] = useSearchParams();
-  const initialPage = searchParams.get("page") === "works" ? "works" : "about";
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const [activePage, setActivePage] = useState(initialPage);
+  const getPageFromParams = () => {
+    const pageParam = searchParams.get("page");
+    if (pageParam === "works") return "works";
+    if (pageParam === "contacts") return "contacts";
+    return "about";
+  };
+
+  const [activePage, setActivePage] = useState(getPageFromParams());
   const [videoUrl, setVideoUrl] = useState("");
   const [title, setTitle] = useState("Home Video");
   const [loading, setLoading] = useState(true);
@@ -27,9 +33,19 @@ function HomePage() {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   useEffect(() => {
-    const pageParam = searchParams.get("page");
-    setActivePage(pageParam === "works" ? "works" : "about");
+    setActivePage(getPageFromParams());
   }, [searchParams]);
+
+  function handleNavChange(page) {
+    setActivePage(page);
+
+    if (page === "about") {
+      setSearchParams({});
+      return;
+    }
+
+    setSearchParams({ page });
+  }
 
   useEffect(() => {
     function handleResize() {
@@ -115,15 +131,26 @@ function HomePage() {
           id: item.id,
           slug: item.slug,
           title: item.title?.rendered?.replace(/&#038;/g, "&") || "",
-          category: item.acf?.portfolio_category?.name || "Uncategorized",
+          category:
+            item.acf?.portfolio_category?.name ||
+            item.acf?.portfoliocategory?.name ||
+            "Uncategorized",
           year: item.acf?.year || "2024",
           image:
             item.acf?.cover_image?.sizes?.large ||
             item.acf?.cover_image?.sizes?.medium_large ||
             item.acf?.cover_image?.sizes?.medium ||
             item.acf?.cover_image?.url ||
+            item.acf?.coverimage?.sizes?.large ||
+            item.acf?.coverimage?.sizes?.medium_large ||
+            item.acf?.coverimage?.sizes?.medium ||
+            item.acf?.coverimage?.url ||
             "",
-          alt: item.acf?.cover_image?.alt || item.title?.rendered || "",
+          alt:
+            item.acf?.cover_image?.alt ||
+            item.acf?.coverimage?.alt ||
+            item.title?.rendered ||
+            "",
         }));
 
         if (!ignore) setWorksData(mapped);
@@ -217,7 +244,7 @@ function HomePage() {
             type="button"
             className="brand-button"
             aria-label="KYUB home"
-            onClick={() => setActivePage("about")}
+            onClick={() => handleNavChange("about")}
           >
             <img src="/logo-kyub.jpeg" alt="KYUB" />
           </button>
@@ -225,10 +252,8 @@ function HomePage() {
           <nav className="site-nav" aria-label="Main navigation">
             <button
               type="button"
-              className={
-                activePage === "about" ? "nav-link active" : "nav-link"
-              }
-              onClick={() => setActivePage("about")}
+              className={activePage === "about" ? "nav-link active" : "nav-link"}
+              onClick={() => handleNavChange("about")}
             >
               ABOUT
             </button>
@@ -236,17 +261,15 @@ function HomePage() {
             <button
               type="button"
               className={showWorks ? "nav-link active" : "nav-link"}
-              onClick={() => setActivePage("works")}
+              onClick={() => handleNavChange("works")}
             >
               WORK
             </button>
 
             <button
               type="button"
-              className={
-                activePage === "contacts" ? "nav-link active" : "nav-link"
-              }
-              onClick={() => setActivePage("contacts")}
+              className={activePage === "contacts" ? "nav-link active" : "nav-link"}
+              onClick={() => handleNavChange("contacts")}
             >
               CONTACTS
             </button>
@@ -471,4 +494,4 @@ export default function App() {
       <Route path="/work/:slug" element={<WorkDetail />} />
     </Routes>
   );
-}
+}r
