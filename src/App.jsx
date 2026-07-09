@@ -328,8 +328,9 @@ function HomePage() {
                   )}
 
                   <Link
+                    key={activeWork.id}
                     to={`/work/${activeWork.slug}`}
-                    className="works-carousel__hero-link"
+                    className="works-carousel__hero-link works-carousel__hero-link--animated"
                   >
                     <div className="works-carousel__hero">
                       <img

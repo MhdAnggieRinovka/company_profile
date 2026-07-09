@@ -541,3 +541,47 @@ body {
     height: auto;
   }
 }
+
+.works-carousel__hero-link--animated {
+  animation: workHeroSwap 0.48s cubic-bezier(0.22, 1, 0.36, 1);
+  transform-origin: center center;
+  will-change: opacity, transform;
+}
+
+.works-carousel__side {
+  animation: sideItemsSwap 0.42s ease;
+}
+
+@keyframes workHeroSwap {
+  0% {
+    opacity: 0;
+    transform: translateY(18px) scale(0.985);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes sideItemsSwap {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.works-carousel__footer-arrow {
+  transition:
+    transform 0.2s ease,
+    color 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.works-carousel__footer-arrow:hover {
+  transform: scale(1.08);
+  opacity: 0.7;
+}
