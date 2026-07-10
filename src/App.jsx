@@ -494,4 +494,4 @@ export default function App() {
       <Route path="/work/:slug" element={<WorkDetail />} />
     </Routes>
   );
-}r
+}
