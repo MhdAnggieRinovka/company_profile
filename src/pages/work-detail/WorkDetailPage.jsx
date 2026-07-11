@@ -1,12 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { RELATED_WORKS_API, WORK_DETAIL_API } from "../../services/api";
 import "./work-detail.css";
-
-const WORK_DETAIL_API =
-  "https://cms.kyubstudio.com/wp-json/wp/v2/portfolio?slug=";
-
-const RELATED_WORKS_API =
-  "https://cms.kyubstudio.com/wp-json/wp/v2/portfolio?_embed&per_page=12&orderby=date&order=desc&exclude=";
 
 const FALLBACK_TEXTS = [
   "Lorem ipsum dolor sit amet consectetur. Dui eu velit adipiscing sit imperdiet arcu aliquam massa. Lorem ipsum dolor sit amet consectetur adipiscing elit.",
@@ -21,7 +16,7 @@ function decodeHtml(text = "") {
     .replace(/&amp;/g, "&");
 }
 
-export default function WorkDetail() {
+export default function WorkDetailPage() {
   const { slug } = useParams();
   const [workItem, setWorkItem] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -224,8 +219,8 @@ export default function WorkDetail() {
       document.execCommand("copy");
       document.body.removeChild(textArea);
       alert("Link copied");
-    } catch (error) {
-      console.error("Share failed", error);
+    } catch (shareError) {
+      console.error("Share failed", shareError);
     }
   }
 
