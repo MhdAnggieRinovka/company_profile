@@ -118,13 +118,11 @@ export default function WorkDetailPage() {
               categorySlug: itemCategorySlug,
             };
           })
-          .filter((item) => item.slug !== workItem.slug)
+          .filter(
+            (item) => item.slug !== workItem.slug && item.id !== workItem.id,
+          )
+          .filter((item) => item.categorySlug === currentCategorySlug)
           .filter((item) => item.image)
-          .sort((a, b) => {
-            const aMatch = a.categorySlug === currentCategorySlug ? 0 : 1;
-            const bMatch = b.categorySlug === currentCategorySlug ? 0 : 1;
-            return aMatch - bMatch;
-          })
           .slice(0, 4);
 
         if (!ignore) {
@@ -227,6 +225,28 @@ export default function WorkDetailPage() {
   if (loading) {
     return (
       <main className="work-detail-page">
+        <header className="site-header work-detail-site-header">
+          <div className="site-header__inner">
+            <Link to="/" className="brand-button" aria-label="KYUB home">
+              <img src="/logo-kyub.jpeg" alt="KYUB" />
+            </Link>
+
+            <nav className="site-nav" aria-label="Main navigation">
+              <Link to="/" className="nav-link">
+                ABOUT
+              </Link>
+              <Link to="/?page=works" className="nav-link active">
+                WORK
+              </Link>
+              <Link to="/?page=contacts" className="nav-link">
+                CONTACTS
+              </Link>
+            </nav>
+
+            <div className="site-header__spacer" />
+          </div>
+        </header>
+
         <div className="work-detail__feedback">Loading work detail...</div>
       </main>
     );
@@ -235,6 +255,28 @@ export default function WorkDetailPage() {
   if (error || !workItem) {
     return (
       <main className="work-detail-page">
+        <header className="site-header work-detail-site-header">
+          <div className="site-header__inner">
+            <Link to="/" className="brand-button" aria-label="KYUB home">
+              <img src="/logo-kyub.jpeg" alt="KYUB" />
+            </Link>
+
+            <nav className="site-nav" aria-label="Main navigation">
+              <Link to="/" className="nav-link">
+                ABOUT
+              </Link>
+              <Link to="/?page=works" className="nav-link active">
+                WORK
+              </Link>
+              <Link to="/?page=contacts" className="nav-link">
+                CONTACTS
+              </Link>
+            </nav>
+
+            <div className="site-header__spacer" />
+          </div>
+        </header>
+
         <div className="work-detail__feedback">
           {error || "Work detail tidak ditemukan."}
         </div>
@@ -250,19 +292,42 @@ export default function WorkDetailPage() {
 
   return (
     <main className="work-detail-page">
-      <section className="work-detail">
-        <header className="work-detail__header">
-          <p className="work-detail__meta">
-            {category}
-            {year ? ` / ${year}` : ""}
-          </p>
+      <header className="site-header work-detail-site-header">
+        <div className="site-header__inner">
+          <Link to="/" className="brand-button" aria-label="KYUB home">
+            <img src="/logo-kyub.jpeg" alt="KYUB" />
+          </Link>
 
-          <h1
-            className="work-detail__title"
-            dangerouslySetInnerHTML={{
-              __html: workItem.title?.rendered || "Untitled",
-            }}
-          />
+          <nav className="site-nav" aria-label="Main navigation">
+            <Link to="/" className="nav-link">
+              ABOUT
+            </Link>
+            <Link to="/?page=works" className="nav-link active">
+              WORK
+            </Link>
+            <Link to="/?page=contacts" className="nav-link">
+              CONTACTS
+            </Link>
+          </nav>
+
+          <div className="site-header__spacer" />
+        </div>
+      </header>
+
+      <section className="work-detail">
+        <header className="work-detail__intro">
+          <div className="work-detail__intro-meta">
+            <p className="work-detail__meta">{category}</p>
+          </div>
+
+          <div className="work-detail__intro-title">
+            <h1
+              className="work-detail__title"
+              dangerouslySetInnerHTML={{
+                __html: workItem.title?.rendered || "Untitled",
+              }}
+            />
+          </div>
         </header>
 
         <div className="work-detail__gallery">
