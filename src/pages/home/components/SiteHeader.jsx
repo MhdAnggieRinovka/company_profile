@@ -22,7 +22,7 @@ export default function SiteHeader({ activePage, showWorks, onNavigate }) {
 
           <button
             type="button"
-            className={showWorks ? "nav-link active" : "nav-link"}
+            className={activePage === "works" ? "nav-link active" : "nav-link"}
             onClick={() => onNavigate("works")}
           >
             WORK

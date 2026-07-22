@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 import { RELATED_WORKS_API, WORK_DETAIL_API } from "../../services/api";
 import "./work-detail.css";
 
@@ -14,6 +16,176 @@ function decodeHtml(text = "") {
     .replace(/&#038;/g, "&")
     .replace(/&#8217;/g, "'")
     .replace(/&amp;/g, "&");
+}
+
+function WorkDetailHeader() {
+  return (
+    <header className="site-header work-detail-site-header">
+      <div className="site-header__inner">
+        <Link to="/" className="brand-button" aria-label="KYUB home">
+          <img src="/logo-kyub.jpeg" alt="KYUB" />
+        </Link>
+
+        <nav className="site-nav" aria-label="Main navigation">
+          <Link to="/" className="nav-link">
+            ABOUT
+          </Link>
+          <Link to="/?page=works" className="nav-link active">
+            WORK
+          </Link>
+          <Link to="/?page=contacts" className="nav-link">
+            CONTACTS
+          </Link>
+        </nav>
+
+        <div className="site-header__spacer" />
+      </div>
+    </header>
+  );
+}
+
+function WorkDetailBottomNav() {
+  return (
+    <nav className="work-detail-bottom-nav" aria-label="Mobile bottom navigation">
+      <Link to="/" className="work-detail-bottom-nav__link">
+        ABOUT
+      </Link>
+      <Link
+        to="/?page=works"
+        className="work-detail-bottom-nav__link work-detail-bottom-nav__link--active"
+      >
+        WORK
+      </Link>
+      <Link to="/?page=contacts" className="work-detail-bottom-nav__link">
+        CONTACTS
+      </Link>
+    </nav>
+  );
+}
+
+function WorkDetailSkeleton() {
+  return (
+    <SkeletonTheme baseColor="#ece7e1" highlightColor="#f7f3ef">
+      <main className="work-detail-page">
+        <WorkDetailHeader />
+
+        <section className="work-detail">
+          <header className="work-detail__intro">
+            <div className="work-detail__intro-meta">
+              <Skeleton width={90} height={14} />
+            </div>
+
+            <div className="work-detail__intro-title">
+              <Skeleton width={260} height={42} />
+            </div>
+          </header>
+
+          <div className="work-detail__gallery">
+            <section className="work-detail__block has-caption">
+              <figure className="work-detail__figure">
+                <Skeleton
+                  height="100%"
+                  style={{
+                    width: "100%",
+                    aspectRatio: "16 / 10",
+                    borderRadius: 0,
+                    lineHeight: 1,
+                    display: "block",
+                  }}
+                />
+              </figure>
+
+              <div className="work-detail__actions">
+                <span className="work-detail__action-link">
+                  <Skeleton width={56} height={16} />
+                </span>
+                <span className="work-detail__action-button">
+                  <Skeleton width={56} height={16} />
+                </span>
+              </div>
+
+              <div className="work-detail__caption-wrap">
+                <p className="work-detail__caption">
+                  <Skeleton count={3} />
+                </p>
+              </div>
+            </section>
+
+            <section className="work-detail__block has-caption">
+              <figure className="work-detail__figure">
+                <Skeleton
+                  height="100%"
+                  style={{
+                    width: "100%",
+                    aspectRatio: "16 / 10",
+                    borderRadius: 0,
+                    lineHeight: 1,
+                    display: "block",
+                  }}
+                />
+              </figure>
+
+              <div className="work-detail__caption-wrap">
+                <p className="work-detail__caption">
+                  <Skeleton count={3} />
+                </p>
+              </div>
+            </section>
+
+            <section className="work-detail__block has-caption">
+              <figure className="work-detail__figure">
+                <Skeleton
+                  height="100%"
+                  style={{
+                    width: "100%",
+                    aspectRatio: "16 / 10",
+                    borderRadius: 0,
+                    lineHeight: 1,
+                    display: "block",
+                  }}
+                />
+              </figure>
+
+              <div className="work-detail__caption-wrap">
+                <p className="work-detail__caption">
+                  <Skeleton count={3} />
+                </p>
+              </div>
+            </section>
+          </div>
+
+          <section className="related-projects">
+            <h2 className="related-projects__title">Related Projects</h2>
+
+            <div className="related-projects__grid">
+              {Array.from({ length: 3 }).map((_, index) => (
+                <div key={index} className="related-projects__item">
+                  <div className="related-projects__thumb">
+                    <Skeleton
+                      height="100%"
+                      style={{
+                        width: "100%",
+                        aspectRatio: "1 / 1",
+                        borderRadius: 0,
+                        lineHeight: 1,
+                        display: "block",
+                      }}
+                    />
+                  </div>
+
+                  <p className="related-projects__name">
+                    <Skeleton width="70%" height={18} />
+                  </p>
+                </div>
+              ))}
+            </div>
+          </section>
+        </section>
+
+        <WorkDetailBottomNav />
+      </main>
+    </SkeletonTheme>
+  );
 }
 
 export default function WorkDetailPage() {
@@ -223,68 +395,21 @@ export default function WorkDetailPage() {
   }
 
   if (loading) {
-    return (
-      <main className="work-detail-page">
-        <header className="site-header work-detail-site-header">
-          <div className="site-header__inner">
-            <Link to="/" className="brand-button" aria-label="KYUB home">
-              <img src="/logo-kyub.jpeg" alt="KYUB" />
-            </Link>
-
-            <nav className="site-nav" aria-label="Main navigation">
-              <Link to="/" className="nav-link">
-                ABOUT
-              </Link>
-              <Link to="/?page=works" className="nav-link active">
-                WORK
-              </Link>
-              <Link to="/?page=contacts" className="nav-link">
-                CONTACTS
-              </Link>
-            </nav>
-
-            <div className="site-header__spacer" />
-          </div>
-        </header>
-
-        <div className="work-detail__feedback">Loading work detail...</div>
-      </main>
-    );
+    return <WorkDetailSkeleton />;
   }
 
   if (error || !workItem) {
     return (
       <main className="work-detail-page">
-        <header className="site-header work-detail-site-header">
-          <div className="site-header__inner">
-            <Link to="/" className="brand-button" aria-label="KYUB home">
-              <img src="/logo-kyub.jpeg" alt="KYUB" />
-            </Link>
-
-            <nav className="site-nav" aria-label="Main navigation">
-              <Link to="/" className="nav-link">
-                ABOUT
-              </Link>
-              <Link to="/?page=works" className="nav-link active">
-                WORK
-              </Link>
-              <Link to="/?page=contacts" className="nav-link">
-                CONTACTS
-              </Link>
-            </nav>
-
-            <div className="site-header__spacer" />
-          </div>
-        </header>
-
+        <WorkDetailHeader />
         <div className="work-detail__feedback">
           {error || "Work detail tidak ditemukan."}
         </div>
+        <WorkDetailBottomNav />
       </main>
     );
   }
 
-  const year = workItem.acf?.year || "";
   const category =
     workItem.acf?.portfolio_category?.name ||
     workItem.acf?.portfoliocategory?.name ||
@@ -292,27 +417,7 @@ export default function WorkDetailPage() {
 
   return (
     <main className="work-detail-page">
-      <header className="site-header work-detail-site-header">
-        <div className="site-header__inner">
-          <Link to="/" className="brand-button" aria-label="KYUB home">
-            <img src="/logo-kyub.jpeg" alt="KYUB" />
-          </Link>
-
-          <nav className="site-nav" aria-label="Main navigation">
-            <Link to="/" className="nav-link">
-              ABOUT
-            </Link>
-            <Link to="/?page=works" className="nav-link active">
-              WORK
-            </Link>
-            <Link to="/?page=contacts" className="nav-link">
-              CONTACTS
-            </Link>
-          </nav>
-
-          <div className="site-header__spacer" />
-        </div>
-      </header>
+      <WorkDetailHeader />
 
       <section className="work-detail">
         <header className="work-detail__intro">
@@ -450,6 +555,8 @@ export default function WorkDetailPage() {
           </section>
         )}
       </section>
+
+      <WorkDetailBottomNav />
     </main>
   );
 }

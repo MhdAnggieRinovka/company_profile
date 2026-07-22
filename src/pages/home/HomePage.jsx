@@ -23,18 +23,8 @@ export default function HomePage() {
   const [activeWorkIndex, setActiveWorkIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
-  const {
-    videoUrl,
-    title,
-    loading,
-    error,
-  } = useHomeVideo();
-
-  const {
-    worksData,
-    worksLoading,
-    worksError,
-  } = useWorksData(activePage);
+  const { videoUrl, title, loading, error } = useHomeVideo();
+  const { worksData, worksLoading, worksError } = useWorksData(activePage);
 
   useEffect(() => {
     setActivePage(getPageFromParams());
@@ -123,6 +113,77 @@ export default function HomePage() {
   const leftItemTwo = getSideItem(-1);
   const rightItemOne = getSideItem(1);
   const rightItemTwo = getSideItem(2);
+
+  if (isMobile && showWorks) {
+    return (
+      <main className="home-page home-page--works">
+        <div className="home-page__mobile-top">
+          <SiteHeader
+            activePage={activePage}
+            showWorks={false}
+            onNavigate={handleNavChange}
+          />
+
+          <WorksCarousel
+            isMobile={isMobile}
+            worksLoading={worksLoading}
+            worksError={worksError}
+            filteredWorks={filteredWorks}
+            activeWork={activeWork}
+            leftItemOne={leftItemOne}
+            leftItemTwo={leftItemTwo}
+            rightItemOne={rightItemOne}
+            rightItemTwo={rightItemTwo}
+            goPrevWork={goPrevWork}
+            goNextWork={goNextWork}
+            goToWorkByOffset={goToWorkByOffset}
+          />
+
+          <WorksFilters
+            activeFilter={activeFilter}
+            onChangeFilter={setActiveFilter}
+          />
+
+          <div className="home-page__mobile-bottom-nav">
+            <SiteHeader
+              activePage={activePage}
+              showWorks={true}
+              onNavigate={handleNavChange}
+            />
+          </div>
+        </div>
+      </main>
+    );
+  }
+
+  if (isMobile && !showWorks) {
+    return (
+      <main className="home-page home-page--about">
+        <div className="home-page__mobile-top">
+          <SiteHeader
+            activePage={activePage}
+            showWorks={false}
+            onNavigate={handleNavChange}
+          />
+
+          <HeroHome
+            loading={loading}
+            error={error}
+            videoUrl={videoUrl}
+            title={title}
+          />
+
+          <div className="home-page__mobile-bottom-nav">
+            <SiteHeader
+              activePage={activePage}
+              showWorks={true}
+              onNavigate={handleNavChange}
+            />
+          </div>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main
