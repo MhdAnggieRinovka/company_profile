@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -21,6 +21,22 @@ export default function WorksCarousel({
   const [cursorSide, setCursorSide] = useState("right");
   const [cursorVisible, setCursorVisible] = useState(false);
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
+
+  // state untuk trigger animasi hero
+  const [animateHero, setAnimateHero] = useState(false);
+
+  // setiap activeWork berubah → nyalakan animasi hero sebentar
+  useEffect(() => {
+    if (!activeWork) return;
+
+    setAnimateHero(true);
+
+    const timeout = setTimeout(() => {
+      setAnimateHero(false);
+    }, 480); // durasi sama dengan CSS workHeroSwap (0.48s)
+
+    return () => clearTimeout(timeout);
+  }, [activeWork]);
 
   function handleAreaMouseMove(event) {
     if (isMobile) return;
@@ -161,127 +177,155 @@ export default function WorksCarousel({
           <div className="works-feedback">Failed to load works</div>
         )}
 
-        {!worksLoading && !worksError && filteredWorks.length > 0 && activeWork && (
-          <div className="works-carousel">
-            <h2 className="works-carousel__title">{activeWork.title}</h2>
+        {!worksLoading &&
+          !worksError &&
+          filteredWorks.length > 0 &&
+          activeWork && (
+            <div className="works-carousel">
+              <h2 className="works-carousel__title">{activeWork.title}</h2>
 
-            <div
-              className={`works-carousel__media-row ${
-                cursorVisible ? "is-cursor-visible" : ""
-              }`}
-              onMouseMove={handleAreaMouseMove}
-              onMouseEnter={handleAreaMouseEnter}
-              onMouseLeave={handleAreaMouseLeave}
-              onClick={handleAreaClick}
-              onKeyDown={handleAreaKeyDown}
-              tabIndex={isMobile ? -1 : 0}
-              role={isMobile ? undefined : "button"}
-              aria-label={
-                isMobile
-                  ? undefined
-                  : "Click left side for previous work and right side for next work"
-              }
-            >
-              {!isMobile && (
-                <span
-                  className="works-carousel__custom-cursor"
-                  aria-hidden="true"
-                  style={{
-                    left: `${cursorPosition.x}px`,
-                    top: `${cursorPosition.y}px`,
-                  }}
-                >
-                  <img src={cursorIcon} alt="" />
-                </span>
-              )}
+              <div
+                className={`works-carousel__media-row ${
+                  cursorVisible ? "is-cursor-visible" : ""
+                }`}
+                onMouseMove={handleAreaMouseMove}
+                onMouseEnter={handleAreaMouseEnter}
+                onMouseLeave={handleAreaMouseLeave}
+                onClick={handleAreaClick}
+                onKeyDown={handleAreaKeyDown}
+                tabIndex={isMobile ? -1 : 0}
+                role={isMobile ? undefined : "button"}
+                aria-label={
+                  isMobile
+                    ? undefined
+                    : "Click left side for previous work and right side for next work"
+                }
+              >
+                {!isMobile && (
+                  <span
+                    className="works-carousel__custom-cursor"
+                    aria-hidden="true"
+                    style={{
+                      left: `${cursorPosition.x}px`,
+                      top: `${cursorPosition.y}px`,
+                    }}
+                  >
+                    <img src={cursorIcon} alt="" />
+                  </span>
+                )}
 
-              {!isMobile && (
-                <div className="works-carousel__side" aria-hidden="true">
-                  {leftItemOne && (
-                    <div className="works-side-card">
-                      <span className="works-side-card__year">{leftItemOne.year}</span>
-                      <span className="works-side-card__category">
-                        {leftItemOne.category}
-                      </span>
-                      <span className="works-side-card__name">{leftItemOne.title}</span>
-                    </div>
-                  )}
+                {!isMobile && (
+                  <div className="works-carousel__side" aria-hidden="true">
+                    {leftItemOne && (
+                      <div className="works-side-card">
+                        <span className="works-side-card__year">
+                          {leftItemOne.year}
+                        </span>
+                        <span className="works-side-card__category">
+                          {leftItemOne.category}
+                        </span>
+                        <span className="works-side-card__name">
+                          {leftItemOne.title}
+                        </span>
+                      </div>
+                    )}
 
-                  {leftItemTwo && (
-                    <div className="works-side-card">
-                      <span className="works-side-card__year">{leftItemTwo.year}</span>
-                      <span className="works-side-card__category">
-                        {leftItemTwo.category}
-                      </span>
-                      <span className="works-side-card__name">{leftItemTwo.title}</span>
-                    </div>
-                  )}
+                    {leftItemTwo && (
+                      <div className="works-side-card">
+                        <span className="works-side-card__year">
+                          {leftItemTwo.year}
+                        </span>
+                        <span className="works-side-card__category">
+                          {leftItemTwo.category}
+                        </span>
+                        <span className="works-side-card__name">
+                          {leftItemTwo.title}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                <div className="works-carousel__preview">
+                  <div
+                    className={
+                      "works-carousel__hero" +
+                      (animateHero ? " works-carousel__hero--animated" : "")
+                    }
+                  >
+                    <img
+                      src={activeWork.image}
+                      alt={activeWork.alt}
+                      loading="lazy"
+                    />
+                  </div>
                 </div>
-              )}
 
-              <div className="works-carousel__preview">
-                <div className="works-carousel__hero works-carousel__hero--animated">
-                  <img src={activeWork.image} alt={activeWork.alt} loading="lazy" />
-                </div>
+                {!isMobile && (
+                  <div className="works-carousel__side" aria-hidden="true">
+                    {rightItemOne && (
+                      <div className="works-side-card">
+                        <span className="works-side-card__year">
+                          {rightItemOne.year}
+                        </span>
+                        <span className="works-side-card__category">
+                          {rightItemOne.category}
+                        </span>
+                        <span className="works-side-card__name">
+                          {rightItemOne.title}
+                        </span>
+                      </div>
+                    )}
+
+                    {rightItemTwo && (
+                      <div className="works-side-card">
+                        <span className="works-side-card__year">
+                          {rightItemTwo.year}
+                        </span>
+                        <span className="works-side-card__category">
+                          {rightItemTwo.category}
+                        </span>
+                        <span className="works-side-card__name">
+                          {rightItemTwo.title}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
 
-              {!isMobile && (
-                <div className="works-carousel__side" aria-hidden="true">
-                  {rightItemOne && (
-                    <div className="works-side-card">
-                      <span className="works-side-card__year">{rightItemOne.year}</span>
-                      <span className="works-side-card__category">
-                        {rightItemOne.category}
-                      </span>
-                      <span className="works-side-card__name">{rightItemOne.title}</span>
-                    </div>
-                  )}
+              <div className="works-carousel__footer">
+                {isMobile && (
+                  <button
+                    type="button"
+                    className="works-carousel__mobile-nav works-carousel__mobile-nav--prev"
+                    onClick={goPrevWork}
+                    aria-label="Previous work"
+                  >
+                    <img src={chevronLeft} alt="" />
+                  </button>
+                )}
 
-                  {rightItemTwo && (
-                    <div className="works-side-card">
-                      <span className="works-side-card__year">{rightItemTwo.year}</span>
-                      <span className="works-side-card__category">
-                        {rightItemTwo.category}
-                      </span>
-                      <span className="works-side-card__name">{rightItemTwo.title}</span>
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-
-            <div className="works-carousel__footer">
-              {isMobile && (
-                <button
-                  type="button"
-                  className="works-carousel__mobile-nav works-carousel__mobile-nav--prev"
-                  onClick={goPrevWork}
-                  aria-label="Previous work"
+                <Link
+                  to={`/work/${activeWork.slug}`}
+                  className="works-carousel__story-link"
                 >
-                  <img src={chevronLeft} alt="" />
-                </button>
-              )}
+                  Read the Story
+                </Link>
 
-              <Link
-                to={`/work/${activeWork.slug}`}
-                className="works-carousel__story-link"
-              >
-                Read the Story
-              </Link>
-
-              {isMobile && (
-                <button
-                  type="button"
-                  className="works-carousel__mobile-nav works-carousel__mobile-nav--next"
-                  onClick={goNextWork}
-                  aria-label="Next work"
-                >
-                  <img src={chevronRight} alt="" />
-                </button>
-              )}
+                {isMobile && (
+                  <button
+                    type="button"
+                    className="works-carousel__mobile-nav works-carousel__mobile-nav--next"
+                    onClick={goNextWork}
+                    aria-label="Next work"
+                  >
+                    <img src={chevronRight} alt="" />
+                  </button>
+                )}
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
         {!worksLoading && !worksError && filteredWorks.length === 0 && (
           <div className="works-feedback">No works found</div>
