@@ -9,11 +9,11 @@
   --filters-desktop-h: 7.4vh;
 
   /* NAV & WORKS MOBILE */
-  --mobile-bottom-nav-h: 4vh;       /* nav bawah sedikit lebih pendek */
-  --mobile-work-push-down: 3.8vh;   /* konten works naik sedikit */
+  --mobile-bottom-nav-h: 4vh; /* nav bawah sedikit lebih pendek */
+  --mobile-work-push-down: 3.8vh; /* konten works naik sedikit */
 
   --nav-link-size-desktop: 0.73vw;
-  --nav-link-size-mobile: 3vw;      /* selaras dengan work-detail.css */
+  --nav-link-size-mobile: 3vw; /* selaras dengan work-detail.css */
   --nav-letter-spacing-desktop: 0.1em;
   --nav-letter-spacing-mobile: 0.12em;
 }
@@ -143,7 +143,9 @@ body {
   color: #00000066 !important;
   font-weight: 200;
   cursor: pointer;
-  transition: color 0.2s ease, font-weight 0.2s ease;
+  transition:
+    color 0.2s ease,
+    font-weight 0.2s ease;
 }
 
 .nav-link:hover {
@@ -235,6 +237,7 @@ body {
   display: flex;
   justify-content: center;
   border-bottom: 1px solid rgba(22, 22, 22, 0.06);
+  padding-top: 3vh;
 }
 
 .works-filter-row {
@@ -262,7 +265,10 @@ body {
   font-weight: 200;
   font-style: normal;
   cursor: pointer;
-  transition: color 0.2s ease, font-family 0.2s ease, font-weight 0.2s ease,
+  transition:
+    color 0.2s ease,
+    font-family 0.2s ease,
+    font-weight 0.2s ease,
     font-style 0.2s ease;
 }
 
@@ -331,16 +337,19 @@ body {
   font-weight: 400;
   line-height: 1.15;
   color: #2b2621;
+  padding-top: 2vh;
 }
 
 .works-carousel__media-row {
   position: relative;
   display: grid;
   grid-template-columns: 11vw minmax(0, 33.7vw) 11vw;
+  /* penting: semua cell, termasuk yang berisi .works-carousel__side, punya tinggi sama */
   align-items: stretch;
   justify-content: center;
   gap: 1vw;
   outline: none;
+  padding-top: 2vh;
 }
 
 .works-carousel__media-row:focus-visible {
@@ -394,7 +403,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 0.8vh;
+  margin-bottom: 3vh;
 }
 
 .works-carousel__story-link {
@@ -423,7 +432,7 @@ body {
   align-items: stretch;
   justify-content: center;
   gap: 1.35vw;
-  height: 100%;
+  height: 67vh;
   animation: sideItemsSwap 0.42s ease;
   pointer-events: none;
 }
@@ -454,8 +463,7 @@ body {
   text-align: center;
 }
 
-.works-side-card__
-year {
+.works-side-card__ year {
   font-size: clamp(9px, 0.58vw, 11px);
   color: #c0b8b0;
 }
@@ -558,6 +566,7 @@ year {
   .site-header__spacer {
     display: none;
   }
+  
 
   .home-page__mobile-top > .site-header .site-nav,
   .site-header .site-nav {
