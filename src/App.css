@@ -9,11 +9,11 @@
   --filters-desktop-h: 7.4vh;
 
   /* NAV & WORKS MOBILE */
-  --mobile-bottom-nav-h: 4vh; /* nav bawah sedikit lebih pendek */
-  --mobile-work-push-down: 3.8vh; /* konten works naik sedikit */
+  --mobile-bottom-nav-h: 4vh;
+  --mobile-work-push-down: 3.8vh;
 
   --nav-link-size-desktop: 0.73vw;
-  --nav-link-size-mobile: 3vw; /* selaras dengan work-detail.css */
+  --nav-link-size-mobile: 3vw;
   --nav-letter-spacing-desktop: 0.1em;
   --nav-letter-spacing-mobile: 0.12em;
 }
@@ -143,9 +143,7 @@ body {
   color: #00000066 !important;
   font-weight: 200;
   cursor: pointer;
-  transition:
-    color 0.2s ease,
-    font-weight 0.2s ease;
+  transition: color 0.2s ease, font-weight 0.2s ease;
 }
 
 .nav-link:hover {
@@ -163,7 +161,7 @@ body {
   color: #000000 !important;
 }
 
-/* ===== HERO HOME ===== */
+/* ===== HERO HOME (DESKTOP) ===== */
 
 .hero-home {
   flex: 1;
@@ -231,7 +229,8 @@ body {
   font-size: 14px;
 }
 
-/* filter bar */
+/* filter bar desktop */
+
 .works-filter-wrap {
   width: 100%;
   display: flex;
@@ -265,11 +264,8 @@ body {
   font-weight: 200;
   font-style: normal;
   cursor: pointer;
-  transition:
-    color 0.2s ease,
-    font-family 0.2s ease,
-    font-weight 0.2s ease,
-    font-style 0.2s ease;
+  transition: color 0.2s ease, font-family 0.2s ease,
+    font-weight 0.2s ease, font-style 0.2s ease;
 }
 
 .filter-button.active {
@@ -286,7 +282,7 @@ body {
   color: #0b0b0b;
 }
 
-/* works cards & carousel */
+/* works cards & carousel desktop */
 
 .work-card__link {
   display: block;
@@ -344,7 +340,6 @@ body {
   position: relative;
   display: grid;
   grid-template-columns: 11vw minmax(0, 33.7vw) 11vw;
-  /* penting: semua cell, termasuk yang berisi .works-carousel__side, punya tinggi sama */
   align-items: stretch;
   justify-content: center;
   gap: 1vw;
@@ -381,9 +376,11 @@ body {
   display: block;
 }
 
+/* preview & hero desktop */
+
 .works-carousel__preview {
   width: 100%;
-  height: 100%;       /* ikut tinggi cell grid */
+  height: 100%;
   display: flex;
   align-items: stretch;
   justify-content: center;
@@ -403,34 +400,7 @@ body {
   object-fit: cover;
 }
 
-.works-carousel__footer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding-top: 2vh;
-  margin-bottom: 3vh;
-}
-
-.works-carousel__story-link {
-  text-decoration: none;
-  font-family: "Spectral", serif;
-  font-weight: 500;
-  font-style: italic;
-  font-size: clamp(14px, 0.84vw, 16px);
-  line-height: 1;
-  letter-spacing: 0;
-  text-align: center;
-  vertical-align: middle;
-  color: #000000;
-}
-
-.works-carousel__story-link:hover {
-  opacity: 0.7;
-}
-
-.works-carousel__mobile-nav {
-  display: none;
-}
+/* side cards desktop */
 
 .works-carousel__side {
   display: flex;
@@ -484,7 +454,36 @@ body {
   font-family: Georgia, "Times New Roman", serif;
 }
 
-/* ===== RESPONSIVE WIDTHS ===== */
+.works-carousel__footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 2vh;
+  margin-bottom: 3vh;
+}
+
+.works-carousel__story-link {
+  text-decoration: none;
+  font-family: "Spectral", serif;
+  font-weight: 500;
+  font-style: italic;
+  font-size: clamp(14px, 0.84vw, 16px);
+  line-height: 1;
+  letter-spacing: 0;
+  text-align: center;
+  vertical-align: middle;
+  color: #000000;
+}
+
+.works-carousel__story-link:hover {
+  opacity: 0.7;
+}
+
+.works-carousel__mobile-nav {
+  display: none;
+}
+
+/* ===== RESPONSIVE WIDTHS DESKTOP ===== */
 
 @media (max-width: 1200px) {
   .works-carousel {
@@ -536,7 +535,7 @@ body {
 /* ===== MOBILE ===== */
 
 @media (max-width: 768px) {
-  /* header */
+  /* header mobile (top) */
   .site-header {
     padding: 14px 16px 0;
   }
@@ -571,20 +570,28 @@ body {
   .site-header__spacer {
     display: none;
   }
-  
 
   .home-page__mobile-top > .site-header .site-nav,
   .site-header .site-nav {
     display: none;
   }
 
-  /* NAV MOBILE: ABOUT / WORK / CONTACTS (Home/Works) */
+  /* mobile-top sebagai kolom penuh tinggi */
+  .home-page__mobile-top {
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* NAV MOBILE: ABOUT / WORK / CONTACTS di bawah */
   .home-page__mobile-bottom-nav {
+    flex: 0 0 auto;
     width: 100% !important;
   }
 
   .home-page__mobile-bottom-nav .site-header {
-    padding: 0 16px 0 !important;
+    padding: 0 0px 0 !important;
     width: 100% !important;
   }
 
@@ -647,11 +654,12 @@ body {
     color: #000000 !important;
   }
 
-  /* filter Works – dinaikkan */
+  /* filter Works – mobile, tepat di atas nav */
   .works-filter-wrap {
     border-top: 1px solid rgba(22, 22, 22, 0.08);
     border-bottom: 1px solid rgba(22, 22, 22, 0.08);
-    margin-top: -2vh; /* naik dari -5vh */
+    margin-top: -2vh;
+    flex: 0 0 auto;
   }
 
   .works-filter-row {
@@ -674,12 +682,13 @@ body {
     white-space: nowrap;
   }
 
+  /* Works layout mobile */
   .home-page--works {
     min-height: 100vh;
     min-height: 100dvh;
     height: 100dvh;
     display: grid;
-    grid-template-rows: auto 1fr auto auto;
+    grid-template-rows: auto 1fr;
     overflow: hidden;
   }
 
@@ -702,11 +711,12 @@ body {
     margin: 0 auto;
     padding: 0 12px;
     display: block;
+    flex: 1 0 auto;
   }
 
   .works-carousel__title {
     font-size: 4.6vw;
-    margin: 0 0 12px;
+    margin-top: 1vh;
     padding-top: 0;
     text-align: center;
   }
@@ -716,6 +726,7 @@ body {
     gap: 10px;
     cursor: default;
     justify-items: center;
+    margin-top: 5vh;
   }
 
   .works-carousel__media-row.is-cursor-visible {
@@ -746,7 +757,7 @@ body {
     grid-template-columns: 44px 1fr 44px;
     align-items: center;
     gap: 12px;
-    margin-top: 3vh;
+    margin-top: 7vh;
     margin-bottom: 0;
     padding: 0 2px;
   }
@@ -775,6 +786,7 @@ body {
     text-align: center;
   }
 
+  /* About mobile */
   .home-page--about {
     min-height: 100vh;
     min-height: 100dvh;
