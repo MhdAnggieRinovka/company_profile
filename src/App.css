@@ -499,6 +499,16 @@ body {
   display: none;
 }
 
+.contacts-page__action span {
+  text-align: center;
+  font-family: "Spectral", serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 16px;
+  line-height: 100%;
+  letter-spacing: 0;
+}
+
 /* ===== RESPONSIVE WIDTHS DESKTOP ===== */
 
 @media (max-width: 1200px) {
@@ -1064,5 +1074,11 @@ body {
     .hero-home__stage {
       min-height: calc(100vh - 220px);
     }
+  }
+}
+
+@media (max-width: 768px) {
+  .contacts-page__action span {
+    font-size: 4vw; /* kira-kira 14–16px di layar kecil */
   }
 }
