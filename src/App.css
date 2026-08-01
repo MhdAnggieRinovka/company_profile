@@ -1047,7 +1047,6 @@ body {
   }
 }
 
-/* FALLBACK 100vh */
 
 @supports not (height: 100dvh) {
   .home-page,
@@ -1080,6 +1079,6 @@ body {
 
 @media (max-width: 768px) {
   .contacts-page__action span {
-    font-size: 4vw; /* kira-kira 14–16px di layar kecil */
+    font-size: 4vw;
   }
 }
