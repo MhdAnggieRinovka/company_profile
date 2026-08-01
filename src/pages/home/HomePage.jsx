@@ -1,3 +1,4 @@
+// src/pages/home/HomePage.jsx
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import "../../App.css";
@@ -5,6 +6,7 @@ import HeroHome from "./components/HeroHome";
 import SiteHeader from "./components/SiteHeader";
 import WorksCarousel from "./components/WorksCarousel";
 import WorksFilters from "./components/WorksFilters";
+import ContactsBody from "./components/ContactsBody";
 import useHomeVideo from "./hooks/useHomeVideo";
 import useWorksData from "./hooks/useWorksData";
 
@@ -114,6 +116,7 @@ export default function HomePage() {
   const rightItemOne = getSideItem(1);
   const rightItemTwo = getSideItem(2);
 
+  /* ==== MOBILE: WORKS ==== */
   if (isMobile && showWorks) {
     return (
       <main className="home-page home-page--works">
@@ -156,6 +159,7 @@ export default function HomePage() {
     );
   }
 
+  /* ==== MOBILE: ABOUT / CONTACTS ==== */
   if (isMobile && !showWorks) {
     return (
       <main className="home-page home-page--about">
@@ -166,12 +170,16 @@ export default function HomePage() {
             onNavigate={handleNavChange}
           />
 
-          <HeroHome
-            loading={loading}
-            error={error}
-            videoUrl={videoUrl}
-            title={title}
-          />
+          {activePage === "contacts" ? (
+            <ContactsBody />
+          ) : (
+            <HeroHome
+              loading={loading}
+              error={error}
+              videoUrl={videoUrl}
+              title={title}
+            />
+          )}
 
           <div className="home-page__mobile-bottom-nav">
             <SiteHeader
@@ -185,10 +193,15 @@ export default function HomePage() {
     );
   }
 
+  /* ==== DESKTOP ==== */
   return (
     <main
       className={
-        showWorks ? "home-page home-page--works" : "home-page home-page--about"
+        showWorks
+          ? "home-page home-page--works"
+          : activePage === "contacts"
+          ? "home-page home-page--about contacts-page-wrapper"
+          : "home-page home-page--about"
       }
     >
       <SiteHeader
@@ -219,6 +232,8 @@ export default function HomePage() {
             goToWorkByOffset={goToWorkByOffset}
           />
         </>
+      ) : activePage === "contacts" ? (
+        <ContactsBody />
       ) : (
         <HeroHome
           loading={loading}
