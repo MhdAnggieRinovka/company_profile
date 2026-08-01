@@ -684,7 +684,7 @@ body {
   .works-filter-wrap {
     border-top: 1px solid rgba(22, 22, 22, 0.08);
     border-bottom: 1px solid rgba(22, 22, 22, 0.08);
-    margin-top: -2vh;
+    /* margin-top: -2vh; */
     flex: 0 0 auto;
   }
 
@@ -845,6 +845,7 @@ body {
     flex: 1;
     padding: 28px 0 20px;
     overflow: hidden;
+    padding-bottom: 9vh;
   }
 
   .hero-home__frame {
@@ -958,7 +959,7 @@ body {
     background: #ffffff;
     border-top: 1px solid rgba(22, 22, 22, 0.08);
     padding-top: 4vh;
-    padding-bottom: 22vh;
+    padding-bottom: 22.5vh;
   }
 
   .contacts-page__action {
