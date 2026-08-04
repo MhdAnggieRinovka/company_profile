@@ -22,10 +22,8 @@ export default function WorksCarousel({
   const [cursorVisible, setCursorVisible] = useState(false);
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
 
-  // state untuk trigger animasi hero
   const [animateHero, setAnimateHero] = useState(false);
 
-  // setiap activeWork berubah → nyalakan animasi hero sebentar
   useEffect(() => {
     if (!activeWork) return;
 
@@ -33,7 +31,7 @@ export default function WorksCarousel({
 
     const timeout = setTimeout(() => {
       setAnimateHero(false);
-    }, 480); // durasi sama dengan CSS workHeroSwap (0.48s)
+    }, 480);
 
     return () => clearTimeout(timeout);
   }, [activeWork]);
