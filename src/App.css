@@ -1028,7 +1028,7 @@ body {
 /* ANIMATIONS */
 
 .works-carousel__hero--animated {
-  animation: workHeroSwap 0.48s cubic-bezier(0.22, 1, 0.36, 1);
+  animation: workHeroSwap 0.6s ease-out;
   transform-origin: center center;
   will-change: opacity, transform;
 }
@@ -1036,7 +1036,11 @@ body {
 @keyframes workHeroSwap {
   0% {
     opacity: 0;
-    transform: translateY(18px) scale(0.985);
+    transform: translateY(30px) scale(0.96);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(10px) scale(1.01);
   }
   100% {
     opacity: 1;

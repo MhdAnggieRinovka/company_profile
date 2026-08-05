@@ -247,7 +247,10 @@ export default function WorksCarousel({
                 <div className="works-carousel__preview">
                   <Link
                     to={`/work/${activeWork.slug}`}
-                    className="works-carousel__hero works-carousel__hero--animated"
+                    className={
+                      "works-carousel__hero" +
+                      (animateHero ? " works-carousel__hero--animated" : "")
+                    }
                     aria-label={activeWork.title || "View work detail"}
                   >
                     <img
