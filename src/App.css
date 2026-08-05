@@ -71,8 +71,7 @@ body {
 
 /* WORKS desktop */
 .home-page--works {
-  height: 100vh;
-  height: 100dvh;
+  height: auto;
   overflow: hidden;
   display: grid;
   grid-template-rows: auto auto 1fr;
@@ -81,6 +80,7 @@ body {
 .home-page__mobile-top,
 .home-page__mobile-bottom-nav {
   width: 100%;
+  margin-bottom: -1px;
 }
 
 /* ===== HEADER & NAV (DESKTOP) ===== */
