@@ -60,7 +60,7 @@ body {
   flex-direction: column;
 }
 
-/* CONTACTS desktop wrapper: header + contacts body + bottom nav, 1 layar */
+/* CONTACTS desktop wrapper */
 .home-page--about.contacts-page-wrapper {
   min-height: 100vh;
   min-height: 100dvh;
@@ -368,8 +368,10 @@ body {
   outline-offset: 8px;
 }
 
+/* pointer & custom cursor desktop */
+
 .works-carousel__media-row.is-cursor-visible {
-  cursor: none;
+  cursor: default; /* pointer putih, panah dihandle JSX */
 }
 
 .works-carousel__custom-cursor {
@@ -407,6 +409,7 @@ body {
   aspect-ratio: 1 / 1;
   overflow: hidden;
   background: #f1ece6;
+  cursor: pointer;
 }
 
 .works-carousel__hero img {
@@ -416,7 +419,7 @@ body {
   object-fit: cover;
 }
 
-/* side cards desktop */
+/* side cards desktop: YEAR atas, CATEGORY tengah, NAME bawah */
 
 .works-carousel__side {
   display: flex;
@@ -435,17 +438,36 @@ body {
   height: 100%;
   border: 1px solid rgba(22, 22, 22, 0.12);
   background: #fff;
-  padding: 1vh 0.45vw;
+  padding: 3vh 0.8vw; /* jarak dari border */
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start; /* year - category - name */
   cursor: default;
   pointer-events: none;
   user-select: none;
 }
 
-.works-side-card__year,
+/* YEAR: horizontal di atas */
+
+.works-side-card__year {
+  font-family: "Inter", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+  font-size: 14px;
+  line-height: 1; /* 100% */
+  letter-spacing: 0;
+  color: #c0b8b0;
+  display: block;
+  writing-mode: horizontal-tb;
+  transform: none;
+  text-align: center;
+  margin-bottom: 1.4vh; /* jarak kecil ke CATEGORY */
+  padding-top: 3vh;
+}
+
+/* CATEGORY & NAME: vertikal, sejajar */
+
 .works-side-card__category,
 .works-side-card__name {
   display: block;
@@ -454,20 +476,36 @@ body {
   text-align: center;
 }
 
-.works-side-card__year {
-  font-size: clamp(9px, 0.58vw, 11px);
-  color: #c0b8b0;
-}
-
 .works-side-card__category {
-  font-size: clamp(10px, 0.63vw, 12px);
+  font-family: "Inter", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+  font-size: 14px;
+  line-height: 1; /* 100% */
+  letter-spacing: 0;
   color: #8b847d;
+  display: block;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  text-align: center;
+  padding-top: 15vh;
+  padding-bottom: 10vh;
 }
 
 .works-side-card__name {
-  font-size: clamp(10px, 0.63vw, 12px);
+  font-family: "Spectral", serif;
+  font-weight: 300;
+  font-style: normal;
+  font-size: 16px;
+  line-height: 1; /* 100% */
+  letter-spacing: 0;
   color: #6b645d;
   font-family: Georgia, "Times New Roman", serif;
+  display: block;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  text-align: center;
+  margin-top:6vh; /* jarak lebih besar dari CATEGORY */
 }
 
 /* footer desktop */
@@ -606,7 +644,7 @@ body {
     display: none;
   }
 
-  /* mobile-top sebagai kolom penuh tinggi */
+  /* mobile-top */
   .home-page__mobile-top {
     min-height: 100vh;
     min-height: 100dvh;
@@ -614,7 +652,7 @@ body {
     grid-template-rows: auto auto 1fr;
   }
 
-  /* NAV MOBILE: ABOUT / WORK / CONTACTS di bawah */
+  /* NAV MOBILE */
   .home-page__mobile-bottom-nav {
     flex: 0 0 auto;
     width: 100% !important;
@@ -684,7 +722,7 @@ body {
     color: #000000 !important;
   }
 
-  /* filter Works – mobile, tepat di atas nav */
+  /* filter Works mobile */
   .works-filter-wrap {
     border-top: 1px solid rgba(22, 22, 22, 0.08);
     border-bottom: 1px solid rgba(22, 22, 22, 0.08);
@@ -781,7 +819,7 @@ body {
     aspect-ratio: 1 / 1;
   }
 
-  /* footer works mobile, jarak panah–teks diperkecil */
+  /* footer works mobile */
   .works-carousel__footer {
     display: grid;
     grid-template-columns: 32px auto 32px;
@@ -926,7 +964,7 @@ body {
   border-top: 1px solid rgba(22, 22, 22, 0.08);
 }
 
-/* ===== CONTACTS MOBILE (KHUSUS) ===== */
+/* ===== CONTACTS MOBILE ===== */
 
 @media (max-width: 768px) {
   .contacts-page--mobile {
@@ -997,7 +1035,7 @@ body {
   }
 }
 
-/* ===== CONTACTS DESKTOP SHARED ICON STYLES ===== */
+/* ===== CONTACTS SHARED ICON STYLES ===== */
 
 .contacts-page__action {
   border: 0;
@@ -1030,7 +1068,7 @@ body {
 .works-carousel__hero--animated {
   animation: workHeroSwap 0.6s ease-out;
   transform-origin: center center;
-  will-change: opacity, transform; 
+  will-change: opacity, transform;
 }
 
 @keyframes workHeroSwap {
@@ -1096,12 +1134,4 @@ body {
   .contacts-page__action span {
     font-size: 4vw;
   }
-}
-
-.works-carousel__media-row.is-cursor-visible {
-  cursor: default;
-}
-
-.works-carousel__hero {
-  cursor: pointer;
 }
