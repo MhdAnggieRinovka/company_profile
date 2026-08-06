@@ -1030,7 +1030,7 @@ body {
 .works-carousel__hero--animated {
   animation: workHeroSwap 0.6s ease-out;
   transform-origin: center center;
-  will-change: opacity, transform;
+  will-change: opacity, transform; 
 }
 
 @keyframes workHeroSwap {
@@ -1096,4 +1096,12 @@ body {
   .contacts-page__action span {
     font-size: 4vw;
   }
+}
+
+.works-carousel__media-row.is-cursor-visible {
+  cursor: default;
+}
+
+.works-carousel__hero {
+  cursor: pointer;
 }

@@ -23,6 +23,7 @@ export default function WorksCarousel({
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
 
   const [animateHero, setAnimateHero] = useState(false);
+  const [heroRect, setHeroRect] = useState(null); // untuk tahu apakah mouse lagi di atas hero
 
   useEffect(() => {
     if (!activeWork) return;
@@ -59,6 +60,20 @@ export default function WorksCarousel({
   function handleAreaMouseLeave() {
     if (isMobile) return;
     setCursorVisible(false);
+    setHeroRect(null);
+  }
+
+  // desktop: ketika mouse masuk ke area hero, tandai bahwa mouse sedang di atas gambar
+  function handleHeroMouseEnter(event) {
+    if (isMobile) return;
+    const rect = event.currentTarget.getBoundingClientRect();
+    setHeroRect(rect);
+  }
+
+  // desktop: keluar dari gambar, panah boleh muncul lagi di area kiri/kanan
+  function handleHeroMouseLeave() {
+    if (isMobile) return;
+    setHeroRect(null);
   }
 
   function handleAreaClick(event) {
@@ -199,7 +214,8 @@ export default function WorksCarousel({
                     : "Click left side for previous work and right side for next work"
                 }
               >
-                {!isMobile && (
+                {/* custom cursor panah hanya muncul kalau bukan mobile dan mouse tidak sedang di atas hero */}
+                {!isMobile && cursorVisible && heroRect === null && (
                   <span
                     className="works-carousel__custom-cursor"
                     aria-hidden="true"
@@ -245,20 +261,37 @@ export default function WorksCarousel({
                 )}
 
                 <div className="works-carousel__preview">
-                  <Link
-                    to={`/work/${activeWork.slug}`}
-                    className={
-                      "works-carousel__hero" +
-                      (animateHero ? " works-carousel__hero--animated" : "")
-                    }
-                    aria-label={activeWork.title || "View work detail"}
-                  >
-                    <img
-                      src={activeWork.image}
-                      alt={activeWork.alt}
-                      loading="lazy"
-                    />
-                  </Link>
+                  {isMobile ? (
+                    <Link
+                      to={`/work/${activeWork.slug}`}
+                      className={
+                        "works-carousel__hero" +
+                        (animateHero ? " works-carousel__hero--animated" : "")
+                      }
+                      aria-label={activeWork.title || "View work detail"}
+                    >
+                      <img
+                        src={activeWork.image}
+                        alt={activeWork.alt}
+                        loading="lazy"
+                      />
+                    </Link>
+                  ) : (
+                    <div
+                      className={
+                        "works-carousel__hero" +
+                        (animateHero ? " works-carousel__hero--animated" : "")
+                      }
+                      onMouseEnter={handleHeroMouseEnter}
+                      onMouseLeave={handleHeroMouseLeave}
+                    >
+                      <img
+                        src={activeWork.image}
+                        alt={activeWork.alt}
+                        loading="lazy"
+                      />
+                    </div>
+                  )}
                 </div>
 
                 {!isMobile && (
