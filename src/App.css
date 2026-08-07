@@ -93,6 +93,7 @@ body {
   position: relative;
   width: 100%;
   display: grid;
+  padding-top: 1vh;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
   border-bottom: 0;
@@ -117,7 +118,7 @@ body {
   margin: 0 auto;
   cursor: pointer;
   justify-self: center;
-  margin-left: 13.8vw;
+  margin-left: 11vw;
 }
 
 .brand-button img {
@@ -129,7 +130,7 @@ body {
 
 .site-nav {
   font-family: "Inter", sans-serif;
-  margin-left: 6vw;
+  margin-left: 2vw;
   grid-column: 2;
   display: flex;
   align-items: center;
@@ -344,7 +345,6 @@ body {
   grid-template-rows: auto 1fr auto;
   align-content: start;
   padding: 0.4vh 0 0.2vh;
-  padding-left: 4.0vw; /* coba 1vw–3vw, lihat hasil */
   padding-right: -1.0vw; /* kalau mau tetap simetris */
 }
 
