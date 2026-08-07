@@ -21,9 +21,9 @@ export default function WorksCarousel({
   const [cursorSide, setCursorSide] = useState("right");
   const [cursorVisible, setCursorVisible] = useState(false);
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
+  const [heroRect, setHeroRect] = useState(null);
 
   const [animateHero, setAnimateHero] = useState(false);
-  const [heroRect, setHeroRect] = useState(null); // untuk tahu apakah mouse lagi di atas hero
 
   useEffect(() => {
     if (!activeWork) return;
@@ -63,14 +63,13 @@ export default function WorksCarousel({
     setHeroRect(null);
   }
 
-  // desktop: ketika mouse masuk ke area hero, tandai bahwa mouse sedang di atas gambar
+  // mouse di atas gambar hero (desktop): tandai supaya panah custom tidak muncul
   function handleHeroMouseEnter(event) {
     if (isMobile) return;
     const rect = event.currentTarget.getBoundingClientRect();
     setHeroRect(rect);
   }
 
-  // desktop: keluar dari gambar, panah boleh muncul lagi di area kiri/kanan
   function handleHeroMouseLeave() {
     if (isMobile) return;
     setHeroRect(null);
@@ -79,8 +78,9 @@ export default function WorksCarousel({
   function handleAreaClick(event) {
     if (isMobile) return;
 
+    // abaikan klik pada elemen interaktif (story link, nav mobile, hero)
     const interactiveTarget = event.target.closest(
-      ".works-carousel__story-link, .works-carousel__mobile-nav",
+      ".works-carousel__story-link, .works-carousel__mobile-nav, .works-carousel__hero",
     );
     if (interactiveTarget) return;
 
@@ -214,7 +214,11 @@ export default function WorksCarousel({
                     : "Click left side for previous work and right side for next work"
                 }
               >
-                {/* custom cursor panah hanya muncul kalau bukan mobile dan mouse tidak sedang di atas hero */}
+                {/* custom cursor panah hanya muncul kalau:
+                    - bukan mobile
+                    - cursorVisible = true
+                    - mouse TIDAK sedang di atas hero (heroRect === null)
+                */}
                 {!isMobile && cursorVisible && heroRect === null && (
                   <span
                     className="works-carousel__custom-cursor"
@@ -277,20 +281,22 @@ export default function WorksCarousel({
                       />
                     </Link>
                   ) : (
-                    <div
+                    <Link
+                      to={`/work/${activeWork.slug}`}
                       className={
                         "works-carousel__hero" +
                         (animateHero ? " works-carousel__hero--animated" : "")
                       }
                       onMouseEnter={handleHeroMouseEnter}
                       onMouseLeave={handleHeroMouseLeave}
+                      aria-label={activeWork.title || "View work detail"}
                     >
                       <img
                         src={activeWork.image}
                         alt={activeWork.alt}
                         loading="lazy"
                       />
-                    </div>
+                    </Link>
                   )}
                 </div>
 

@@ -371,7 +371,7 @@ body {
 /* pointer & custom cursor desktop */
 
 .works-carousel__media-row.is-cursor-visible {
-  cursor: default; /* pointer putih, panah dihandle JSX */
+  cursor: none; /* pointer putih, panah dihandle JSX */
 }
 
 .works-carousel__custom-cursor {
@@ -794,14 +794,6 @@ body {
     cursor: default;
     justify-items: center;
     margin-top: 5vh;
-  }
-
-  .works-carousel__media-row.is-cursor-visible {
-    cursor: default;
-  }
-
-  .works-carousel__custom-cursor {
-    display: none;
   }
 
   .works-carousel__side {
