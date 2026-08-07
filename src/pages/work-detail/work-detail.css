@@ -102,12 +102,12 @@
 .work-detail__actions {
   width: 100%;
   margin: 0;
-  padding: 16px 24px 14px;
+  padding: 15px;
+  margin-top: -4vh;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 34px;
-  border-bottom: 2px solid #1e73be;
 }
 
 .work-detail__action-link,
