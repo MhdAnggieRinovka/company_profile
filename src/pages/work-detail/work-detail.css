@@ -11,7 +11,7 @@
 }
 
 .work-detail {
-  width: 100%;
+  /* width: min(82vw, 1100px); */
   margin: 0 auto;
   padding: 0 0 90px;
 }
@@ -22,7 +22,7 @@
   grid-template-columns: minmax(140px, 220px) minmax(260px, auto);
   justify-content: center;
   align-items: center;
-  column-gap: 120px;
+  column-gap: 60px;
   padding: 24px 32px 28px;
   border-bottom: 1px solid rgba(22, 22, 22, 0.12);
 }
@@ -68,9 +68,9 @@
   white-space: nowrap;
 }
 
-.work-detail__gallery {
+/* .work-detail__gallery {
   width: 100%;
-}
+} */
 
 .work-detail__block {
   width: 100%;
@@ -89,8 +89,15 @@
 }
 
 .work-detail__figure {
-  width: 100%;
-  margin-top: -3vh;
+  width: 100vw; /* selebar viewport */
+  margin-left: calc(50% - 50vw); /* geser sampai tepi kiri viewport */
+  margin-right: 0;
+  margin-top: -3vh; /* offset vertikal yang kamu pakai */
+}
+
+.work-detail__figure--full {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
 }
 
 .work-detail__figure img {
@@ -299,12 +306,12 @@
   /* META & TITLE MOBILE – sedikit lebih besar */
   .work-detail__meta {
     text-align: right;
-    font-size: 12px;   /* dari 10px → lebih besar, biar kebaca */
+    font-size: 12px; /* dari 10px → lebih besar, biar kebaca */
   }
 
   .work-detail__title {
     text-align: left;
-    font-size: 20px;   /* dari 18px → lebih besar */
+    font-size: 20px; /* dari 18px → lebih besar */
     line-height: 1.1;
     white-space: nowrap;
   }
@@ -367,12 +374,12 @@
 
   /* Judul & meta di layar paling kecil tetap sedikit besar */
   .work-detail__title {
-    font-size: 4vw;  /* dari 17px → lebih besar */
+    font-size: 4vw; /* dari 17px → lebih besar */
     line-height: 1.1;
   }
 
   .work-detail__meta {
-    font-size: 3vw;  /* dari 10px → lebih besar */
+    font-size: 3vw; /* dari 10px → lebih besar */
   }
 
   .work-detail__actions {
