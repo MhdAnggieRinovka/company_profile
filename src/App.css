@@ -355,10 +355,9 @@ body {
 .works-carousel__media-row {
   position: relative;
   display: grid;
-  grid-template-columns: 11vw minmax(0, 33.7vw) 11vw;
+  grid-template-columns: 1.0fr 1.2fr 1.0fr;
   align-items: stretch;
   justify-content: center;
-  gap: 1vw;
   outline: none;
   padding-top: 2vh;
 }
@@ -446,6 +445,7 @@ body {
   cursor: default;
   pointer-events: none;
   user-select: none;
+  position: relative;
 }
 
 /* YEAR: horizontal di atas */
@@ -467,14 +467,6 @@ body {
 }
 
 /* CATEGORY & NAME: vertikal, sejajar */
-
-.works-side-card__category,
-.works-side-card__name {
-  display: block;
-  writing-mode: vertical-rl;
-  transform: rotate(180deg);
-  text-align: center;
-}
 
 .works-side-card__category {
   font-family: "Inter", sans-serif;
@@ -504,8 +496,12 @@ body {
   display: block;
   writing-mode: vertical-rl;
   transform: rotate(180deg);
-  text-align: center;
-  margin-top:9vh; /* jarak lebih besar dari CATEGORY */
+  text-align: start;
+  margin-top:3vh; /* jarak lebih besar dari CATEGORY */
+  padding-top: 0;
+  padding-bottom: 2vh;
+  position: absolute;
+  bottom: 5vh;
 }
 
 /* footer desktop */
