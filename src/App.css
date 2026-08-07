@@ -87,7 +87,6 @@ body {
 
 .site-header {
   width: 100%;
-  padding: 0.45vh 2.35vw 0;
 }
 
 .site-header__inner {
@@ -96,7 +95,6 @@ body {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  padding: 0.35vh 0 0.8vh;
   border-bottom: 0;
 }
 
@@ -105,18 +103,21 @@ body {
   position: absolute;
   left: -2.35vw;
   right: -2.35vw;
-  bottom: 0;
+  bottom: 7px;
   height: 1px;
   background: var(--line);
 }
 
 .brand-button {
+  width: 100px;
+  height: 60px;
   border: 0;
   background: transparent;
   padding: 0;
   margin: 0 auto;
   cursor: pointer;
   justify-self: center;
+  margin-left: 13.8vw;
 }
 
 .brand-button img {
@@ -259,9 +260,11 @@ body {
   align-items: center;
   justify-content: center;
   gap: min(2.5vw, 34px);
-  padding: 1.1vh 0 1.5vh;
+  padding: 1vh 0 1.5vh;
   margin: 0 auto;
   flex-wrap: wrap;
+  padding-top: 1.2vh;
+  padding-bottom: 2.3vh;
 }
 
 .filter-button {
@@ -339,6 +342,8 @@ body {
   grid-template-rows: auto 1fr auto;
   align-content: start;
   padding: 0.4vh 0 0.2vh;
+  padding-left: 4.0vw; /* coba 1vw–3vw, lihat hasil */
+  padding-right: -1.0vw; /* kalau mau tetap simetris */
 }
 
 .works-carousel__title {
@@ -355,11 +360,12 @@ body {
 .works-carousel__media-row {
   position: relative;
   display: grid;
-  grid-template-columns: 1.0fr 1.2fr 1.0fr;
+  grid-template-columns: 1fr 1.2fr 1fr;
   align-items: stretch;
   justify-content: center;
   outline: none;
   padding-top: 2vh;
+  gap: 1.35vw;
 }
 
 .works-carousel__media-row:focus-visible {
@@ -424,14 +430,14 @@ body {
   display: flex;
   align-items: stretch;
   justify-content: center;
-  gap: 1.35vw;
+  gap: 1.45vw;
   height: 100%;
   animation: sideItemsSwap 0.42s ease;
   pointer-events: none;
 }
 
 .works-side-card {
-  width: 3.85vw;
+  width: 6.95vw;
   min-width: 52px;
   max-width: 106px;
   height: 100%;
@@ -497,7 +503,7 @@ body {
   writing-mode: vertical-rl;
   transform: rotate(180deg);
   text-align: start;
-  margin-top:3vh; /* jarak lebih besar dari CATEGORY */
+  margin-top: 3vh; /* jarak lebih besar dari CATEGORY */
   padding-top: 0;
   padding-bottom: 2vh;
   position: absolute;
@@ -608,7 +614,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0 0 0.1vh;
+    padding-top: -1vh;
     min-height: 52px;
   }
 
