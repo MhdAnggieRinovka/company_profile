@@ -249,7 +249,7 @@ body {
   display: flex;
   justify-content: center;
   border-bottom: 1px solid rgba(22, 22, 22, 0.06);
-  padding-top: 3vh;
+  padding-top: -0.5vh;
 }
 
 .works-filter-row {
@@ -505,7 +505,7 @@ body {
   writing-mode: vertical-rl;
   transform: rotate(180deg);
   text-align: center;
-  margin-top:6vh; /* jarak lebih besar dari CATEGORY */
+  margin-top:9vh; /* jarak lebih besar dari CATEGORY */
 }
 
 /* footer desktop */
