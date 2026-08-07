@@ -936,7 +936,7 @@ body {
 .contacts-page__video--desktop {
   grid-row: 1;
   display: flex;
-  height: 90%;
+  height: 80%;
   padding-top: 5vh;
   align-items: center;
   justify-content: center;
