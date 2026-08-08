@@ -93,7 +93,6 @@ body {
   position: relative;
   width: 100%;
   display: grid;
-  padding-top: 1vh;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
   border-bottom: 0;
