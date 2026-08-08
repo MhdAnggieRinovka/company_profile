@@ -345,7 +345,7 @@ body {
   grid-template-rows: auto 1fr auto;
   align-content: start;
   padding: 0.4vh 0 0.2vh;
-  padding-right: -1.0vw; /* kalau mau tetap simetris */
+  padding-right: -1vw; /* kalau mau tetap simetris */
 }
 
 .works-carousel__title {
@@ -650,8 +650,8 @@ body {
 
   /* mobile-top */
   .home-page__mobile-top {
-    min-height: 100vh;
-    min-height: 100dvh;
+    min-height: 0;
+    height: 100%;
     display: grid;
     grid-template-rows: auto auto 1fr;
   }
@@ -660,6 +660,7 @@ body {
   .home-page__mobile-bottom-nav {
     flex: 0 0 auto;
     width: 100% !important;
+    height: var(--mobile-bottom-nav-h);
   }
 
   .home-page__mobile-bottom-nav .site-header {
@@ -741,6 +742,8 @@ body {
     overflow-x: auto;
     max-width: none;
     scrollbar-width: none;
+    padding-bottom: 2.77vh;
+    padding-top: 2.77vh;
   }
 
   .works-filter-row::-webkit-scrollbar {
@@ -757,9 +760,9 @@ body {
   .home-page--works {
     min-height: 100vh;
     min-height: 100dvh;
-    height: 100dvh;
+    height: 100dvh; /* tetap satu viewport */
     display: grid;
-    grid-template-rows: auto 1fr;
+    grid-template-rows: auto 1fr auto; /* atas – konten – nav bawah */
     overflow: hidden;
   }
 
@@ -780,7 +783,7 @@ body {
     height: auto;
     min-height: 0;
     margin: 0 auto;
-    padding: 0 12px;
+    padding: 0px 0px;
     display: block;
     flex: 1 0 auto;
   }
@@ -797,7 +800,7 @@ body {
     gap: 10px;
     cursor: default;
     justify-items: center;
-    margin-top: 5vh;
+    margin-top: 2vh;
   }
 
   .works-carousel__side {
@@ -822,9 +825,9 @@ body {
     align-items: center;
     justify-items: center;
     gap: 44px;
-    margin-top: 7vh;
+    margin-top: 11vh;
+    padding-bottom: 6vh;
     margin-bottom: 0;
-    padding: 0 2px;
   }
 
   .works-carousel__mobile-nav {
@@ -855,14 +858,16 @@ body {
   }
 
   /* About mobile */
-  .home-page--about {
-    min-height: 100vh;
-    min-height: 100dvh;
-    height: auto;
-    padding-bottom: 0;
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
+  @media (max-width: 768px) {
+    .home-page--about {
+      min-height: 100vh;
+      min-height: 100dvh;
+      height: 100dvh; /* satu viewport */
+      display: grid;
+      grid-template-rows: auto 1fr auto; /* atas – konten – nav bawah */
+      padding-bottom: 0;
+      overflow: hidden; /* tidak ada scroll vertical */
+    }
   }
 }
 
@@ -964,7 +969,8 @@ body {
 
 @media (max-width: 768px) {
   .contacts-page--mobile {
-    min-height: 70dvh;
+    min-height: 0;
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -972,7 +978,7 @@ body {
 
   .contacts-page__video--mobile {
     flex: 0 0 auto;
-    height: 54vh;
+    height: 40vh; /* 30% viewport height */
     background: #ffffff;
     display: flex;
     align-items: center;
@@ -981,7 +987,7 @@ body {
 
   .contacts-page__video-media--mobile {
     width: 100vw;
-    max-height: 56vh;
+    max-height: 30vh;
     height: auto;
     object-fit: contain;
   }
@@ -993,15 +999,14 @@ body {
 
   .contacts-page__actions--mobile {
     flex: 0 0 auto;
-    padding: 1.6vh 4vw 2vh;
+    padding: 1.2vh 4vw 1.8vh; /* kecilkan padding vertikal */
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 9vw;
+    gap: 6.5vw; /* jarak antar ikon sedikit lebih rapat */
     background: #ffffff;
-    border-top: 1px solid rgba(22, 22, 22, 0.08);
-    padding-top: 11.5vh;
-    padding-bottom: 15vh;
+    margin-top: 18vh;
+    padding-bottom:32.8vh
   }
 
   .contacts-page__action {
@@ -1012,10 +1017,10 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 0.8vh;
+    gap: 0.6vh;
     cursor: pointer;
     font-family: "Inter", sans-serif;
-    font-size: 3vw;
+    font-size: 3.2vw;             /* masih enak dibaca */
     line-height: 1.4;
     color: #111111;
   }
@@ -1025,8 +1030,8 @@ body {
   }
 
   .contacts-page__icon {
-    width: 5vw;
-    height: 5vw;
+    width: 4vw; /* sedikit lebih kecil, tapi tidak mungil */
+    height: 4vw;
     display: block;
   }
 }
@@ -1129,5 +1134,16 @@ body {
 @media (max-width: 768px) {
   .contacts-page__action span {
     font-size: 4vw;
+  }
+}
+
+@media (max-width: 768px) {
+  .home-page--about.contacts-page-wrapper {
+    min-height: 100vh;
+    min-height: 100dvh;
+    height: 100dvh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    overflow: hidden; /* kunci tinggi, tidak bisa scroll */
   }
 }
