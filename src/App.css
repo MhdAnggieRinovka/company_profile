@@ -1378,3 +1378,44 @@ body {
     left: 0;
   }
 }
+
+/* layar mobile pendek, misalnya 430 x 760 */
+@media (max-width: 480px) and (max-height: 760px) {
+  .about-content {
+    margin: 12px auto 0;
+    padding: 0 14px 16px;
+    padding-bottom: 8vh;
+  }
+
+  .about-title {
+    font-size: 18px;       /* sedikit lebih kecil */
+    margin: 0 0 12px;
+    padding-top: 2vh;
+  }
+
+  .about-hero__image {
+    max-width: 200px;
+    margin: 12px auto;
+  }
+
+  .about-grid__col--left p,
+  .about-grid__col--right p,
+  .about-grid__middle-text {
+    font-size: 11px;
+    line-height: 22px;
+    margin-bottom: 12px;
+  }
+
+  .about-cta {
+    padding-top: 3vh;
+    padding-bottom: 3vh;
+  }
+
+  .about-cta__lead {
+    font-size: 16px;
+  }
+
+  .about-cta__button {
+    font-size: 13px;
+  }
+}
