@@ -437,3 +437,36 @@
 
   /* Nav bawah: tetap fixed di kaki viewport */
 }
+
+@media (max-width: 768px) {
+  .work-detail__figure img {
+    max-height: 40vh; /* gambar kira‑kira 40% tinggi viewport */
+    object-fit: contain; /* biar tidak terpotong */
+  }
+
+  .work-detail__figure {
+    margin-top: 2vh; /* jarak dari header */
+  }
+
+  .work-detail__actions {
+    padding-top: 1.5vh; /* jarak dari gambar */
+    padding-bottom: 1.5vh; /* jarak ke caption */
+    gap: 20px;
+  }
+
+  .work-detail__caption-wrap {
+    padding-top: 2vh;
+    padding-bottom: 4vh;
+  }
+
+  .work-detail__intro {
+    grid-template-columns: max-content max-content;
+    justify-content: center;
+    align-items: center;
+    column-gap: 10vw;
+    padding: 22px 16px 18px;
+    margin-top: 0;
+    padding-top: 1;
+    padding-bottom: 1;
+  }
+}
