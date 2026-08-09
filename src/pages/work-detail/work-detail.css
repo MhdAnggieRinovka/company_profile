@@ -323,7 +323,7 @@
   /* NAV MOBILE WORK DETAIL – ukuran diperkecil, pakai vh/vw */
   .work-detail-bottom-nav {
     position: fixed;
-    bottom: 0;
+    bottom: -2px;
     left: 0;
     right: 0;
     display: grid;
@@ -411,4 +411,31 @@
   .related-projects__name {
     font-size: 10px;
   }
+}
+
+
+/* ===== STICKY FOOTER UNTUK WORK DETAIL MOBILE ===== */
+
+@media (max-width: 768px) {
+  /* Main page: penuh viewport, konten di-scroll di dalamnya */
+  .work-detail-page {
+    min-height: 100vh;
+    min-height: 100dvh;    /* dukung 100dvh kalau ada */
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;     /* cegah scroll horizontal */
+  }
+
+  /* Konten tengah: area scroll */
+  .work-detail {
+    flex: 1 1 auto;
+    margin: 0;
+    padding-bottom: 90px;   /* JAGA padding yang kamu mau untuk jarak ke nav */
+    overflow-y: auto;       /* konten boleh di-scroll */
+    -webkit-overflow-scrolling: touch; /* scroll halus di mobile */
+  }
+
+  /* Nav bawah: tetap fixed di kaki viewport */
+
 }

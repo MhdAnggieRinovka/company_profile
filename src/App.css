@@ -824,7 +824,7 @@ body {
     align-items: center;
     justify-items: center;
     gap: 44px;
-    margin-top: 11vh;
+    margin-top: 12.5vh;
     padding-bottom: 6vh;
     margin-bottom: 0;
   }
@@ -1144,5 +1144,33 @@ body {
     display: grid;
     grid-template-rows: auto 1fr auto;
     overflow: hidden; /* kunci tinggi, tidak bisa scroll */
+  }
+}
+
+@media (max-width: 768px) {
+  /* Pastikan wrapper nav bawah benar-benar full lebar, tanpa margin/padding */
+  .home-page__mobile-bottom-nav {
+    flex: 0 0 auto;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .home-page__mobile-bottom-nav .site-header {
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+  }
+
+  .home-page__mobile-bottom-nav .site-header__inner {
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+  }
+
+  .home-page__mobile-bottom-nav .site-nav {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 }
