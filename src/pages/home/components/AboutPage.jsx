@@ -1,29 +1,74 @@
 // src/pages/home/components/AboutPage.jsx
 import { useEffect, useState } from "react";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 export default function AboutPage({ onGoToContacts }) {
   const [about, setAbout] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchAbout() {
       try {
         const res = await fetch(
-          "https://cms.kyubstudio.com/wp-json/wp/v2/page_about_us",
+          "https://cms.kyubstudio.com/wp-json/wp/v2/page_about_us"
         );
         const json = await res.json();
         setAbout(json[0]); // ambil item pertama
       } catch (e) {
         console.error("Failed to load about page", e);
+      } finally {
+        setLoading(false);
       }
     }
     fetchAbout();
   }, []);
 
+  // ==== STATE LOADING: tampilkan skeleton, layout mirip ABOUT ====
+  if (loading) {
+    return (
+      <section className="about-page">
+        <div className="about-content">
+          {/* judul skeleton */}
+          <div className="about-title">
+            <Skeleton width={260} height={18} />
+          </div>
+
+          {/* grid skeleton: kiri teks, tengah gambar, kanan teks */}
+          <div className="about-grid">
+            {/* kiri: description skeleton */}
+            <div className="about-grid__col about-grid__col--left">
+              <Skeleton count={4} />
+            </div>
+
+            {/* tengah: gambar skeleton + paragraf tengah skeleton */}
+            <div className="about-grid__col about-grid__col--center">
+              <Skeleton width={220} height={140} style={{ marginBottom: 16 }} />
+              <Skeleton count={3} />
+            </div>
+
+            {/* kanan: description skeleton */}
+            <div className="about-grid__col about-grid__col--right">
+              <Skeleton count={4} />
+            </div>
+          </div>
+
+          {/* CTA skeleton */}
+          <div className="about-cta">
+            <Skeleton width={140} height={16} style={{ marginBottom: 8 }} />
+            <Skeleton width={180} height={16} />
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // ==== STATE NORMAL: konten ABOUT kamu sekarang ====
   if (!about) return null;
 
   const acf = about.acf || {};
 
-  // ==== PEC AH description_2 JADI DUA BAGIAN ====
+  // pecah description_2 jadi dua bagian (desktop)
   const desc2Html = acf.description_2 || "";
 
   // ambil hanya tag <p> yang berisi teks (abaikan <p>&nbsp;</p>)
