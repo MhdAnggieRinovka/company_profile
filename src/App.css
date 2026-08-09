@@ -1305,3 +1305,76 @@ body {
   color: #000000;
   cursor: pointer;
 }
+
+@media (max-width: 768px) {
+  /* Reset layout ABOUT di mobile: stack vertical */
+  .about-page {
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    overflow-y: hidden;  /* mobile boleh scroll */
+  }
+
+  .about-content {
+    width: 100%;
+    max-width: 430px;      /* referensi 430 */
+    margin: 24px auto 0;   /* center di layar */
+    padding: 0 20px 24px;  /* padding kiri-kanan */
+    text-align: center;
+    position: static;      /* hilangkan offset desktop */
+  }
+
+  /* title mobile: tetap sama typografi, tapi tanpa offset kiri */
+  .about-title {
+    margin: 0 0 24px;
+    padding-top: 4vh;
+  }
+
+  /* Hapus offset grid + CTA di mobile */
+  .about-grid,
+  .about-cta {
+    position: static;
+    left: 0;
+    bottom: 0;
+  }
+
+  /* Grid jadi satu kolom: deskripsi 1, gambar, deskripsi 2 */
+  .about-grid {
+    display: block;
+    margin-bottom: 24px;
+  }
+
+  /* description 1 (kiri desktop) */
+  .about-grid__col--left p {
+    width: 100%;
+    max-width: 360px;
+    margin: 0 auto 24px;
+    padding-bottom: 0;
+    font-size: 12px;
+    line-height: 26px;
+  }
+
+  /* description 2 (gabungan, kanan + tengah desktop) */
+  .about-grid__col--right p,
+  .about-grid__middle-text {
+    font-size: 12px;
+    width: 100%;
+    max-width: 360px;
+    margin: 16px auto 0;
+    padding-bottom: 0;
+    padding-top: 0;
+  }
+
+  /* gambar mobile: sedikit lebih kecil, diberi margin */
+  .about-hero__image {
+    max-width: 220px;
+    margin: 24px auto;
+  }
+
+  /* CTA mobile: duduk di bawah deskripsi 2, center */
+  .about-cta {
+    padding-top: 5vh;
+    padding-bottom: 5vh;
+    left: 0;
+  }
+}
