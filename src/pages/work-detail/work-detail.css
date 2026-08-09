@@ -323,14 +323,14 @@
   /* NAV MOBILE WORK DETAIL – ukuran diperkecil, pakai vh/vw */
   .work-detail-bottom-nav {
     position: fixed;
-    bottom: -2px;
+    bottom: 0;
     left: 0;
     right: 0;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     align-items: center;
     justify-items: center;
-    height: 4.5vh;
+    height: 4vh;
     border-top: 1px solid rgba(22, 22, 22, 0.12);
     background: #ffffff;
     z-index: 50;
@@ -413,29 +413,27 @@
   }
 }
 
-
 /* ===== STICKY FOOTER UNTUK WORK DETAIL MOBILE ===== */
 
 @media (max-width: 768px) {
   /* Main page: penuh viewport, konten di-scroll di dalamnya */
   .work-detail-page {
     min-height: 100vh;
-    min-height: 100dvh;    /* dukung 100dvh kalau ada */
+    min-height: 100dvh; /* dukung 100dvh kalau ada */
     height: 100dvh;
     display: flex;
     flex-direction: column;
-    overflow-x: hidden;     /* cegah scroll horizontal */
+    overflow-x: hidden; /* cegah scroll horizontal */
   }
 
   /* Konten tengah: area scroll */
   .work-detail {
     flex: 1 1 auto;
     margin: 0;
-    padding-bottom: 90px;   /* JAGA padding yang kamu mau untuk jarak ke nav */
-    overflow-y: auto;       /* konten boleh di-scroll */
+    padding-bottom: 90px; /* JAGA padding yang kamu mau untuk jarak ke nav */
+    overflow-y: auto; /* konten boleh di-scroll */
     -webkit-overflow-scrolling: touch; /* scroll halus di mobile */
   }
 
   /* Nav bawah: tetap fixed di kaki viewport */
-
 }
