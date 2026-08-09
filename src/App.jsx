@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import HomePage from "./pages/home/HomePage";
 import WorkDetailPage from "./pages/work-detail/WorkDetailPage";
+import AboutPage from "./pages/home/components/AboutPage";
 
 export default function App() {
   return (

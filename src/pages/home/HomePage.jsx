@@ -1,14 +1,13 @@
-// src/pages/home/HomePage.jsx
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import "../../App.css";
-import HeroHome from "./components/HeroHome";
 import SiteHeader from "./components/SiteHeader";
 import WorksCarousel from "./components/WorksCarousel";
 import WorksFilters from "./components/WorksFilters";
 import ContactsBody from "./components/ContactsBody";
 import useHomeVideo from "./hooks/useHomeVideo";
 import useWorksData from "./hooks/useWorksData";
+import AboutPage from "./components/AboutPage"; // final design ABOUT
 
 export default function HomePage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -17,7 +16,7 @@ export default function HomePage() {
     const pageParam = searchParams.get("page");
     if (pageParam === "works") return "works";
     if (pageParam === "contacts") return "contacts";
-    return "about";
+    return "about"; // default landing = ABOUT
   };
 
   const [activePage, setActivePage] = useState(getPageFromParams());
@@ -25,6 +24,7 @@ export default function HomePage() {
   const [activeWorkIndex, setActiveWorkIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
+  // masih dipakai untuk Works / video home (kalau nanti dibutuhkan lagi)
   const { videoUrl, title, loading, error } = useHomeVideo();
   const { worksData, worksLoading, worksError } = useWorksData(activePage);
 
@@ -36,6 +36,7 @@ export default function HomePage() {
     setActivePage(page);
 
     if (page === "about") {
+      // ABOUT = landing, jadi URL tanpa ?page
       setSearchParams({});
       return;
     }
@@ -173,12 +174,7 @@ export default function HomePage() {
           {activePage === "contacts" ? (
             <ContactsBody />
           ) : (
-            <HeroHome
-              loading={loading}
-              error={error}
-              videoUrl={videoUrl}
-              title={title}
-            />
+            <AboutPage onGoToContacts={() => handleNavChange("contacts")} />
           )}
 
           <div className="home-page__mobile-bottom-nav">
@@ -235,12 +231,7 @@ export default function HomePage() {
       ) : activePage === "contacts" ? (
         <ContactsBody />
       ) : (
-        <HeroHome
-          loading={loading}
-          error={error}
-          videoUrl={videoUrl}
-          title={title}
-        />
+        <AboutPage onGoToContacts={() => handleNavChange("contacts")} />
       )}
     </main>
   );
