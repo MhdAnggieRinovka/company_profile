@@ -1498,14 +1498,14 @@ body {
 .about-grid__col--left p {
   width: 100%;
   max-width: 280px;
-  margin: 0 auto 24px;
+  margin: 76px auto 24px;
 }
 
 /* Deskripsi 2 – paragraf pertama di kanan */
 .about-grid__col--right p {
   width: 100%;
   max-width: 280px;
-  margin: 0 auto 24px;
+  margin: 76px auto 24px;
 }
 
 /* Deskripsi 2 – paragraf kedua di bawah gambar (kolom tengah) */
