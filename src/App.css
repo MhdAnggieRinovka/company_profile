@@ -1419,3 +1419,9 @@ body {
     font-size: 13px;
   }
 }
+
+@media (max-width: 480px) and (max-height: 760px) {
+  .works-carousel__footer{
+    margin-top: 3vh;
+  }
+}
