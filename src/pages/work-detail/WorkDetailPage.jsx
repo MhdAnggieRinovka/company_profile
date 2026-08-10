@@ -41,24 +41,14 @@ function WorkDetailHeader() {
   return (
     <header className="work-detail-site-header">
       <div className="site-header__inner">
-        <Link to="/" className="brand-button">
-          KYUB
-        </Link>
-
-        <nav className="site-nav" aria-label="Main navigation">
-          <Link to="/about_us" className="nav-link">
-            ABOUT
-          </Link>
-
-          <Link to="/?page=works" className="nav-link active">
-            WORK
-          </Link>
-
-          <Link to="/?page=contacts" className="nav-link">
-            CONTACTS
-          </Link>
-        </nav>
-
+        <button
+          type="button"
+          className="brand-button"
+          aria-label="KYUB home"
+          onClick={() => onNavigate("home")}
+        >
+          <img src="/logo-kyub.jpeg" alt="KYUB" />
+        </button>
         <div className="site-header__spacer" />
       </div>
     </header>

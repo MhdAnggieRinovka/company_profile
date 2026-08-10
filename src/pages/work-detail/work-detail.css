@@ -1060,3 +1060,76 @@
     min-height: 100vh;
   }
 }
+
+/* =========================================================
+   DESKTOP HEADER
+   KYUB DI ATAS, NAVBAR DI BAWAH
+   ========================================================= */
+
+@media (min-width: 769px) {
+
+  .work-detail-site-header {
+    width: 100%;
+  }
+
+  .work-detail-site-header .site-header__inner {
+    position: relative;
+
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: flex-start;
+
+    box-sizing: border-box;
+  }
+
+  /* =====================================================
+     KYUB LOGO
+     ===================================================== */
+
+  .work-detail-site-header .site-header__logo {
+    position: relative;
+
+    display: block;
+
+    margin: 0;
+
+    text-align: center;
+  }
+
+  /* =====================================================
+     NAVBAR
+     ===================================================== */
+
+  .work-detail-site-header .site-nav {
+    position: relative;
+
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    margin-top: 24px;
+
+    gap: 32px;
+  }
+
+  .work-detail-site-header .site-nav .nav-link {
+    display: block;
+
+    white-space: nowrap;
+  }
+
+  /* =====================================================
+     SPACER TIDAK PERLU MENGAMBIL RUANG
+     ===================================================== */
+
+  .work-detail-site-header .site-header__spacer {
+    display: none;
+  }
+}

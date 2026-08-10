@@ -273,8 +273,8 @@ body {
   width: 100%;
   max-width: 71.75vw;
   display: flex;
-  align-items: center;      /* tengah atas-bawah */
-  justify-content: center;  /* tengah kiri-kanan */
+  align-items: center; /* tengah atas-bawah */
+  justify-content: center; /* tengah kiri-kanan */
   gap: clamp(16px, 2.5vw, 34px);
   margin: 0 auto;
   padding: clamp(10px, 1.5vh, 18px) 0;
@@ -567,8 +567,8 @@ body {
   letter-spacing: 0;
 }
 
-.contacts-page__actions .contacts-page__actions--desktop{
-  margin-top:  0;
+.contacts-page__actions .contacts-page__actions--desktop {
+  margin-top: 0;
 }
 
 /* ===== RESPONSIVE WIDTHS DESKTOP ===== */
@@ -919,7 +919,8 @@ body {
 
   .hero-home__frame {
     height: 100%;
-    padding: 0 16px;
+    padding: 0 0 max(4vh, 56px);
+    box-sizing: border-box;
   }
 
   .hero-home__stage {
@@ -998,7 +999,7 @@ body {
   align-items: center;
   justify-content: center;
   gap: 48px;
-  padding:20px 20px;
+  padding: 20px 20px;
   background: #ffffff;
   border-top: 1px solid rgba(22, 22, 22, 0.08);
   box-sizing: border-box;
@@ -1804,5 +1805,34 @@ body {
 
   .home-page__mobile-top-header .site-header__spacer {
     display: none;
+  }
+}
+
+/* =========================================================
+   LANDING PAGE - MOBILE BOTTOM NAV
+   KHUSUS LANDING PAGE
+   ========================================================= */
+
+@media (max-width: 768px) {
+  .landing-page__mobile-bottom-nav {
+    position: fixed;
+
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    width: 100%;
+
+    min-height: 38px;
+    /* height: 4vh; */
+
+    margin: 0;
+    padding: 0;
+
+    background: #ffffff;
+
+    border-top: 1px solid rgba(22, 22, 22, 0.12);
+
+    z-index: 1100;
   }
 }
