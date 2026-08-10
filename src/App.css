@@ -2,7 +2,6 @@
   --bg: #ffffff;
   --text: #161616;
   --muted: #b8b1ab;
-  --line: rgba(22, 22, 22, 0.12);
   --active: #17130f;
 
   --header-desktop-h: 5.2vh;
@@ -120,11 +119,11 @@ body {
   height: 60px;
   border: 0;
   background: transparent;
-  padding: 0;
+  padding: 0 38px;
   margin: 0 auto;
   cursor: pointer;
-  justify-self: center;
-  margin-left: 11vw;
+  justify-self: start;
+  margin-left: clamp(24px, 8vw, 158px);
 }
 
 .brand-button img {
@@ -237,12 +236,20 @@ body {
 /* ===== WORKS PAGE DESKTOP ===== */
 
 .works-page {
+  width: 100%;
   min-height: 0;
   height: 100%;
+
   display: flex;
   align-items: flex-start;
   justify-content: center;
+
   overflow: hidden;
+
+  box-sizing: border-box;
+
+  padding-left: clamp(0px, 1vw, 16px);
+  padding-right: clamp(0px, 1vw, 16px);
 }
 
 .works-feedback {
@@ -259,21 +266,20 @@ body {
   display: flex;
   justify-content: center;
   border-bottom: 1px solid rgba(22, 22, 22, 0.06);
-  padding-top: -0.5vh;
+  border-top: 1px solid rgba(22, 22, 22, 0.06);
 }
 
 .works-filter-row {
   width: 100%;
   max-width: 71.75vw;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: min(2.5vw, 34px);
-  padding: 1vh 0 1.5vh;
+  align-items: center;      /* tengah atas-bawah */
+  justify-content: center;  /* tengah kiri-kanan */
+  gap: clamp(16px, 2.5vw, 34px);
   margin: 0 auto;
+  padding: clamp(10px, 1.5vh, 18px) 0;
   flex-wrap: wrap;
-  padding-top: 1.2vh;
-  padding-bottom: 2.3vh;
+  box-sizing: border-box;
 }
 
 .filter-button {
@@ -952,12 +958,15 @@ body {
 
 .contacts-page__video--desktop {
   grid-row: 1;
+  width: 100%;
+  height: auto;
+  min-height: 0;
   display: flex;
-  height: 80%;
-  padding-top: 5vh;
   align-items: center;
   justify-content: center;
   background: #ffffff;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
 .contacts-page__video-media--desktop {
@@ -975,6 +984,12 @@ body {
   margin-top: -10vh;
   background: #ffffff;
   border-top: 1px solid rgba(22, 22, 22, 0.08);
+}
+
+.contacts-page {
+  height: calc(100vh - 55px);
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
 }
 
 /* ===== CONTACTS MOBILE ===== */
