@@ -44,7 +44,7 @@ function WorkDetailHeader() {
           aria-label="Main navigation"
         >
           <Link
-            to="/"
+            to="/about_us"
             className="nav-link"
           >
             ABOUT

@@ -6,7 +6,7 @@ export default function SiteHeader({ activePage, showWorks, onNavigate }) {
           type="button"
           className="brand-button"
           aria-label="KYUB home"
-          onClick={() => onNavigate("about")}
+          onClick={() => onNavigate("home")}
         >
           <img src="/logo-kyub.jpeg" alt="KYUB" />
         </button>

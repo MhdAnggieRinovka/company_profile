@@ -94,10 +94,15 @@ body {
 .site-header__inner {
   position: relative;
   width: 100%;
+  max-width: 1512px;
+  height: 68px;
+  margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  border-bottom: 0;
+  box-sizing: border-box;
+  padding: 0;
+  opacity: 1;
 }
 
 .site-header__inner::after {
@@ -613,6 +618,12 @@ body {
     padding: 14px 16px 0;
   }
 
+  /*Khusus Halaman landing page*/
+  .home-page__mobile-bottom-nav--home .site-header {
+    padding: 14px 16px 59px;
+  }
+  /**/
+
   .site-header__inner {
     display: flex;
     align-items: center;
@@ -893,7 +904,7 @@ body {
     flex: 1;
     padding: 28px 0 20px;
     overflow: hidden;
-    padding-bottom: 9vh;
+    /* padding-bottom: 10.3vh; */
   }
 
   .hero-home__frame {
@@ -1206,15 +1217,15 @@ body {
 /* judul tetap gaya kamu yang lama */
 .about-title {
   margin: 0 0 40px;
-  font-family: "Inter", Arial, Helvetica, sans-serif;
-  font-weight: 500;       /* Medium */
+  font-family: "Inter";
+  font-weight: 500; /* Medium */
   font-style: normal;
   font-size: 20px;
-  line-height: 1;         /* 100% */
-  letter-spacing: 0.10em; /* 10% */
+  line-height: 1; /* 100% */
+  letter-spacing: 0.1em; /* 10% */
   text-align: center;
   text-transform: uppercase; /* kalau judul di Figma full caps */
-  color: #6f6f6f;         /* atau warna abu yang sudah kamu pakai */
+  color: #6f6f6f; /* atau warna abu yang sudah kamu pakai */
 }
 /* grid 3 kolom: kiri teks, tengah gambar, kanan teks */
 .about-grid {
@@ -1225,7 +1236,7 @@ body {
 }
 
 .about-grid__col {
-  font-family: "Inter", Arial, Helvetica, sans-serif;
+  font-family: "Inter";
   font-size: 14px;
   line-height: 1.7;
   color: #7f776f;
@@ -1236,7 +1247,7 @@ body {
 .about-grid__col--right p,
 .about-grid__middle-text {
   margin: 0 0 24px;
-  font-family: "Spectral", Georgia, "Times New Roman", serif;
+  font-family: "Spectral";
   font-weight: 200; /* ExtraLight */
   font-style: normal;
   font-size: 18px;
@@ -1284,10 +1295,10 @@ body {
   font-weight: 400;
   font-style: italic;
   font-size: 20px;
-  line-height: 1;        /* 100% */
+  line-height: 1; /* 100% */
   letter-spacing: 0;
   text-align: center;
-  color: #7f776f;        /* bisa kamu sesuaikan kalau mau */
+  color: #7f776f; /* bisa kamu sesuaikan kalau mau */
 }
 
 .about-cta__button {
@@ -1295,11 +1306,11 @@ body {
   background: transparent;
   padding: 0;
   font-family: "Inter", Arial, Helvetica, sans-serif;
-  font-weight: 500;       /* Medium */
+  font-weight: 500; /* Medium */
   font-style: normal;
   font-size: 16px;
-  line-height: 1;         /* 100% */
-  letter-spacing: 0.10em; /* 10% */
+  line-height: 1; /* 100% */
+  letter-spacing: 0.1em; /* 10% */
   text-align: center;
   text-transform: uppercase;
   color: #000000;
@@ -1312,16 +1323,16 @@ body {
     width: 100%;
     height: 100%;
     background: #ffffff;
-    overflow-y: hidden;  /* mobile boleh scroll */
+    overflow-y: hidden; /* mobile boleh scroll */
   }
 
   .about-content {
     width: 100%;
-    max-width: 430px;      /* referensi 430 */
-    margin: 24px auto 0;   /* center di layar */
-    padding: 0 20px 24px;  /* padding kiri-kanan */
+    max-width: 430px; /* referensi 430 */
+    margin: 24px auto 0; /* center di layar */
+    padding: 0 20px 24px; /* padding kiri-kanan */
     text-align: center;
-    position: static;      /* hilangkan offset desktop */
+    position: static; /* hilangkan offset desktop */
   }
 
   /* title mobile: tetap sama typografi, tapi tanpa offset kiri */
@@ -1388,7 +1399,7 @@ body {
   }
 
   .about-title {
-    font-size: 18px;       /* sedikit lebih kecil */
+    font-size: 18px; /* sedikit lebih kecil */
     margin: 0 0 12px;
     padding-top: 2vh;
   }
@@ -1421,7 +1432,7 @@ body {
 }
 
 @media (max-width: 480px) and (max-height: 760px) {
-  .works-carousel__footer{
+  .works-carousel__footer {
     margin-top: 3vh;
   }
 }
@@ -1438,11 +1449,11 @@ body {
 
 /* Konten utama ABOUT (desktop) */
 .about-content {
-  width: min(72vw, 960px);   /* lebar konten, max 960px */
-  margin: 40px auto 0;       /* auto kanan-kiri = center */
+  width: min(72vw, 960px); /* lebar konten, max 960px */
+  margin: 40px auto 0; /* auto kanan-kiri = center */
   padding: 0 0 32px;
   text-align: center;
-  position: static;          /* jangan relative + left lagi */
+  position: static; /* jangan relative + left lagi */
 }
 
 /* Judul di atas grid */
@@ -1453,7 +1464,7 @@ body {
   font-style: normal;
   font-size: 20px;
   line-height: 1;
-  letter-spacing: 0.10em;
+  letter-spacing: 0.1em;
   text-align: center;
   text-transform: uppercase;
   color: #6f6f6f;
@@ -1462,8 +1473,8 @@ body {
 /* Grid 3 kolom: kiri teks, tengah gambar+teks, kanan teks */
 .about-grid {
   width: 100%;
-  max-width: 960px;      /* sama atau sedikit di bawah about-content */
-  margin: 0 auto 40px;   /* center: auto kiri-kanan */
+  max-width: 960px; /* sama atau sedikit di bawah about-content */
+  margin: 0 auto 40px; /* center: auto kiri-kanan */
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   align-items: flex-start;
@@ -1485,7 +1496,7 @@ body {
 .about-grid__col--right p,
 .about-grid__middle-text {
   margin: 0 0 24px;
-  font-family: "Spectral", Georgia, "Times New Roman", serif;
+  font-family: "Spectral";
   font-weight: 200;
   font-style: normal;
   font-size: 18px;
@@ -1550,7 +1561,7 @@ body {
   font-style: normal;
   font-size: 16px;
   line-height: 1;
-  letter-spacing: 0.10em;
+  letter-spacing: 0.1em;
   text-align: center;
   text-transform: uppercase;
   color: #000000;
@@ -1692,7 +1703,7 @@ body {
   }
 
   .about-title {
-    font-size: 18px;
+    font-size: 12px;
     margin: 0 0 12px;
     padding-top: 2vh;
   }
@@ -1705,8 +1716,8 @@ body {
   .about-grid__col--left p,
   .about-grid__col--right p,
   .about-grid__middle-text {
-    font-size: 11px;
-    line-height: 22px;
+    font-size: 12px;
+    line-height: 20px;
     margin-bottom: 12px;
   }
 
@@ -1722,4 +1733,55 @@ body {
   .about-cta__button {
     font-size: 13px;
   }
+
+  /* =========================================================
+   MOBILE TOP HEADER
+========================================================= */
+
+  .home-page__mobile-top-header {
+    display: block;
+    width: 100%;
+    flex: 0 0 auto;
+  }
+
+  .home-page__mobile-top-header .site-header {
+    width: 100%;
+    padding: 14px 16px 0;
+  }
+
+  .home-page__mobile-top-header .site-header__inner {
+    width: 100%;
+    min-height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .home-page__mobile-top-header .brand-button {
+    display: flex;
+    width: 100%;
+    height: 52px;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+  }
+
+  .home-page__mobile-top-header .brand-button img {
+    display: block;
+    width: 28vw;
+    min-width: unset;
+    height: auto;
+    margin: 0 auto;
+  }
+
+  /* Jangan tampilkan navigation di header atas mobile */
+  .home-page__mobile-top-header .site-nav {
+    display: none !important;
+  }
+
+  .home-page__mobile-top-header .site-header__spacer {
+    display: none;
+  }
 }
+
+/* LOGO */

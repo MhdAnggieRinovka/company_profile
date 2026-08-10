@@ -1,48 +1,97 @@
 import { useEffect, useMemo, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useLocation, useNavigate } from "react-router-dom";
+
 import "../../App.css";
+
 import SiteHeader from "./components/SiteHeader";
 import WorksCarousel from "./components/WorksCarousel";
 import WorksFilters from "./components/WorksFilters";
 import ContactsBody from "./components/ContactsBody";
+
 import useHomeVideo from "./hooks/useHomeVideo";
 import useWorksData from "./hooks/useWorksData";
+
 import AboutPage from "./components/AboutPage"; // final design ABOUT
+import HeroHome from "./components/HeroHome";
 
 export default function HomePage() {
   const [searchParams, setSearchParams] = useSearchParams();
 
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  /* =========================================================
+     PAGE
+  ========================================================= */
+
   const getPageFromParams = () => {
+    // /about_us = ABOUT
+    if (location.pathname === "/about_us") {
+      return "about";
+    }
+
     const pageParam = searchParams.get("page");
+
     if (pageParam === "works") return "works";
     if (pageParam === "contacts") return "contacts";
-    return "about"; // default landing = ABOUT
+
+    // / = HERO HOME
+    return "home";
   };
 
   const [activePage, setActivePage] = useState(getPageFromParams());
+
   const [activeFilter, setActiveFilter] = useState("All");
+
   const [activeWorkIndex, setActiveWorkIndex] = useState(0);
+
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
-  // masih dipakai untuk Works / video home (kalau nanti dibutuhkan lagi)
+  /* =========================================================
+     HOME VIDEO
+  ========================================================= */
+
+  // masih dipakai untuk HeroHome
   const { videoUrl, title, loading, error } = useHomeVideo();
+
+  /* =========================================================
+     WORK DATA
+  ========================================================= */
+
   const { worksData, worksLoading, worksError } = useWorksData(activePage);
+
+  /* =========================================================
+     UPDATE ACTIVE PAGE
+  ========================================================= */
 
   useEffect(() => {
     setActivePage(getPageFromParams());
-  }, [searchParams]);
+  }, [searchParams, location.pathname]);
+
+  /* =========================================================
+     NAVIGATION
+  ========================================================= */
 
   function handleNavChange(page) {
     setActivePage(page);
-
+    if (page === "home") {
+      navigate("/");
+      return;
+    }
     if (page === "about") {
-      // ABOUT = landing, jadi URL tanpa ?page
-      setSearchParams({});
+      navigate("/about_us");
       return;
     }
 
-    setSearchParams({ page });
+    if (page === "works" || page === "contacts") {
+      navigate(`/?page=${page}`);
+      return;
+    }
   }
+
+  /* =========================================================
+     RESPONSIVE
+  ========================================================= */
 
   useEffect(() => {
     function handleResize() {
@@ -50,8 +99,15 @@ export default function HomePage() {
     }
 
     window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
+
+  /* =========================================================
+     FILTER WORKS
+  ========================================================= */
 
   const filteredWorks = useMemo(() => {
     let result =
@@ -64,12 +120,17 @@ export default function HomePage() {
 
       if (drEllsIndex > 0) {
         const [drEllsItem] = result.splice(drEllsIndex, 1);
+
         result.unshift(drEllsItem);
       }
     }
 
     return result;
   }, [worksData, activeFilter]);
+
+  /* =========================================================
+     RESET WORK INDEX
+  ========================================================= */
 
   useEffect(() => {
     setActiveWorkIndex(0);
@@ -81,11 +142,21 @@ export default function HomePage() {
     }
   }, [filteredWorks, activeWorkIndex]);
 
+  /* =========================================================
+     WORK STATE
+  ========================================================= */
+
   const showWorks = activePage === "works";
+
   const activeWork = filteredWorks[activeWorkIndex];
+
+  /* =========================================================
+     WORK NAVIGATION
+  ========================================================= */
 
   function goPrevWork() {
     if (!filteredWorks.length) return;
+
     setActiveWorkIndex((prev) =>
       prev === 0 ? filteredWorks.length - 1 : prev - 1,
     );
@@ -93,6 +164,7 @@ export default function HomePage() {
 
   function goNextWork() {
     if (!filteredWorks.length) return;
+
     setActiveWorkIndex((prev) =>
       prev === filteredWorks.length - 1 ? 0 : prev + 1,
     );
@@ -100,106 +172,195 @@ export default function HomePage() {
 
   function getSideItem(offset) {
     if (!filteredWorks.length) return null;
+
     const index =
       (activeWorkIndex + offset + filteredWorks.length) % filteredWorks.length;
+
     return filteredWorks[index];
   }
 
   function goToWorkByOffset(offset) {
     if (!filteredWorks.length) return;
+
     const index =
       (activeWorkIndex + offset + filteredWorks.length) % filteredWorks.length;
+
     setActiveWorkIndex(index);
   }
 
   const leftItemOne = getSideItem(-2);
+
   const leftItemTwo = getSideItem(-1);
+
   const rightItemOne = getSideItem(1);
+
   const rightItemTwo = getSideItem(2);
 
-  /* ==== MOBILE: WORKS ==== */
+  /* =========================================================
+     HERO HOME
+     
+     /
+     ↓
+     HeroHome
+  ========================================================= */
+
+  /* ==== HERO HOME ==== */
+  /* =========================================================
+   HERO HOME
+   /
+   ↓
+   HeroHome
+========================================================= */
+
+  if (activePage === "home") {
+    return (
+      <main className="home-page home-page--hero-home">
+        {/* =========================
+          DESKTOP HEADER
+      ========================= */}
+        {!isMobile && (
+          <SiteHeader
+            activePage={activePage}
+            showWorks={false}
+            onNavigate={handleNavChange}
+          />
+        )}
+
+        {/* =========================
+          MOBILE TOP HEADER
+      ========================= */}
+        {isMobile && (
+          <div className="home-page__mobile-top-header">
+            <SiteHeader
+              activePage={activePage}
+              showWorks={false}
+              onNavigate={handleNavChange}
+            />
+          </div>
+        )}
+
+        {/* =========================
+          HERO HOME
+      ========================= */}
+        <HeroHome
+          loading={loading}
+          error={error}
+          videoUrl={videoUrl}
+          title={title}
+        />
+
+        {/* =========================
+          MOBILE BOTTOM NAV
+      ========================= */}
+        {isMobile && (
+          <div className="home-page__mobile-bottom-nav home-page__mobile-bottom-nav--home">
+            <SiteHeader
+              activePage={activePage}
+              showWorks={false}
+              onNavigate={handleNavChange}
+            />
+          </div>
+        )}
+      </main>
+    );
+  }
+
+  /* =========================================================
+     MOBILE: WORKS
+  ========================================================= */
   if (isMobile && showWorks) {
     return (
       <main className="home-page home-page--works">
-        <div className="home-page__mobile-top">
+        {/* MOBILE TOP HEADER */}
+        <div className="home-page__mobile-top-header">
           <SiteHeader
             activePage={activePage}
-            showWorks={false}
+            showWorks={true}
             onNavigate={handleNavChange}
           />
+        </div>
 
-          <WorksCarousel
-            isMobile={isMobile}
-            worksLoading={worksLoading}
-            worksError={worksError}
-            filteredWorks={filteredWorks}
-            activeWork={activeWork}
-            leftItemOne={leftItemOne}
-            leftItemTwo={leftItemTwo}
-            rightItemOne={rightItemOne}
-            rightItemTwo={rightItemTwo}
-            goPrevWork={goPrevWork}
-            goNextWork={goNextWork}
-            goToWorkByOffset={goToWorkByOffset}
+        <WorksCarousel
+          isMobile={isMobile}
+          worksLoading={worksLoading}
+          worksError={worksError}
+          filteredWorks={filteredWorks}
+          activeWork={activeWork}
+          leftItemOne={leftItemOne}
+          leftItemTwo={leftItemTwo}
+          rightItemOne={rightItemOne}
+          rightItemTwo={rightItemTwo}
+          goPrevWork={goPrevWork}
+          goNextWork={goNextWork}
+          goToWorkByOffset={goToWorkByOffset}
+        />
+
+        <WorksFilters
+          activeFilter={activeFilter}
+          onChangeFilter={setActiveFilter}
+        />
+
+        {/* MOBILE BOTTOM NAV */}
+        <div className="home-page__mobile-bottom-nav">
+          <SiteHeader
+            activePage={activePage}
+            showWorks={true}
+            onNavigate={handleNavChange}
           />
-
-          <WorksFilters
-            activeFilter={activeFilter}
-            onChangeFilter={setActiveFilter}
-          />
-
-          <div className="home-page__mobile-bottom-nav">
-            <SiteHeader
-              activePage={activePage}
-              showWorks={true}
-              onNavigate={handleNavChange}
-            />
-          </div>
         </div>
       </main>
     );
   }
 
-  /* ==== MOBILE: ABOUT / CONTACTS ==== */
+  /* =========================================================
+     MOBILE: ABOUT / CONTACTS
+  ========================================================= */
+
   if (isMobile && !showWorks) {
     return (
       <main className="home-page home-page--about">
-        <div className="home-page__mobile-top">
+        {/* MOBILE TOP HEADER */}
+        <div className="home-page__mobile-top-header">
           <SiteHeader
             activePage={activePage}
             showWorks={false}
             onNavigate={handleNavChange}
           />
+        </div>
 
-          {activePage === "contacts" ? (
-            <ContactsBody />
-          ) : (
-            <AboutPage onGoToContacts={() => handleNavChange("contacts")} />
-          )}
+        {/* CONTENT */}
+        {activePage === "contacts" ? (
+          <ContactsBody />
+        ) : (
+          <AboutPage onGoToContacts={() => handleNavChange("contacts")} />
+        )}
 
-          <div className="home-page__mobile-bottom-nav">
-            <SiteHeader
-              activePage={activePage}
-              showWorks={true}
-              onNavigate={handleNavChange}
-            />
-          </div>
+        {/* MOBILE BOTTOM NAV */}
+        <div className="home-page__mobile-bottom-nav">
+          <SiteHeader
+            activePage={activePage}
+            showWorks={true}
+            onNavigate={handleNavChange}
+          />
         </div>
       </main>
     );
   }
+  /* =========================================================
+     DESKTOP
+  ========================================================= */
 
-  /* ==== DESKTOP ==== */
   return (
     <main
       className={
         showWorks
           ? "home-page home-page--works"
           : activePage === "contacts"
-          ? "home-page home-page--about contacts-page-wrapper"
-          : "home-page home-page--about"
+            ? "home-page home-page--about contacts-page-wrapper"
+            : "home-page home-page--about"
       }
     >
+      {/* HEADER DESKTOP */}
       <SiteHeader
         activePage={activePage}
         showWorks={showWorks}

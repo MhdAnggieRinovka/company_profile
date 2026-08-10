@@ -7,7 +7,12 @@ export default function App() {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
-      <Route path="/work/:slug" element={<WorkDetailPage />} />
+      <Route path="/about_us" element={<HomePage  />} />
+      <Route
+        path="/work/:slug"
+        element={<WorkDetailPage />}
+      />
+
     </Routes>
   );
 }
