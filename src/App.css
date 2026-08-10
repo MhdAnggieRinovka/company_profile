@@ -1410,8 +1410,6 @@ body {
 
   /* CTA mobile: duduk di bawah deskripsi 2, center */
   .about-cta {
-    padding-top: 5vh;
-    padding-bottom: 5vh;
     left: 0;
   }
 }
@@ -1715,8 +1713,7 @@ body {
   }
 
   .about-cta {
-    padding-top: 5vh;
-    padding-bottom: 5vh;
+    padding: 0 auto 10px;
   }
 }
 
@@ -1809,5 +1806,3 @@ body {
     display: none;
   }
 }
-
-/* LOGO */
