@@ -1836,3 +1836,33 @@ body {
     z-index: 1100;
   }
 }
+
+/* =========================================================
+   EMPTY WORKS STATE
+   Menjaga tinggi area Works agar navbar tidak ikut naik
+   ketika filter tidak memiliki work.
+   ========================================================= */
+
+.works-carousel--empty {
+  width: 100%;
+  min-height: 70vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-sizing: border-box;
+}
+
+.works-carousel--empty .works-carousel__empty-content {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.works-carousel--empty .works-feedback {
+  margin: 0;
+  text-align: center;
+}

@@ -367,7 +367,11 @@ export default function WorksCarousel({
           )}
 
         {!worksLoading && !worksError && filteredWorks.length === 0 && (
-          <div className="works-feedback">No works found</div>
+          <div className="works-carousel works-carousel--empty">
+            <div className="works-carousel__empty-content">
+              <div className="works-feedback">No works found</div>
+            </div>
+          </div>
         )}
       </SkeletonTheme>
     </section>
