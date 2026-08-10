@@ -6,14 +6,8 @@ import sendUsEmailIcon from "../../../assets/send-us-email.svg";
 import chatUsIcon from "../../../assets/chat-us.svg";
 
 export default function ContactsBody() {
-  const {
-    loading,
-    error,
-    videoUrl,
-    googleMapsUrl,
-    email,
-    whatsappNumber,
-  } = useContactsPage();
+  const { loading, error, videoUrl, googleMapsUrl, email, whatsappNumber } =
+    useContactsPage();
 
   const [isMobile, setIsMobile] = useState(
     typeof window !== "undefined" ? window.innerWidth <= 768 : false,
@@ -25,6 +19,7 @@ export default function ContactsBody() {
     }
 
     window.addEventListener("resize", handleResize);
+
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
@@ -43,6 +38,7 @@ export default function ContactsBody() {
   function handleChatUs() {
     if (whatsappNumber) {
       const sanitized = whatsappNumber.replace(/[^0-9]/g, "");
+
       window.open(
         `https://wa.me/${sanitized}`,
         "_blank",
@@ -56,7 +52,10 @@ export default function ContactsBody() {
     : "contacts-page contacts-page--desktop";
 
   return (
-    <section className={rootClass} aria-label="Contacts">
+    <section className={rootClass}>
+      {/* =========================
+        DESKTOP / MOBILE IMAGE
+    ========================= */}
       <div
         className={
           isMobile
@@ -64,12 +63,10 @@ export default function ContactsBody() {
             : "contacts-page__video contacts-page__video--desktop"
         }
       >
-        {loading && (
-          <div className="contacts-page__feedback">Loading video...</div>
-        )}
-        {!loading && error && (
-          <div className="contacts-page__feedback">{error}</div>
-        )}
+        {loading && <div>Loading video...</div>}
+
+        {!loading && error && <div>{error}</div>}
+
         {!loading && !error && videoUrl && (
           <img
             src={videoUrl}
@@ -83,6 +80,9 @@ export default function ContactsBody() {
         )}
       </div>
 
+      {/* =========================
+        ACTIONS
+    ========================= */}
       <div
         className={
           isMobile
@@ -121,11 +121,7 @@ export default function ContactsBody() {
           className="contacts-page__action"
           onClick={handleChatUs}
         >
-          <img
-            src={chatUsIcon}
-            alt="Chat Us"
-            className="contacts-page__icon"
-          />
+          <img src={chatUsIcon} alt="Chat Us" className="contacts-page__icon" />
           <span>Chat Us</span>
         </button>
       </div>

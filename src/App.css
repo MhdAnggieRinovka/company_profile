@@ -567,6 +567,10 @@ body {
   letter-spacing: 0;
 }
 
+.contacts-page__actions .contacts-page__actions--desktop{
+  margin-top:  0;
+}
+
 /* ===== RESPONSIVE WIDTHS DESKTOP ===== */
 
 @media (max-width: 1200px) {
@@ -950,16 +954,23 @@ body {
 
 /* ===== CONTACTS DESKTOP ===== */
 
+/* ===== CONTACTS DESKTOP ===== */
+
 .contacts-page--desktop {
+  width: 100%;
   height: 100%;
+  min-height: 0;
+
   display: grid;
-  grid-template-rows: 1fr auto;
+  grid-template-rows: minmax(0, 1fr) auto;
+
+  overflow: hidden;
 }
 
 .contacts-page__video--desktop {
   grid-row: 1;
   width: 100%;
-  height: auto;
+  min-width: 0;
   min-height: 0;
   display: flex;
   align-items: center;
@@ -970,28 +981,28 @@ body {
 }
 
 .contacts-page__video-media--desktop {
+  display: block;
   width: 100%;
-  height: auto;
-  object-fit: contain;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  object-fit: cover;
+  object-position: center;
 }
 
 .contacts-page__actions--desktop {
   grid-row: 2;
+  width: 100%;
+  min-height: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 48px;
-  margin-top: -10vh;
+  padding:20px 20px;
   background: #ffffff;
   border-top: 1px solid rgba(22, 22, 22, 0.08);
+  box-sizing: border-box;
 }
-
-.contacts-page {
-  height: calc(100vh - 55px);
-  display: grid;
-  grid-template-rows: minmax(0, 1fr) auto;
-}
-
 /* ===== CONTACTS MOBILE ===== */
 
 @media (max-width: 768px) {
