@@ -171,12 +171,8 @@
    ========================================================= */
 
 .work-detail__actions {
-  position: fixed;
-
   left: 0;
   right: 0;
-
-  bottom: var(--actions-bottom, 0px);
 
   width: 100%;
 
@@ -199,7 +195,35 @@
 
   z-index: 1000;
 
-  transition: bottom 0.08s linear;
+  transition: none;
+}
+
+.work-detail__actions {
+  width: 100%;
+
+  margin: 0;
+
+  padding: 0 16px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 24px;
+
+  box-sizing: border-box;
+
+  background: #ffffff;
+
+  border-top: 1px solid rgba(22, 22, 22, 0.08);
+
+  border-bottom: 1px solid rgba(22, 22, 22, 0.08);
+
+  z-index: 1000;
+
+  transition: none;
 }
 
 /* =========================================================
@@ -557,13 +581,10 @@
      ======================================================= */
 
   .work-detail {
+    position: relative;
     width: 100%;
-
-    margin: 0;
-
+    margin: 0 auto;
     padding: 0 0 90px;
-
-    overflow: visible;
   }
 
   /* =======================================================
