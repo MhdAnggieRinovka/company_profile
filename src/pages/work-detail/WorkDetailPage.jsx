@@ -2,44 +2,71 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { RELATED_WORKS_API, WORK_DETAIL_API } from "../../services/api";
+
+import {
+  RELATED_WORKS_API,
+  WORK_DETAIL_API,
+} from "../../services/api";
+
 import "./work-detail.css";
+
+/* =========================================================
+FALLBACK TEXTS
+========================================================= */
 
 const FALLBACK_TEXTS = [
   "Lorem ipsum dolor sit amet consectetur. Dui eu velit adipiscing sit imperdiet arcu aliquam massa. Lorem ipsum dolor sit amet consectetur adipiscing elit.",
+
   "Lorem ipsum dolor sit amet consectetur. Quis at adipiscing et imperdiet et ipsum in nunc. Purus fermentum nisl at augue viverra luctus.",
+
   "Lorem ipsum dolor sit amet consectetur. Aenean commodo justo at faucibus gravida, tortor lectus tincidunt augue, sed posuere libero purus in risus.",
 ];
 
+/* =========================================================
+HELPER
+========================================================= */
+
 function decodeHtml(text = "") {
   return text
-    .replace(/&#038;/g, "&")
-    .replace(/&#8217;/g, "'")
-    .replace(/&amp;/g, "&");
+    .replace(/&amp;/g, "&")
+    .replace(/&rsquo;/g, "’")
+    .replace(/&#039;/g, "'");
 }
 
 /* =========================================================
-   HEADER
+HEADER
 ========================================================= */
 
 function WorkDetailHeader() {
   return (
-    <header className="site-header work-detail-site-header">
-      <div className="site-header__inner">
-        <Link to="/" className="brand-button" aria-label="KYUB home">
-          <img src="/logo-kyub.jpeg" alt="KYUB" />
+    <header className="work-detail-site-header">
+      <div className="site-header">
+        <Link to="/" className="brand-button">
+          KYUB
         </Link>
 
-        <nav className="site-nav" aria-label="Main navigation">
-          <Link to="/about_us" className="nav-link">
+        <nav
+          className="site-nav"
+          aria-label="Main navigation"
+        >
+          <Link
+            to="/about_us"
+            className="nav-link"
+          >
             ABOUT
           </Link>
 
-          <Link to="/?page=works" className="nav-link active">
+          <Link
+            to="/?page=works"
+            className="nav-link active"
+          >
             WORK
           </Link>
 
-          <Link to="/?page=contacts" className="nav-link">
+          <Link
+            to="/?page=contacts"
+            className="nav-link"
+          >
             CONTACTS
           </Link>
         </nav>
@@ -51,16 +78,19 @@ function WorkDetailHeader() {
 }
 
 /* =========================================================
-   MOBILE BOTTOM NAVIGATION
+MOBILE BOTTOM NAVIGATION
 ========================================================= */
 
 function WorkDetailBottomNav() {
   return (
     <nav
       className="work-detail-bottom-nav"
-      aria-label="Mobile bottom navigation"
+      aria-label="Mobile navigation"
     >
-      <Link to="/" className="work-detail-bottom-nav__link">
+      <Link
+        to="/about_us"
+        className="work-detail-bottom-nav__link"
+      >
         ABOUT
       </Link>
 
@@ -71,7 +101,10 @@ function WorkDetailBottomNav() {
         WORK
       </Link>
 
-      <Link to="/?page=contacts" className="work-detail-bottom-nav__link">
+      <Link
+        to="/?page=contacts"
+        className="work-detail-bottom-nav__link"
+      >
         CONTACTS
       </Link>
     </nav>
@@ -79,19 +112,30 @@ function WorkDetailBottomNav() {
 }
 
 /* =========================================================
-   CLOSE / SHARE FOOTER
+CLOSE / SHARE
 ========================================================= */
 
-function WorkDetailActions({ onShare, bottomOffset = 0 }) {
+function WorkDetailActions({
+  onShare,
+  isStopped,
+  actionsRef,
+  actionsStyle,
+}) {
   return (
     <div
-      className="work-detail__actions"
-      style={{
-        "--actions-bottom": `${bottomOffset}px`,
-      }}
+      className={`work-detail__actions ${
+        isStopped
+          ? "work-detail__actions--stopped"
+          : "work-detail__actions--floating"
+      }`}
+      ref={actionsRef}
+      style={actionsStyle}
     >
       {/* CLOSE */}
-      <Link to="/?page=works" className="work-detail__action-link">
+      <Link
+        to="/?page=works"
+        className="work-detail__action-link"
+      >
         <span
           className="work-detail__action-icon work-detail__action-icon--close"
           aria-hidden="true"
@@ -99,7 +143,9 @@ function WorkDetailActions({ onShare, bottomOffset = 0 }) {
           ×
         </span>
 
-        <span className="work-detail__action-text">Close</span>
+        <span className="work-detail__action-text">
+          Close
+        </span>
       </Link>
 
       {/* SHARE */}
@@ -108,7 +154,10 @@ function WorkDetailActions({ onShare, bottomOffset = 0 }) {
         className="work-detail__action-button"
         onClick={onShare}
       >
-        <span className="work-detail__action-icon" aria-hidden="true">
+        <span
+          className="work-detail__action-icon"
+          aria-hidden="true"
+        >
           <svg
             viewBox="0 0 24 24"
             width="16"
@@ -149,109 +198,162 @@ function WorkDetailActions({ onShare, bottomOffset = 0 }) {
           </svg>
         </span>
 
-        <span className="work-detail__action-text">Share</span>
+        <span className="work-detail__action-text">
+          Share
+        </span>
       </button>
     </div>
   );
 }
 
 /* =========================================================
-   SKELETON
+SKELETON
 ========================================================= */
 
 function WorkDetailSkeleton() {
   return (
-    <SkeletonTheme baseColor="#ece7e1" highlightColor="#f7f3ef">
+    <SkeletonTheme>
       <main className="work-detail-page">
+
         <WorkDetailHeader />
 
         <section className="work-detail">
+
           {/* INTRO */}
           <header className="work-detail__intro">
+
             <div className="work-detail__intro-meta">
-              <Skeleton width={90} height={14} />
+              <Skeleton
+                width={90}
+                height={14}
+              />
             </div>
 
             <div className="work-detail__intro-title">
-              <Skeleton width={260} height={42} />
+              <Skeleton
+                width={260}
+                height={42}
+              />
             </div>
+
           </header>
 
           {/* GALLERY */}
           <div className="work-detail__gallery">
-            {Array.from({ length: 3 }).map((_, index) => (
-              <section className="work-detail__block has-caption" key={index}>
-                <figure className="work-detail__figure">
-                  <Skeleton
-                    height="100%"
-                    style={{
-                      width: "100%",
-                      aspectRatio: "16 / 10",
-                      borderRadius: 0,
-                      lineHeight: 1,
-                      display: "block",
-                    }}
-                  />
-                </figure>
 
-                <div className="work-detail__caption-wrap">
-                  <p className="work-detail__caption">
-                    <Skeleton count={3} />
-                  </p>
-                </div>
-              </section>
-            ))}
-          </div>
+            {Array.from({ length: 3 }).map(
+              (_, index) => (
+                <section
+                  className="work-detail__block has-caption"
+                  key={index}
+                >
+                  <figure className="work-detail__figure">
 
-          {/* RELATED PROJECTS */}
-          <section className="related-projects">
-            <h2 className="related-projects__title">Related Projects</h2>
-
-            <div className="related-projects__grid">
-              {Array.from({ length: 3 }).map((_, index) => (
-                <div key={index} className="related-projects__item">
-                  <div className="related-projects__thumb">
                     <Skeleton
                       height="100%"
                       style={{
                         width: "100%",
-                        aspectRatio: "1 / 1",
+                        aspectRatio: "16 / 10",
                         borderRadius: 0,
                         lineHeight: 1,
                         display: "block",
                       }}
                     />
-                  </div>
 
-                  <p className="related-projects__name">
-                    <Skeleton width="70%" height={18} />
-                  </p>
-                </div>
-              ))}
+                  </figure>
+
+                  <div className="work-detail__caption-wrap">
+
+                    <p className="work-detail__caption">
+
+                      <Skeleton count={3} />
+
+                    </p>
+
+                  </div>
+                </section>
+              ),
+            )}
+
+          </div>
+
+          {/* RELATED PROJECTS */}
+          <section className="related-projects">
+
+            <h2 className="related-projects__title">
+              Related Projects
+            </h2>
+
+            <div className="related-projects__grid">
+
+              {Array.from({ length: 3 }).map(
+                (_, index) => (
+                  <div
+                    key={index}
+                    className="related-projects__item"
+                  >
+                    <div className="related-projects__thumb">
+
+                      <Skeleton
+                        height="100%"
+                        style={{
+                          width: "100%",
+                          aspectRatio: "1 / 1",
+                          borderRadius: 0,
+                          lineHeight: 1,
+                          display: "block",
+                        }}
+                      />
+
+                    </div>
+
+                    <p className="related-projects__name">
+
+                      <Skeleton
+                        width="70%"
+                        height={18}
+                      />
+
+                    </p>
+                  </div>
+                ),
+              )}
+
             </div>
+
           </section>
+
         </section>
 
         {/* CLOSE / SHARE */}
-        <WorkDetailActions onShare={() => {}} bottomOffset={0} />
+        <WorkDetailActions
+          onShare={() => {}}
+          isStopped={false}
+          actionsRef={null}
+          actionsStyle={{
+            display: "none",
+          }}
+        />
 
         {/* MOBILE NAV */}
         <WorkDetailBottomNav />
+
       </main>
     </SkeletonTheme>
   );
 }
 
 /* =========================================================
-   MAIN PAGE
+MAIN PAGE
 ========================================================= */
 
 export default function WorkDetailPage() {
+
   const { slug } = useParams();
 
-  /* -------------------------------------------------------
-     STATE
-  ------------------------------------------------------- */
+  /* =======================================================
+  STATE
+  ======================================================= */
 
   const [workItem, setWorkItem] = useState(null);
 
@@ -262,27 +364,50 @@ export default function WorkDetailPage() {
   const [relatedWorks, setRelatedWorks] = useState([]);
 
   /*
-   * Posisi Close / Share.
+   * FALSE
+   * = Close / Share masih floating
    *
-   * 0 = tepat di atas bottom viewport.
-   *
-   * Ketika Related Projects mendekat,
-   * nilai ini akan bertambah sehingga
-   * Close / Share bergerak ke atas.
+   * TRUE
+   * = Close / Share sudah berhenti
+   *   tepat di atas Related Projects
    */
-  const [actionsBottom, setActionsBottom] = useState(0);
-
-  /*
-   * Ref untuk Related Projects.
-   *
-   * Kita menggunakan ref daripada querySelector
-   * supaya lebih aman dan React-friendly.
-   */
-  const relatedProjectsRef = useRef(null);
+  const [actionsStopped, setActionsStopped] =
+    useState(false);
 
   /* =======================================================
-RESET SCROLL SAAT PINDAH WORK DETAIL
-======================================================= */
+  REFS
+  ======================================================= */
+
+  const relatedProjectsRef = useRef(null);
+
+  const actionsRef = useRef(null);
+
+  /* =======================================================
+  MOBILE ACTION HEIGHT
+  ======================================================= */
+
+  /*
+   * Ini mengikuti CSS mobile:
+   *
+   * .work-detail__actions {
+   *   height: 52px;
+   * }
+   *
+   * Slot ini sengaja selalu disediakan.
+   *
+   * Tujuannya:
+   *
+   * ketika Close / Share berubah dari
+   *
+   * floating -> normal
+   *
+   * Related Projects tidak ikut loncat.
+   */
+  const MOBILE_ACTION_HEIGHT = 52;
+
+  /* =======================================================
+  RESET SCROLL
+  ======================================================= */
 
   useEffect(() => {
     window.scrollTo({
@@ -291,7 +416,8 @@ RESET SCROLL SAAT PINDAH WORK DETAIL
       behavior: "auto",
     });
 
-    const scrollContainer = document.querySelector(".work-detail");
+    const scrollContainer =
+      document.querySelector(".work-detail");
 
     if (scrollContainer) {
       scrollContainer.scrollTo({
@@ -300,12 +426,16 @@ RESET SCROLL SAAT PINDAH WORK DETAIL
         behavior: "auto",
       });
     }
+
+    setActionsStopped(false);
   }, [slug]);
+
   /* =======================================================
-     FETCH WORK DETAIL
+  FETCH WORK DETAIL
   ======================================================= */
 
   useEffect(() => {
+
     let ignore = false;
 
     setLoading(true);
@@ -314,37 +444,58 @@ RESET SCROLL SAAT PINDAH WORK DETAIL
     setRelatedWorks([]);
 
     async function fetchWorkDetail() {
+
       try {
-        const response = await fetch(`${WORK_DETAIL_API}${slug}`, {
-          method: "GET",
-          headers: {
-            Accept: "application/json",
+
+        const response = await fetch(
+          `${WORK_DETAIL_API}${slug}`,
+          {
+            method: "GET",
+            headers: {
+              Accept: "application/json",
+            },
           },
-        });
+        );
 
         if (!response.ok) {
-          throw new Error(`Failed to fetch work detail: ${response.status}`);
+          throw new Error(
+            `Failed to fetch work detail: ${response.status}`,
+          );
         }
 
-        const json = await response.json();
+        const json =
+          await response.json();
 
-        const firstItem = Array.isArray(json) ? json[0] : null;
+        const firstItem =
+          Array.isArray(json)
+            ? json[0]
+            : null;
 
         if (!firstItem) {
-          throw new Error("Detail work tidak ditemukan.");
+          throw new Error(
+            "Detail work tidak ditemukan.",
+          );
         }
 
         if (!ignore) {
           setWorkItem(firstItem);
         }
+
       } catch (err) {
+
         if (!ignore) {
-          setError(err.message || "Failed to load work detail.");
+          setError(
+            err.message ||
+              "Failed to load work detail.",
+          );
         }
+
       } finally {
+
         if (!ignore) {
           setLoading(false);
         }
+
       }
     }
 
@@ -355,13 +506,15 @@ RESET SCROLL SAAT PINDAH WORK DETAIL
     return () => {
       ignore = true;
     };
+
   }, [slug]);
 
   /* =======================================================
-     FETCH RELATED WORKS
+  FETCH RELATED WORKS
   ======================================================= */
 
   useEffect(() => {
+
     if (!workItem?.id) {
       return;
     }
@@ -369,34 +522,54 @@ RESET SCROLL SAAT PINDAH WORK DETAIL
     let ignore = false;
 
     async function fetchRelatedWorks() {
+
       try {
-        const response = await fetch(`${RELATED_WORKS_API}${workItem.id}`, {
-          method: "GET",
-          headers: {
-            Accept: "application/json",
+
+        const response = await fetch(
+          `${RELATED_WORKS_API}${workItem.id}`,
+          {
+            method: "GET",
+            headers: {
+              Accept: "application/json",
+            },
           },
-        });
+        );
 
         if (!response.ok) {
-          throw new Error(`Failed to fetch related works: ${response.status}`);
+          throw new Error(
+            `Failed to fetch related works: ${response.status}`,
+          );
         }
 
-        const json = await response.json();
+        const json =
+          await response.json();
 
         const currentCategorySlug =
-          workItem.acf?.portfolio_category?.slug ||
-          workItem.acf?.portfoliocategory?.slug ||
+          workItem.acf
+            ?.portfolio_category
+            ?.slug ||
+          workItem.acf
+            ?.portfoliocategory
+            ?.slug ||
           "";
 
         const mapped = json
 
           .map((item) => {
+
             const itemCategorySlug =
-              item.acf?.portfolio_category?.slug ||
-              item.acf?.portfoliocategory?.slug ||
+              item.acf
+                ?.portfolio_category
+                ?.slug ||
+              item.acf
+                ?.portfoliocategory
+                ?.slug ||
               "";
 
-            const cover = item.acf?.cover_image || item.acf?.coverimage || null;
+            const cover =
+              item.acf?.cover_image ||
+              item.acf?.coverimage ||
+              null;
 
             const image =
               cover?.sizes?.medium_large ||
@@ -410,33 +583,49 @@ RESET SCROLL SAAT PINDAH WORK DETAIL
 
               slug: item.slug,
 
-              title: decodeHtml(item.title?.rendered || "Untitled"),
+              title: decodeHtml(
+                item.title?.rendered ||
+                  "Untitled",
+              ),
 
               image,
 
-              year: item.acf?.year || "",
+              year:
+                item.acf?.year || "",
 
-              categorySlug: itemCategorySlug,
+              categorySlug:
+                itemCategorySlug,
             };
           })
 
           .filter(
-            (item) => item.slug !== workItem.slug && item.id !== workItem.id,
+            (item) =>
+              item.slug !== workItem.slug &&
+              item.id !== workItem.id,
           )
 
-          .filter((item) => item.categorySlug === currentCategorySlug)
+          .filter(
+            (item) =>
+              item.categorySlug ===
+              currentCategorySlug,
+          )
 
-          .filter((item) => item.image)
+          .filter(
+            (item) => item.image,
+          )
 
           .slice(0, 4);
 
         if (!ignore) {
           setRelatedWorks(mapped);
         }
+
       } catch (err) {
+
         if (!ignore) {
           setRelatedWorks([]);
         }
+
       }
     }
 
@@ -445,13 +634,15 @@ RESET SCROLL SAAT PINDAH WORK DETAIL
     return () => {
       ignore = true;
     };
+
   }, [workItem]);
 
   /* =======================================================
-     GALLERY DATA
+  GALLERY DATA
   ======================================================= */
 
   const galleryItems = useMemo(() => {
+
     if (!workItem?.acf) {
       return [];
     }
@@ -460,44 +651,76 @@ RESET SCROLL SAAT PINDAH WORK DETAIL
 
     const items = [];
 
-    for (let i = 1; i <= 10; i += 1) {
-      const imageField = acf[`image_${i}`] || acf[`image${i}`];
+    for (
+      let i = 1;
+      i <= 10;
+      i += 1
+    ) {
+
+      const imageField =
+        acf[`image_${i}`] ||
+        acf[`image${i}`];
 
       const descriptionField =
-        acf[`description_${i}`] || acf[`description${i}`] || "";
+        acf[`description_${i}`] ||
+        acf[`description${i}`] ||
+        "";
 
       if (imageField?.url) {
+
         const imageUrl =
           imageField.sizes?.large ||
           imageField.sizes?.medium_large ||
           imageField.sizes?.medium ||
           imageField.url;
 
-        if (!items.find((existing) => existing.image === imageUrl)) {
+        if (
+          !items.find(
+            (existing) =>
+              existing.image ===
+              imageUrl,
+          )
+        ) {
+
           items.push({
             key: `image_${i}`,
 
             image: imageUrl,
 
             alt:
-              imageField.alt || workItem.title?.rendered || `Work image ${i}`,
+              imageField.alt ||
+              workItem.title?.rendered ||
+              `Work image ${i}`,
 
             description:
               descriptionField ||
-              (i <= 3 ? FALLBACK_TEXTS[(i - 1) % FALLBACK_TEXTS.length] : ""),
+              (
+                i <= 3
+                  ? FALLBACK_TEXTS[
+                      (i - 1) %
+                        FALLBACK_TEXTS.length
+                    ]
+                  : ""
+              ),
           });
+
         }
       }
     }
 
-    /*
-     * Kalau tidak ada image_1 sampai image_10,
-     * gunakan cover image.
-     */
+    /* =====================================================
+    FALLBACK COVER IMAGE
+    ===================================================== */
 
-    const coverImage = acf.cover_image || acf.coverimage;
+    const coverImage =
+      acf.cover_image ||
+      acf.coverimage;
 
-    if (items.length === 0 && coverImage?.url) {
+    if (
+      items.length === 0 &&
+      coverImage?.url
+    ) {
+
       items.push({
         key: "cover_image",
 
@@ -507,76 +730,114 @@ RESET SCROLL SAAT PINDAH WORK DETAIL
           coverImage.sizes?.medium ||
           coverImage.url,
 
-        alt: coverImage.alt || workItem.title?.rendered || "Cover image",
+        alt:
+          coverImage.alt ||
+          workItem.title?.rendered ||
+          "Cover image",
 
-        description: FALLBACK_TEXTS[0],
+        description:
+          FALLBACK_TEXTS[0],
       });
+
     }
 
     return items;
+
   }, [workItem]);
 
   /* =======================================================
-     SHARE
+  SHARE
   ======================================================= */
 
   async function handleShare() {
+
     const shareData = {
-      title: decodeHtml(workItem?.title?.rendered || "KYUB Work"),
+      title: decodeHtml(
+        workItem?.title?.rendered ||
+          "KYUB Work",
+      ),
 
       url: window.location.href,
     };
 
     try {
-      /*
-       * Mobile / browser yang support Web Share API
-       */
+
+      /* -----------------------------------------------
+      MOBILE / BROWSER WEB SHARE
+      ----------------------------------------------- */
+
       if (navigator.share) {
-        await navigator.share(shareData);
+
+        await navigator.share(
+          shareData,
+        );
 
         return;
       }
 
-      /*
-       * Clipboard API
-       */
-      if (navigator.clipboard?.writeText) {
-        await navigator.clipboard.writeText(window.location.href);
+      /* -----------------------------------------------
+      CLIPBOARD
+      ----------------------------------------------- */
+
+      if (
+        navigator.clipboard?.writeText
+      ) {
+
+        await navigator.clipboard.writeText(
+          window.location.href,
+        );
 
         alert("Link copied");
 
         return;
       }
 
-      /*
-       * Fallback
-       */
-      const textArea = document.createElement("textarea");
+      /* -----------------------------------------------
+      FALLBACK
+      ----------------------------------------------- */
 
-      textArea.value = window.location.href;
+      const textArea =
+        document.createElement(
+          "textarea",
+        );
 
-      document.body.appendChild(textArea);
+      textArea.value =
+        window.location.href;
+
+      document.body.appendChild(
+        textArea,
+      );
 
       textArea.select();
 
-      document.execCommand("copy");
+      document.execCommand(
+        "copy",
+      );
 
-      document.body.removeChild(textArea);
+      document.body.removeChild(
+        textArea,
+      );
 
       alert("Link copied");
+
     } catch (shareError) {
-      console.error("Share failed", shareError);
+
+      console.error(
+        "Share failed",
+        shareError,
+      );
+
     }
   }
 
   /* =======================================================
-     UPDATE CLOSE / SHARE POSITION
+  CLOSE / SHARE POSITION
   ======================================================= */
 
   useEffect(() => {
+
     /*
-     * Jangan jalankan ketika belum ada
-     * halaman yang selesai dirender.
+     * Belum ada work atau related project.
      */
     if (!workItem) {
       return;
@@ -584,183 +845,190 @@ RESET SCROLL SAAT PINDAH WORK DETAIL
 
     let frameId = null;
 
-    const updateActionsPosition = () => {
-      /*
-       * Batasi requestAnimationFrame supaya
-       * scroll tidak terlalu berat.
-       */
+    const updateActionsState = () => {
+
       if (frameId !== null) {
         return;
       }
 
-      frameId = window.requestAnimationFrame(() => {
-        frameId = null;
+      frameId =
+        window.requestAnimationFrame(
+          () => {
 
-        const relatedElement = relatedProjectsRef.current;
+            frameId = null;
 
-        /*
-         * Tinggi bottom navigation mobile.
-         */
-        const isMobile = window.innerWidth <= 768;
+            /*
+             * Hanya mobile.
+             *
+             * Desktop tidak disentuh.
+             */
+            const isMobile =
+              window.innerWidth <= 768;
 
-        const bottomNav = isMobile
-          ? document.querySelector(".work-detail-bottom-nav")
-          : null;
+            if (!isMobile) {
 
-        const bottomNavHeight = bottomNav
-          ? bottomNav.getBoundingClientRect().height
-          : 0;
+              setActionsStopped(
+                false,
+              );
 
-        /*
-         * Default:
-         *
-         * Close / Share berada
-         * di atas bottom navigation.
-         */
-        let bottom = bottomNavHeight;
+              return;
+            }
 
-        /*
-         * Kalau Related Projects tersedia,
-         * cek posisi top-nya terhadap viewport.
-         */
-        if (relatedElement) {
-          const relatedRect = relatedElement.getBoundingClientRect();
+            /*
+             * Kalau tidak ada Related Projects,
+             * Close / Share tetap floating.
+             */
+            const relatedElement =
+              relatedProjectsRef.current;
 
-          /*
-           * Tinggi footer Close / Share.
-           *
-           * Kita gunakan sedikit lebih besar
-           * untuk memberi ruang aman.
-           */
-          const actionsElement = document.querySelector(
-            ".work-detail__actions",
-          );
+            if (!relatedElement) {
 
-          const actionsHeight = actionsElement
-            ? actionsElement.getBoundingClientRect().height
-            : 56;
+              setActionsStopped(
+                false,
+              );
 
-          /*
-           * Kita ingin:
-           *
-           * ┌──────────────────┐
-           * │ Related Projects │
-           * └──────────────────┘
-           *
-           * footer Close / Share
-           * berhenti tepat di atasnya.
-           *
-           * Jadi bottom footer =
-           *
-           * viewportHeight - relatedTop
-           */
-          const distanceToRelated = window.innerHeight - relatedRect.top;
+              return;
+            }
 
-          /*
-           * Kalau Related Projects
-           * sudah mendekati footer,
-           * naikkan footer.
-           */
-          if (distanceToRelated > bottomNavHeight) {
-            bottom = distanceToRelated;
-          }
+            /*
+             * Ambil posisi Related Projects
+             * terhadap viewport.
+             */
+            const relatedRect =
+              relatedElement.getBoundingClientRect();
 
-          /*
-           * Jangan sampai footer
-           * melewati Related Projects.
-           */
-          const maxBottom = window.innerHeight - relatedRect.top;
+            /*
+             * Tinggi bottom navigation.
+             */
+            const bottomNav =
+              document.querySelector(
+                ".work-detail-bottom-nav",
+              );
 
-          if (bottom > maxBottom) {
-            bottom = maxBottom;
-          }
-        }
+            const bottomNavHeight =
+              bottomNav
+                ? bottomNav.getBoundingClientRect()
+                    .height
+                : 38;
 
-        /*
-         * Pastikan tidak pernah negatif.
-         */
-        bottom = Math.max(bottomNavHeight, bottom);
+            /*
+             * Close / Share tinggi 52px.
+             */
+            const actionHeight =
+              MOBILE_ACTION_HEIGHT;
 
-        /*
-         * Set posisi footer.
-         */
-        setActionsBottom(bottom);
-      });
+            /*
+             * Batas atas Close / Share.
+             *
+             * Bottom nav
+             * ↑
+             * Close / Share
+             * ↑
+             * Related Projects
+             *
+             * Ketika Related Projects
+             * sudah mencapai bagian bawah
+             * Close / Share, kita stop.
+             */
+            const stopPoint =
+              window.innerHeight -
+              bottomNavHeight -
+              actionHeight;
+
+            /*
+             * Related Projects sudah mencapai
+             * area Close / Share.
+             */
+            const shouldStop =
+              relatedRect.top <=
+              stopPoint;
+
+            setActionsStopped(
+              shouldStop,
+            );
+
+          },
+        );
     };
 
     /*
-     * Jalankan pertama kali.
+     * Initial check.
      */
-    updateActionsPosition();
+    updateActionsState();
 
     /*
-     * Window scroll.
+     * Scroll halaman.
      */
-    window.addEventListener("scroll", updateActionsPosition, {
-      passive: true,
-    });
-
-    /*
-     * Mobile punya scroll container sendiri:
-     *
-     * .work-detail
-     */
-    const scrollContainer = document.querySelector(".work-detail");
-
-    if (scrollContainer) {
-      scrollContainer.addEventListener("scroll", updateActionsPosition, {
+    window.addEventListener(
+      "scroll",
+      updateActionsState,
+      {
         passive: true,
-      });
-    }
+      },
+    );
 
     /*
-     * Resize browser.
+     * Resize.
      */
-    window.addEventListener("resize", updateActionsPosition);
+    window.addEventListener(
+      "resize",
+      updateActionsState,
+    );
 
     /*
-     * ResizeObserver berguna kalau ukuran
-     * gambar / Related Projects berubah
-     * setelah image selesai loading.
+     * ResizeObserver:
+     * berguna ketika gambar selesai loading
+     * dan tinggi gallery berubah.
      */
     let resizeObserver = null;
 
-    if (typeof ResizeObserver !== "undefined") {
-      resizeObserver = new ResizeObserver(updateActionsPosition);
+    if (
+      typeof ResizeObserver !==
+      "undefined"
+    ) {
 
-      if (scrollContainer) {
-        resizeObserver.observe(scrollContainer);
-      }
+      resizeObserver =
+        new ResizeObserver(
+          updateActionsState,
+        );
 
-      if (relatedProjectsRef.current) {
-        resizeObserver.observe(relatedProjectsRef.current);
-      }
+      resizeObserver.observe(
+        relatedProjectsRef.current ||
+          document.body,
+      );
     }
 
-    /*
-     * Cleanup.
-     */
     return () => {
-      window.removeEventListener("scroll", updateActionsPosition);
 
-      window.removeEventListener("resize", updateActionsPosition);
+      window.removeEventListener(
+        "scroll",
+        updateActionsState,
+      );
 
-      if (scrollContainer) {
-        scrollContainer.removeEventListener("scroll", updateActionsPosition);
-      }
+      window.removeEventListener(
+        "resize",
+        updateActionsState,
+      );
 
       if (resizeObserver) {
         resizeObserver.disconnect();
       }
 
       if (frameId !== null) {
-        window.cancelAnimationFrame(frameId);
+        window.cancelAnimationFrame(
+          frameId,
+        );
       }
+
     };
-  }, [workItem, relatedWorks]);
+
+  }, [
+    workItem,
+    relatedWorks.length,
+  ]);
 
   /* =======================================================
-     LOADING
+  LOADING
   ======================================================= */
 
   if (loading) {
@@ -768,140 +1036,309 @@ RESET SCROLL SAAT PINDAH WORK DETAIL
   }
 
   /* =======================================================
-     ERROR
+  ERROR
   ======================================================= */
 
-  if (error || !workItem) {
+  if (
+    error ||
+    !workItem
+  ) {
+
     return (
       <main className="work-detail-page">
+
         <WorkDetailHeader />
 
         <div className="work-detail__feedback">
-          {error || "Work detail tidak ditemukan."}
+          {error ||
+            "Work detail tidak ditemukan."}
         </div>
 
         <WorkDetailBottomNav />
+
       </main>
     );
   }
 
   /* =======================================================
-     CATEGORY
+  CATEGORY
   ======================================================= */
 
   const category =
-    workItem.acf?.portfolio_category?.name ||
-    workItem.acf?.portfoliocategory?.name ||
+    workItem.acf
+      ?.portfolio_category
+      ?.name ||
+    workItem.acf
+      ?.portfoliocategory
+      ?.name ||
     "Uncategorized";
 
   /* =======================================================
-     RENDER
+  ACTIONS STYLE
+  ======================================================= */
+
+  /*
+   * MOBILE:
+   *
+   * Floating:
+   *   position fixed
+   *   berada di atas bottom navbar
+   *
+   * Stopped:
+   *   position static
+   *   kembali ke flow normal
+   *   tepat sebelum Related Projects
+   *
+   * DESKTOP:
+   *   tidak diberikan position dari inline style,
+   *   sehingga CSS desktop yang sekarang tetap bekerja.
+   */
+
+  const actionsStyle =
+    typeof window !==
+      "undefined" &&
+    window.innerWidth <= 768
+      ? actionsStopped
+        ? {
+            position: "static",
+            left: "auto",
+            right: "auto",
+            bottom: "auto",
+            width: "100%",
+          }
+        : {
+            position: "fixed",
+            left: 0,
+            right: 0,
+            bottom: "4vh",
+            width: "100%",
+          }
+      : undefined;
+
+  /* =======================================================
+  ACTION SLOT STYLE
+  ======================================================= */
+
+  /*
+   * Slot SELALU mempunyai tinggi 52px
+   * pada mobile.
+   *
+   * Jadi:
+   *
+   * floating -> static
+   *
+   * tidak menyebabkan Related Projects
+   * meloncat.
+   */
+  const actionsSlotStyle =
+    typeof window !==
+      "undefined" &&
+    window.innerWidth <= 768
+      ? {
+          height: `${MOBILE_ACTION_HEIGHT}px`,
+          width: "100%",
+        }
+      : {
+          height: 0,
+          width: "100%",
+        };
+
+  /* =======================================================
+  RENDER
   ======================================================= */
 
   return (
     <main className="work-detail-page">
-      {/* ===================================================
-          HEADER
-      =================================================== */}
+
+      {/* =================================================
+      HEADER
+      ================================================= */}
 
       <WorkDetailHeader />
 
-      {/* ===================================================
-          SCROLLABLE CONTENT
-      =================================================== */}
+      {/* =================================================
+      MAIN CONTENT
+      ================================================= */}
 
       <section className="work-detail">
+
         {/* =================================================
-            INTRO
+        INTRO
         ================================================= */}
 
         <header className="work-detail__intro">
+
           <div className="work-detail__intro-meta">
-            <p className="work-detail__meta">{category}</p>
+
+            <p className="work-detail__meta">
+              {category}
+            </p>
+
           </div>
 
           <div className="work-detail__intro-title">
+
             <h1
               className="work-detail__title"
               dangerouslySetInnerHTML={{
-                __html: workItem.title?.rendered || "Untitled",
+                __html:
+                  workItem.title
+                    ?.rendered ||
+                  "Untitled",
               }}
             />
+
           </div>
+
         </header>
 
         {/* =================================================
-            GALLERY
+        GALLERY
         ================================================= */}
 
         <div className="work-detail__gallery">
-          {galleryItems.map((item, index) => {
-            const hasCaption = index < 3 && !!item.description;
 
-            return (
-              <section
-                className={`work-detail__block ${
-                  hasCaption ? "has-caption" : "no-caption"
-                }`}
-                key={item.key}
-              >
-                <figure className="work-detail__figure">
-                  <img src={item.image} alt={item.alt} loading="lazy" />
-                </figure>
+          {galleryItems.map(
+            (item, index) => {
 
-                {hasCaption ? (
-                  <div className="work-detail__caption-wrap">
-                    <p className="work-detail__caption">{item.description}</p>
-                  </div>
-                ) : null}
-              </section>
-            );
-          })}
+              const hasCaption =
+                index < 3 &&
+                !!item.description;
+
+              return (
+                <section
+                  className={`work-detail__block ${
+                    hasCaption
+                      ? "has-caption"
+                      : "no-caption"
+                  }`}
+                  key={item.key}
+                >
+
+                  <figure className="work-detail__figure">
+
+                    <img
+                      src={item.image}
+                      alt={item.alt}
+                      loading={
+                        index === 0
+                          ? "eager"
+                          : "lazy"
+                      }
+                    />
+
+                  </figure>
+
+                  {hasCaption ? (
+                    <div className="work-detail__caption-wrap">
+
+                      <p className="work-detail__caption">
+                        {item.description}
+                      </p>
+
+                    </div>
+                  ) : null}
+
+                </section>
+              );
+            },
+          )}
+
         </div>
 
         {/* =================================================
-            RELATED PROJECTS
+        CLOSE / SHARE SLOT
+
+        Slot ini berada TEPAT sebelum
+        Related Projects.
+
+        Selama gallery:
+          Close / Share floating.
+
+        Ketika Related Projects mendekat:
+          Close / Share kembali ke flow normal
+          dan berada tepat di sini.
+        ================================================= */}
+
+        {relatedWorks.length > 0 ? (
+          <div
+            className="work-detail__actions-slot"
+            style={actionsSlotStyle}
+          >
+
+            <WorkDetailActions
+              onShare={handleShare}
+              isStopped={
+                actionsStopped
+              }
+              actionsRef={
+                actionsRef
+              }
+              actionsStyle={
+                actionsStyle
+              }
+            />
+
+          </div>
+        ) : null}
+
+        {/* =================================================
+        RELATED PROJECTS
         ================================================= */}
 
         {relatedWorks.length > 0 && (
-          <section className="related-projects" ref={relatedProjectsRef}>
-            <h2 className="related-projects__title">Related Projects</h2>
+          <section
+            className="related-projects"
+            ref={relatedProjectsRef}
+          >
+
+            <h2 className="related-projects__title">
+              Related Projects
+            </h2>
 
             <div className="related-projects__grid">
-              {relatedWorks.map((item) => (
-                <Link
-                  key={item.id}
-                  to={`/work/${item.slug}`}
-                  className="related-projects__item"
-                >
-                  <div className="related-projects__thumb">
-                    <img src={item.image} alt={item.title} loading="lazy" />
-                  </div>
 
-                  <p className="related-projects__name">{item.title}</p>
-                </Link>
-              ))}
+              {relatedWorks.map(
+                (item) => (
+
+                  <Link
+                    key={item.id}
+                    to={`/work/${item.slug}`}
+                    className="related-projects__item"
+                  >
+
+                    <div className="related-projects__thumb">
+
+                      <img
+                        src={item.image}
+                        alt={item.title}
+                        loading="lazy"
+                      />
+
+                    </div>
+
+                    <p className="related-projects__name">
+                      {item.title}
+                    </p>
+
+                  </Link>
+
+                ),
+              )}
+
             </div>
+
           </section>
         )}
+
       </section>
 
-      {/* ===================================================
-          CLOSE / SHARE
-
-          PENTING:
-          Ini berada DI LUAR .work-detail
-          sehingga tidak ikut tenggelam ketika
-          .work-detail melakukan scrolling.
-      =================================================== */}
-
-      <WorkDetailActions onShare={handleShare} bottomOffset={actionsBottom} />
-
-      {/* ===================================================
-          MOBILE BOTTOM NAV
-      =================================================== */}
+      {/* =================================================
+      MOBILE BOTTOM NAV
+      ================================================= */}
 
       <WorkDetailBottomNav />
+
     </main>
   );
 }

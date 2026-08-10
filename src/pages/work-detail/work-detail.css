@@ -1,35 +1,33 @@
 /* =========================================================
    WORK DETAIL PAGE
-========================================================= */
+   ========================================================= */
 
 .work-detail-page {
   min-height: 100vh;
   background: #ffffff;
 }
 
-
 /* =========================================================
    HEADER
-========================================================= */
+   ========================================================= */
 
 .work-detail-site-header {
   width: 100%;
 }
 
-
 /* =========================================================
    MAIN SCROLL AREA
-========================================================= */
+   ========================================================= */
 
 .work-detail {
+  width: 100%;
   margin: 0 auto;
   padding: 0 0 90px;
 }
 
-
 /* =========================================================
    INTRO
-========================================================= */
+   ========================================================= */
 
 .work-detail__intro {
   width: 100%;
@@ -41,7 +39,6 @@
     minmax(260px, auto);
 
   justify-content: center;
-
   align-items: center;
 
   column-gap: 350px;
@@ -50,30 +47,22 @@
 
   padding: 24px;
 
-  border-bottom:
-    1px solid rgba(22, 22, 22, 0.12);
+  border-bottom: 1px solid rgba(22, 22, 22, 0.12);
 }
-
 
 .work-detail__intro-meta {
   display: flex;
 
   align-items: center;
-
   justify-content: flex-end;
 
   min-height: 72px;
 }
 
-
 .work-detail__meta {
   margin: 0;
 
-  font-family:
-    "Inter",
-    Arial,
-    Helvetica,
-    sans-serif;
+  font-family: "Inter", Arial, Helvetica, sans-serif;
 
   font-weight: lighter;
 
@@ -92,12 +81,10 @@
   white-space: nowrap;
 }
 
-
 .work-detail__intro-title {
   display: flex;
 
   align-items: center;
-
   justify-content: flex-start;
 
   min-height: 72px;
@@ -107,15 +94,10 @@
   min-width: 0;
 }
 
-
 .work-detail__title {
   margin: 0;
 
-  font-family:
-    "Spectral",
-    Georgia,
-    "Times New Roman",
-    serif;
+  font-family: "Spectral", Georgia, "Times New Roman", serif;
 
   font-weight: 700;
 
@@ -132,15 +114,13 @@
   white-space: nowrap;
 }
 
-
 /* =========================================================
    GALLERY
-========================================================= */
+   ========================================================= */
 
 .work-detail__block {
   width: 100%;
 }
-
 
 .work-detail__block.has-caption {
   display: flex;
@@ -154,35 +134,29 @@
   margin-bottom: 28px;
 }
 
-
 .work-detail__block.no-caption {
   margin-bottom: 0;
 }
 
-
 /* =========================================================
    IMAGE
-========================================================= */
+   ========================================================= */
 
 .work-detail__figure {
   width: 100vw;
 
-  margin-left:
-    calc(50% - 50vw);
+  margin-left: calc(50% - 50vw);
 
   margin-right: 0;
 
   margin-top: -3vh;
 }
 
-
 .work-detail__figure--full {
   width: 100vw;
 
-  margin-left:
-    calc(50% - 50vw);
+  margin-left: calc(50% - 50vw);
 }
-
 
 .work-detail__figure img {
   display: block;
@@ -192,33 +166,17 @@
   height: auto;
 }
 
-
 /* =========================================================
    CLOSE / SHARE
-========================================================= */
-
-/*
- * PENTING:
- *
- * Close / Share sekarang berada di LUAR
- * .work-detail.
- *
- * Jadi position: fixed akan benar-benar
- * mengikuti viewport.
- */
+   ========================================================= */
 
 .work-detail__actions {
   position: fixed;
 
   left: 0;
-
   right: 0;
 
-  bottom:
-    var(
-      --actions-bottom,
-      0px
-    );
+  bottom: var(--actions-bottom, 0px);
 
   width: 100%;
 
@@ -231,27 +189,22 @@
   display: flex;
 
   align-items: center;
-
   justify-content: center;
 
   gap: 34px;
 
   background: #ffffff;
 
-  border-top:
-    1px solid
-    rgba(22, 22, 22, 0.08);
+  border-top: 1px solid rgba(22, 22, 22, 0.08);
 
   z-index: 1000;
 
-  transition:
-    bottom 0.08s linear;
+  transition: bottom 0.08s linear;
 }
-
 
 /* =========================================================
    CLOSE / SHARE BUTTON
-========================================================= */
+   ========================================================= */
 
 .work-detail__action-link,
 .work-detail__action-button {
@@ -274,16 +227,13 @@
   cursor: pointer;
 }
 
-
 .work-detail__action-icon {
   display: inline-flex;
 
   align-items: center;
-
   justify-content: center;
 
   width: 16px;
-
   height: 16px;
 
   color: #111111;
@@ -291,31 +241,23 @@
   flex: 0 0 auto;
 }
 
-
 .work-detail__action-icon svg {
   display: block;
 
   width: 16px;
-
   height: 16px;
 }
-
 
 .work-detail__action-icon--close {
   font-size: 24px;
 
   line-height: 1;
 
-  transform:
-    translateY(-1px);
+  transform: translateY(-1px);
 }
 
-
 .work-detail__action-text {
-  font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
+  font-family: Georgia, "Times New Roman", serif;
 
   font-size: 16px;
 
@@ -328,29 +270,25 @@
   color: #111111;
 }
 
-
 .work-detail__action-link:hover,
 .work-detail__action-button:hover {
   opacity: 0.7;
 }
 
-
 /* =========================================================
    CAPTION
-========================================================= */
+   ========================================================= */
 
 .work-detail__caption-wrap {
   display: flex;
 
   align-items: center;
-
   justify-content: center;
 
   min-height: 84px;
 
   padding-bottom: 4vh;
 }
-
 
 .work-detail__caption {
   max-width: 610px;
@@ -370,15 +308,13 @@
   color: #a0978e;
 }
 
-
 /* =========================================================
    RELATED PROJECTS
-========================================================= */
+   ========================================================= */
 
 .related-projects {
   padding: 40px 20px 0;
 }
-
 
 .related-projects__title {
   margin: 0 0 26px;
@@ -398,23 +334,19 @@
   color: #a0978e;
 }
 
-
 .related-projects__grid {
+  width: 100%;
+
   max-width: 980px;
 
   margin: 0 auto;
 
   display: grid;
 
-  grid-template-columns:
-    repeat(
-      4,
-      minmax(0, 1fr)
-    );
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 
   gap: 18px;
 }
-
 
 .related-projects__item {
   display: block;
@@ -422,8 +354,9 @@
   text-decoration: none;
 
   color: inherit;
-}
 
+  min-width: 0;
+}
 
 .related-projects__thumb {
   width: 100%;
@@ -432,7 +365,6 @@
 
   overflow: hidden;
 }
-
 
 .related-projects__thumb img {
   display: block;
@@ -443,17 +375,12 @@
 
   object-fit: cover;
 
-  transition:
-    transform 0.3s ease;
+  transition: transform 0.3s ease;
 }
 
-
-.related-projects__item:hover
-.related-projects__thumb img {
-  transform:
-    scale(1.03);
+.related-projects__item:hover .related-projects__thumb img {
+  transform: scale(1.03);
 }
-
 
 .related-projects__name {
   margin: 8px 0 0;
@@ -467,16 +394,12 @@
   color: #5a5149;
 }
 
-
 /* =========================================================
    ERROR
-========================================================= */
+   ========================================================= */
 
 .work-detail__feedback {
-  padding:
-    80px
-    24px
-    110px;
+  padding: 80px 24px 110px;
 
   text-align: center;
 
@@ -485,37 +408,28 @@
   color: #7f776f;
 }
 
-
 /* =========================================================
    MOBILE BOTTOM NAV
-========================================================= */
+   ========================================================= */
 
 .work-detail-bottom-nav {
   display: none;
 }
 
-
 .work-detail-bottom-nav__link {
   text-decoration: none;
 }
 
-
 /* =========================================================
    TABLET
-========================================================= */
+   ========================================================= */
 
 @media (max-width: 1024px) {
-
   .work-detail-site-header {
-    padding:
-      18px
-      20px
-      0;
+    padding: 18px 20px 0;
   }
 
-
   .work-detail__intro {
-
     grid-template-columns:
       140px
       minmax(0, max-content);
@@ -524,83 +438,65 @@
 
     column-gap: 24px;
 
-    padding:
-      22px
-      20px
-      24px;
+    padding: 22px 20px 24px;
   }
-
 }
-
 
 /* =========================================================
    SMALL TABLET
-========================================================= */
+   ========================================================= */
 
 @media (max-width: 900px) {
-
   .related-projects__grid {
-
-    grid-template-columns:
-      repeat(
-        2,
-        minmax(0, 1fr)
-      );
-
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-
 }
 
-
 /* =========================================================
-   MOBILE
-========================================================= */
+   MOBILE ONLY
+   max-width: 768px
+   ========================================================= */
 
 @media (max-width: 768px) {
+  /* =======================================================
+     PAGE
+     ======================================================= */
 
-  /*
-   * Main page mengambil tinggi viewport.
-   */
   .work-detail-page {
-
-    min-height: 100vh;
+    width: 100%;
 
     min-height: 100dvh;
 
-    height: 100dvh;
+    height: auto;
 
-    display: flex;
-
-    flex-direction: column;
+    background: #ffffff;
 
     overflow-x: hidden;
+    overflow-y: visible;
 
+    display: block;
   }
 
-
-  /*
-   * HEADER
-   */
+  /* =======================================================
+     HEADER
+     ======================================================= */
 
   .work-detail-site-header {
+    width: 100%;
 
-    padding:
-      18px
-      16px
-      0;
-
+    padding: 18px 16px 0;
   }
 
-
-  /*
-   * INTRO
-   */
+  /* =======================================================
+     INTRO
+     ======================================================= */
 
   .work-detail__intro {
+    width: 100%;
 
     grid-template-columns:
-      max-content
-      max-content;
+      minmax(0, max-content)
+      minmax(0, max-content);
 
     justify-content: center;
 
@@ -608,129 +504,168 @@
 
     column-gap: 14px;
 
-    padding:
-      18px
-      16px
-      22px;
+    margin-top: 0;
 
+    padding: 18px 16px 22px;
+
+    box-sizing: border-box;
   }
-
 
   .work-detail__intro-meta,
   .work-detail__intro-title {
-
     min-height: auto;
 
+    min-width: 0;
   }
-
 
   .work-detail__intro-meta {
-
-    justify-content:
-      flex-end;
-
+    justify-content: flex-end;
   }
-
 
   .work-detail__intro-title {
-
-    justify-content:
-      flex-start;
-
+    justify-content: flex-start;
   }
 
-
   .work-detail__meta {
+    font-size: clamp(10px, 3vw, 12px);
+
+    line-height: 1;
 
     text-align: right;
 
-    font-size: 12px;
-
+    white-space: nowrap;
   }
 
-
   .work-detail__title {
+    max-width: 100%;
 
-    text-align: left;
-
-    font-size: 20px;
+    font-size: clamp(17px, 5vw, 20px);
 
     line-height: 1.1;
 
-    white-space: nowrap;
+    text-align: left;
 
+    white-space: nowrap;
   }
 
-
-  /*
-   * =======================================================
-   * SCROLL CONTAINER
-   * =======================================================
-   *
-   * Hanya area ini yang melakukan scrolling.
-   *
-   * Close / Share TIDAK berada di sini.
-   */
+  /* =======================================================
+     MAIN CONTENT
+     
+     MOBILE:
+     Biarkan halaman melakukan scroll normal.
+     Tidak membuat nested scroll container.
+     ======================================================= */
 
   .work-detail {
-
-    flex:
-      1 1 auto;
+    width: 100%;
 
     margin: 0;
 
-    padding-bottom: 90px;
+    padding: 0 0 90px;
 
-    overflow-y: auto;
-
-    -webkit-overflow-scrolling:
-      touch;
-
+    overflow: visible;
   }
 
+  /* =======================================================
+     GALLERY BLOCK
+     ======================================================= */
 
-  /*
-   * =======================================================
-   * MOBILE BOTTOM NAV
-   * =======================================================
-   */
+  .work-detail__block {
+    width: 100%;
 
-  .work-detail-bottom-nav {
+    margin: 0;
 
-    position: fixed;
-
-    bottom: 0;
-
-    left: 0;
-
-    right: 0;
-
-    display: grid;
-
-    grid-template-columns:
-      repeat(
-        3,
-        1fr
-      );
-
-    align-items: center;
-
-    justify-items: center;
-
-    height: 4vh;
-
-    border-top:
-      1px solid
-      rgba(22, 22, 22, 0.12);
-
-    background: #ffffff;
-
-    z-index: 1100;
-
+    padding: 0;
   }
 
+  .work-detail__block.has-caption {
+    display: flex;
 
-  .work-detail-bottom-nav__link {
+    flex-direction: column;
+
+    width: 100%;
+
+    gap: 0;
+
+    margin-bottom: 32px;
+
+    padding: 0;
+  }
+
+  .work-detail__block.no-caption {
+    width: 100%;
+
+    margin-bottom: 0;
+
+    padding: 0;
+  }
+
+  /* =======================================================
+     FULL WIDTH IMAGE
+     
+     Gambar keluar dari container bila diperlukan,
+     sehingga benar-benar memenuhi lebar viewport.
+     ======================================================= */
+
+  .work-detail__figure,
+  .work-detail__figure--full {
+    width: 100vw;
+
+    max-width: 100vw;
+
+    margin-left: calc(50% - 50vw);
+
+    margin-right: 0;
+
+    margin-top: 0;
+
+    padding: 0;
+
+    overflow: hidden;
+  }
+
+  .work-detail__figure img {
+    display: block;
+
+    width: 100%;
+
+    max-width: none;
+
+    height: auto;
+
+    min-height: 0;
+
+    object-fit: cover;
+
+    object-position: center;
+
+    margin: 0;
+  }
+
+  /* =======================================================
+     IMAGE TYPES
+     
+     Untuk gambar yang memang harus full.
+     ======================================================= */
+
+  .work-detail__figure--full img {
+    width: 100%;
+
+    max-width: none;
+
+    height: auto;
+
+    object-fit: cover;
+  }
+
+  /* =======================================================
+     CAPTION
+     ======================================================= */
+
+  .work-detail__caption-wrap {
+    width: 100%;
+
+    min-height: auto;
 
     display: flex;
 
@@ -738,15 +673,252 @@
 
     justify-content: center;
 
+    padding: 20px 16px 28px;
+
+    box-sizing: border-box;
+  }
+
+  .work-detail__caption {
     width: 100%;
 
+    max-width: 610px;
+
+    margin: 0;
+
+    font-size: 9px;
+
+    line-height: 1.9;
+
+    letter-spacing: 0.08em;
+
+    text-align: center;
+  }
+
+  /* =======================================================
+     CLOSE / SHARE
+     ======================================================= */
+
+  .work-detail__actions {
+    width: 100%;
+
+    margin: 0;
+
+    padding: 0 16px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 24px;
+
+    background: #ffffff;
+
+    border-top: 1px solid rgba(22, 22, 22, 0.08);
+    border-bottom: 1px solid rgba(22, 22, 22, 0.08);
+
+    z-index: 10;
+
+    transition: none;
+
+    /* HANYA MENGGESER POSISI VISUAL KE BAWAH */
+    /* transform: translateY(40px); */
+  }
+
+  .work-detail__action-link,
+  .work-detail__action-button {
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    min-height: 24px;
+  }
+
+  .work-detail__action-icon {
+    width: 16px;
+
+    height: 16px;
+  }
+
+  .work-detail__action-link,
+  .work-detail__action-button {
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    min-height: 24px;
+    border: 0;
+    background: transparent;
+
+    padding: 0;
+
+    text-decoration: none;
+
+    color: #111111;
+
+    cursor: pointer;
+  }
+
+  .work-detail__action-icon {
+    width: 16px;
+
+    height: 16px;
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex: 0 0 auto;
+  }
+
+  .work-detail__action-icon svg {
+    width: 16px;
+
+    height: 16px;
+    display: block;
+  }
+
+  .work-detail__action-icon--close {
+    font-size: 22px;
+    line-height: 1;
+
+    transform: translateY(-1px);
+  }
+
+  .work-detail__action-text {
+    font-size: 15px;
+
+    line-height: 1;
+  }
+
+  /* =======================================================
+   RELATED PROJECTS
+   ======================================================= */
+
+  .related-projects {
+    width: 100%;
+
+    margin: 0;
+
+    /*
+    Beri ruang tambahan di atas Related Projects
+    supaya tidak terlalu menempel dengan Close / Share.
+  */
+    padding: 70px 16px 100px;
+
+    box-sizing: border-box;
+  }
+
+  .related-projects__title {
+    margin: 0 0 22px;
+
+    font-size: 10px;
+
+    line-height: 1.4;
+
+    letter-spacing: 0.2em;
+  }
+
+  .related-projects__grid {
+    width: 100%;
+
+    max-width: none;
+
+    margin: 0;
+
+    display: grid;
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 18px 12px;
+  }
+
+  .related-projects__item {
+    width: 100%;
+
+    min-width: 0;
+  }
+
+  .related-projects__thumb {
+    width: 100%;
+
+    overflow: hidden;
+  }
+
+  .related-projects__thumb img {
+    width: 100%;
+
+    height: auto;
+
+    aspect-ratio: 1 / 1.18;
+
+    object-fit: cover;
+  }
+
+  .related-projects__name {
+    margin: 8px 0 0;
+
+    font-size: 10px;
+
+    line-height: 1.5;
+  }
+
+  /* =======================================================
+     MOBILE BOTTOM NAV
+     ======================================================= */
+
+  .work-detail-bottom-nav {
+    position: fixed;
+
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    width: 100%;
+
+    height: 4vh;
+
+    min-height: 38px;
+
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    align-items: center;
+
+    justify-items: center;
+
+    margin: 0;
+    padding: 0;
+
+    border-top: 1px solid rgba(22, 22, 22, 0.12);
+
+    background: #ffffff;
+
+    z-index: 1100;
+  }
+
+  .work-detail-bottom-nav__link {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    width: 100%;
     height: 100%;
 
-    font-family:
-      "Inter",
-      sans-serif;
+    font-family: "Inter", Arial, Helvetica, sans-serif;
 
-    font-size: 3vw;
+    font-size: clamp(11px, 3vw, 14px);
 
     line-height: 1;
 
@@ -761,178 +933,109 @@
     color: #00000066;
 
     font-weight: 300;
-
   }
 
-
   .work-detail-bottom-nav__link--active {
-
-    font-size: 3vw;
+    font-size: clamp(11px, 3vw, 14px);
 
     letter-spacing: 0.12em;
 
     color: #000000;
 
     font-weight: 500;
-
   }
 
+  /* =======================================================
+     ERROR
+     ======================================================= */
 
-  /*
-   * =======================================================
-   * CLOSE / SHARE MOBILE
-   * =======================================================
-   */
+  .work-detail__feedback {
+    width: 100%;
 
-  .work-detail__actions {
+    padding: 60px 20px 120px;
 
-    min-height: 52px;
+    box-sizing: border-box;
 
-    padding:
-      14px
-      16px;
+    text-align: center;
 
-    gap: 20px;
+    font-size: 13px;
 
+    color: #7f776f;
   }
 
+  /* =====================================================
+     MOBILE - JARAK ANTAR GAMBAR
+     ===================================================== */
 
-  .work-detail__action-text {
-
-    font-size: 15px;
-
+  /* Gambar tanpa caption harus langsung menyambung
+     dengan gambar berikutnya */
+  .work-detail__block.no-caption {
+    margin-bottom: 0;
+    gap: 0;
   }
 
-
-  /*
-   * IMAGE
-   */
-
-  .work-detail__figure img {
-
-    max-height: 40vh;
-
-    object-fit: contain;
-
+  .work-detail__block.no-caption + .work-detail__block.no-caption {
+    margin-top: 0;
   }
 
-
-  .work-detail__figure {
-
-    margin-top: 2vh;
-
+  /* Figure tanpa caption juga tidak memberi jarak */
+  .work-detail__block.no-caption .work-detail__figure {
+    margin-bottom: 0;
   }
 
-
-  /*
-   * CAPTION
-   */
-
-  .work-detail__caption-wrap {
-
-    padding-top: 2vh;
-
-    padding-bottom: 4vh;
-
+  /* Jika gambar berikutnya juga tanpa caption,
+     benar-benar menempel */
+  .work-detail__block.no-caption
+    + .work-detail__block.no-caption
+    .work-detail__figure {
+    margin-top: 0;
   }
-
 }
 
-
 /* =========================================================
-   SMALL MOBILE
-========================================================= */
+   VERY SMALL MOBILE
+   Hanya untuk menjaga agar konten tidak overflow.
+   
+   Tidak mengubah layout utama.
+   ========================================================= */
 
-@media (max-width: 640px) {
+@media (max-width: 400px) {
+  .work-detail__intro {
+    column-gap: 10px;
 
-  .work-detail {
-
-    padding:
-      0
-      0
-      70px;
-
+    padding-left: 12px;
+    padding-right: 12px;
   }
-
-
-  .work-detail__caption-wrap,
-  .related-projects {
-
-    padding-left: 16px;
-
-    padding-right: 16px;
-
-  }
-
-
-  .work-detail__title {
-
-    font-size: 4vw;
-
-    line-height: 1.1;
-
-  }
-
 
   .work-detail__meta {
-
-    font-size: 3vw;
-
-  }
-
-
-  .work-detail__actions {
-
-    padding:
-      14px
-      16px;
-
-    gap: 20px;
-
-  }
-
-
-  .work-detail__action-text {
-
-    font-size: 15px;
-
-  }
-
-
-  .work-detail__block.has-caption {
-
-    margin-bottom: 40px;
-
-  }
-
-
-  .work-detail__block.no-caption {
-
-    margin-bottom: 0;
-
-  }
-
-
-  .work-detail__caption {
-
     font-size: 10px;
-
-    line-height: 1.95;
-
   }
 
+  .work-detail__title {
+    font-size: 17px;
+  }
+
+  .work-detail__caption-wrap {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .related-projects {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
 
   .related-projects__grid {
-
-    gap: 14px;
-
+    column-gap: 10px;
   }
+}
 
+/* =========================================================
+   FALLBACK FOR BROWSERS WITHOUT dvh
+   ========================================================= */
 
-  .related-projects__name {
-
-    font-size: 10px;
-
+@supports not (height: 100dvh) {
+  .work-detail-page {
+    min-height: 100vh;
   }
-
 }
