@@ -11,7 +11,7 @@ export default function AboutPage({ onGoToContacts }) {
     async function fetchAbout() {
       try {
         const res = await fetch(
-          "https://cms.kyubstudio.com/wp-json/wp/v2/page_about_us"
+          "https://cms.kyubstudio.com/wp-json/wp/v2/page_about_us",
         );
         const json = await res.json();
         setAbout(json[0]); // ambil item pertama
@@ -104,12 +104,21 @@ export default function AboutPage({ onGoToContacts }) {
 
           {/* tengah: gambar + paragraf kedua dari description_2 */}
           <div className="about-grid__col about-grid__col--center">
-            {acf.image_desktop?.url && (
-              <img
-                src={acf.image_desktop.url}
-                alt={acf.image_desktop.alt || ""}
-                className="about-hero__image"
-              />
+            {(acf.image_desktop?.url || acf.image_mobile?.url) && (
+              <picture>
+                {acf.image_mobile?.url && (
+                  <source
+                    media="(max-width: 768px)"
+                    srcSet={acf.image_mobile.url}
+                  />
+                )}
+
+                <img
+                  src={acf.image_desktop?.url || acf.image_mobile?.url}
+                  alt={acf.image_desktop?.alt || acf.image_mobile?.alt || ""}
+                  className="about-hero__image"
+                />
+              </picture>
             )}
 
             {middleParagraphHtml && (

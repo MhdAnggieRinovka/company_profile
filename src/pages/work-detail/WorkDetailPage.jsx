@@ -34,27 +34,83 @@ function decodeHtml(text = "") {
 }
 
 /* =========================================================
-HEADER
+   DESKTOP HEADER
 ========================================================= */
 
-function WorkDetailHeader() {
+function WorkDetailDesktopHeader() {
   return (
-    <header className="work-detail-site-header">
-      <div className="site-header__inner">
-        <button
-          type="button"
-          className="brand-button"
+    <header className="work-detail-desktop-header">
+      <div className="work-detail-desktop-header__inner">
+
+        <Link
+          to="/"
+          className="work-detail-desktop-header__brand"
           aria-label="KYUB home"
-          onClick={() => onNavigate("home")}
         >
           <img src="/logo-kyub.jpeg" alt="KYUB" />
-        </button>
-        <div className="site-header__spacer" />
+        </Link>
+
+        <nav
+          className="work-detail-desktop-header__nav"
+          aria-label="Main navigation"
+        >
+          <Link
+            to="/about_us"
+            className="work-detail-desktop-header__link"
+          >
+            ABOUT
+          </Link>
+
+          <Link
+            to="/?page=works"
+            className="work-detail-desktop-header__link work-detail-desktop-header__link--active"
+          >
+            WORK
+          </Link>
+
+          <Link
+            to="/?page=contacts"
+            className="work-detail-desktop-header__link"
+          >
+            CONTACTS
+          </Link>
+        </nav>
+
       </div>
     </header>
   );
 }
 
+/* =========================================================
+   MOBILE HEADER
+========================================================= */
+
+function WorkDetailMobileHeader() {
+  return (
+    <header className="work-detail-mobile-header">
+      <Link
+        to="/"
+        className="work-detail-mobile-header__brand"
+        aria-label="KYUB home"
+      >
+        <img src="/logo-kyub.jpeg" alt="KYUB" />
+      </Link>
+    </header>
+  );
+}
+
+/* =========================================================
+   WORK DETAIL HEADER
+========================================================= */
+
+function WorkDetailHeader() {
+  return (
+    <>
+      <WorkDetailDesktopHeader />
+      <WorkDetailMobileHeader />
+    </>
+  );
+}
 /* =========================================================
 MOBILE BOTTOM NAVIGATION
 ========================================================= */
