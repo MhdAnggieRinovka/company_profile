@@ -641,7 +641,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: clamp(10px, 3vw, 55px)
+  margin-top: clamp(10px, 3vw, 55px);
 }
 
 .works-carousel__story-link {
@@ -941,9 +941,10 @@ body {
   }
 
   .works-carousel__preview {
-    width: 100%;
-    max-width: 150vw;
-    margin: 0 auto;
+    width: min(100%, calc(100svh - clamp(270px, 46svh, 310px)));
+    aspect-ratio: 1 / 1;
+    height: auto;
+    margin-inline: auto;
   }
 
   .works-carousel__hero {
