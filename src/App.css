@@ -113,7 +113,6 @@ body {
   box-sizing: border-box;
 }
 
-
 /* =========================================================
    LOGO
 ========================================================= */
@@ -166,7 +165,7 @@ body {
 
   font-family: "Inter", sans-serif;
 
-   transform: translateX(clamp(0px, 0.8vw, 14px));
+  transform: translateX(clamp(0px, 0.8vw, 14px));
 }
 
 .nav-link {
@@ -472,26 +471,21 @@ body {
 
 .works-carousel__media-row {
   position: relative;
-
   width: 100%;
   max-width: 1100px;
   margin-inline: auto;
-
   display: grid;
-
   grid-template-columns:
     minmax(0, 1fr)
     minmax(0, 2.7fr)
     minmax(0, 1fr);
-
-  align-items: stretch;
+  /* Tinggi row mengikuti hero yang berbentuk persegi */
+  align-items: start;
   justify-content: center;
-
   gap: clamp(12px, 1.35vw, 24px);
-
-  padding-top: 2vh;
-
   box-sizing: border-box;
+  align-self: start;
+  height: fit-content;
 }
 
 .works-carousel__media-row:focus-visible {
@@ -529,10 +523,13 @@ body {
 
 .works-carousel__preview {
   width: 100%;
-  height: 100%;
+  height: auto;
+
   display: flex;
-  align-items: stretch;
+  align-items: flex-start;
   justify-content: center;
+
+  min-width: 0;
 }
 
 .works-carousel__hero {
@@ -553,20 +550,22 @@ body {
 /* side cards desktop: YEAR atas, CATEGORY tengah, NAME bawah */
 
 .works-carousel__side {
-  display: flex;
-  align-items: stretch;
-  justify-content: center;
-  gap: 1.45vw;
   height: 100%;
-  animation: sideItemsSwap 0.42s ease;
-  pointer-events: none;
+
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: minmax(0, 1fr);
+
+  gap: clamp(10px, 1.2vw, 18px);
+
+  min-height: 0;
 }
 
 .works-side-card {
   width: 6.95vw;
   min-width: 52px;
   max-width: 106px;
-  height: 100%;
+  height: auto;
   border: 1px solid rgba(22, 22, 22, 0.12);
   background: #fff;
   padding: 3vh 0.8vw; /* jarak dari border */
@@ -686,7 +685,7 @@ body {
 
 /* ===== RESPONSIVE WIDTHS DESKTOP ===== */
 
-@media (max-width: 1200px) {
+@media (max-width: 1024px) {
   .works-carousel {
     width: min(86vw, 1040px);
   }
