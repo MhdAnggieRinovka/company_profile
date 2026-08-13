@@ -249,15 +249,15 @@ body {
     bottom: 0;
   }
 
-.brand-button {
-  width: 100%;
-  height: 52px;
-  margin: 0 auto;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+  .brand-button {
+    width: 100%;
+    height: 52px;
+    margin: 0 auto;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
   .brand-button img {
     width: clamp(110px, 28vw, 150px);
@@ -755,7 +755,6 @@ body {
     right: -16px;
   }
 
-
   .brand-button img {
     width: 28vw;
     min-width: unset;
@@ -949,7 +948,7 @@ body {
     align-items: center;
     justify-items: center;
     gap: 44px;
-    
+
     width: 100%;
     margin-top: auto;
     display: grid;
@@ -1112,11 +1111,9 @@ body {
 
 @media (max-width: 768px) {
   .contacts-page--mobile {
-    min-height: 0;
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
   }
 
   .contacts-page__video--mobile {
@@ -2003,3 +2000,909 @@ body {
     flex: 0 0 auto;
   }
 }
+
+/* =========================================================
+   CLEANUP V1 — LANDING PAGE + SITE HEADER
+   ========================================================= */
+
+/* =========================================================
+   1. LANDING PAGE BASE
+   ========================================================= */
+
+.home-page {
+  width: 100%;
+  min-height: 100dvh;
+  background: var(--bg);
+  overflow: hidden;
+}
+
+/* =========================================================
+   2. SITE HEADER — DESKTOP
+   ========================================================= */
+
+.home-page .site-header {
+  width: 100%;
+  flex: 0 0 auto;
+}
+
+.home-page .site-header__inner {
+  position: relative;
+
+  width: min(100%, 1512px);
+  height: 68px;
+
+  margin: 0 auto;
+  padding: 0;
+
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   3. BRAND
+   ========================================================= */
+
+.home-page .brand-button {
+  width: 100px;
+  height: 60px;
+
+  margin: 0;
+  padding: 0;
+
+  border: 0;
+  background: transparent;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  justify-self: start;
+
+  cursor: pointer;
+}
+
+.home-page .brand-button img {
+  display: block;
+
+  width: clamp(94px, 8.95vw, 122px);
+  height: auto;
+
+  margin: 0;
+}
+
+/* =========================================================
+   4. DESKTOP NAVIGATION
+   ========================================================= */
+
+.home-page .site-nav {
+  grid-column: 2;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: clamp(24px, 4.1vw, 56px);
+
+  margin: 0;
+
+  font-family: "Inter", sans-serif;
+
+  /* CLEANUP:
+     tidak lagi menggunakan translateX */
+  transform: none;
+}
+
+.home-page .nav-link {
+  border: 0;
+  background: transparent;
+
+  padding: 0;
+  margin: 0;
+
+  font-family: "Inter", sans-serif;
+  font-size: var(--nav-link-size-desktop);
+  line-height: 1;
+
+  letter-spacing: var(--nav-letter-spacing-desktop);
+
+  text-align: center;
+  text-transform: uppercase;
+
+  color: rgba(0, 0, 0, 0.4);
+
+  font-weight: 300;
+
+  cursor: pointer;
+
+  transition:
+    color 0.2s ease,
+    font-weight 0.2s ease;
+}
+
+.home-page .nav-link:hover {
+  color: #000000;
+}
+
+.home-page .nav-link.active {
+  color: #000000;
+  font-weight: 500;
+}
+
+/* =========================================================
+   5. RIGHT SPACER
+   ========================================================= */
+
+.home-page .site-header__spacer {
+  width: clamp(94px, 8.95vw, 122px);
+
+  justify-self: end;
+}
+
+/* =========================================================
+   6. HERO — DESKTOP
+   ========================================================= */
+
+.home-page .hero-home {
+  width: 100%;
+
+  flex: 1 1 auto;
+
+  min-height: 0;
+
+  padding: 0;
+
+  overflow: hidden;
+
+  display: flex;
+}
+
+.home-page .hero-home__frame {
+  width: 100%;
+  height: 100%;
+
+  min-height: 0;
+}
+
+.home-page .hero-home__stage {
+  width: 100%;
+  height: 100%;
+
+  min-height: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+}
+
+.home-page .hero-media {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-page .hero-media__video {
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+  object-position: center;
+}
+
+.home-page .hero-media__placeholder {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* =========================================================
+   7. MOBILE HEADER
+   ========================================================= */
+
+@media (max-width: 768px) {
+  .home-page {
+    width: 100%;
+    height: 100dvh;
+    min-height: 100dvh;
+
+    display: flex;
+    flex-direction: column;
+
+    overflow: hidden;
+  }
+
+  /* HEADER */
+
+  .home-page .site-header {
+    width: 100%;
+
+    flex: 0 0 auto;
+
+    padding: 14px 16px 0;
+  }
+
+  .home-page .site-header__inner {
+    width: 100%;
+    height: 52px;
+    min-height: 52px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+  }
+
+  /* BRAND */
+
+  .home-page .brand-button {
+    width: 100%;
+    height: 52px;
+
+    margin: 0;
+    padding: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .home-page .brand-button img {
+    display: block;
+
+    width: clamp(110px, 28vw, 150px);
+
+    min-width: 0;
+
+    height: auto;
+
+    margin: 0;
+  }
+
+  /* NAV HIDDEN ON MOBILE */
+
+  .home-page .site-nav {
+    display: none;
+  }
+
+  .home-page .site-header__spacer {
+    display: none;
+  }
+
+  /* HEADER DIVIDER */
+
+  .home-page .site-header__inner::after {
+    left: -16px;
+    right: -16px;
+    bottom: 0;
+  }
+
+  /* =======================================================
+     HERO MOBILE
+     ======================================================= */
+
+  .home-page .hero-home {
+    flex: 1 1 auto;
+
+    width: 100%;
+
+    min-height: 0;
+
+    padding: 0;
+
+    overflow: hidden;
+  }
+
+  .home-page .hero-home__frame {
+    width: 100%;
+    height: 100%;
+
+    min-height: 0;
+  }
+
+  .home-page .hero-home__stage {
+    width: 100%;
+    height: 100%;
+
+    min-height: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+  }
+
+  .home-page .hero-media {
+    width: 100%;
+    height: 100%;
+
+    min-height: 0;
+  }
+
+  .home-page .hero-media__video {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+    object-position: center;
+  }
+}
+
+/* =========================================================
+   8. MOBILE LANDING BOTTOM NAV
+   ========================================================= */
+
+@media (max-width: 768px) {
+  .home-page .landing-page__mobile-bottom-nav {
+    position: fixed;
+
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    width: 100%;
+
+    min-height: 38px;
+
+    margin: 0;
+    padding: 0;
+
+    background: #ffffff;
+
+    border-top: 1px solid rgba(22, 22, 22, 0.12);
+
+    z-index: 1100;
+  }
+}
+
+/* =========================================================
+   CLEANUP V1 — ABOUT PAGE
+   ========================================================= */
+
+/* =========================================================
+   1. ABOUT PAGE WRAPPER
+   ========================================================= */
+
+.home-page--about {
+  width: 100%;
+  height: 100dvh;
+  min-height: 100dvh;
+
+  display: flex;
+  flex-direction: column;
+
+  background: #ffffff;
+
+  overflow: hidden;
+}
+
+/* =========================================================
+   2. ABOUT CONTENT
+   ========================================================= */
+
+.home-page--about .about-page {
+  width: 100%;
+  height: 100%;
+
+  background: #ffffff;
+
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.home-page--about .about-content {
+  width: min(72vw, 960px);
+
+  margin: 40px auto 0;
+  padding: 0 0 32px;
+
+  text-align: center;
+
+  position: static;
+}
+
+/* =========================================================
+   3. ABOUT TITLE
+   ========================================================= */
+
+.home-page--about .about-title {
+  margin: 0 0 40px;
+
+  font-family: "Inter", Arial, Helvetica, sans-serif;
+  font-size: clamp(18px, 1.25vw, 20px);
+  line-height: 1.2;
+
+  font-weight: 500;
+  font-style: normal;
+
+  text-align: center;
+}
+
+/* =========================================================
+   4. ABOUT GRID
+   ========================================================= */
+
+.home-page--about .about-grid {
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    minmax(160px, 220px)
+    minmax(0, 1fr);
+
+  align-items: start;
+
+  column-gap: clamp(40px, 6vw, 90px);
+
+  margin: 0 auto 32px;
+
+  position: static;
+}
+
+/* =========================================================
+   5. ABOUT TEXT — LEFT / RIGHT
+   ========================================================= */
+
+.home-page--about .about-grid__col--left,
+.home-page--about .about-grid__col--right {
+  width: 100%;
+}
+
+.home-page--about .about-grid__col--left p,
+.home-page--about .about-grid__col--right p,
+.home-page--about .about-grid__middle-text {
+  width: 100%;
+  margin: 0;
+  font-family: "Spectral", serif;
+  font-weight: 200;
+  font-style: normal;
+  font-size: 20px;
+  line-height: 32px;
+  letter-spacing: 0;
+  text-align: center;
+}
+
+.home-page--about .about-grid__middle-text {
+  width: 450px;
+  max-width: 100%;
+
+  margin: 0 auto;
+
+  font-family: "Spectral", serif;
+  font-weight: 200;
+  font-style: normal;
+
+  font-size: 20px;
+  line-height: 32px;
+  letter-spacing: 0;
+
+  text-align: center;
+}
+
+/* =========================================================
+   6. ABOUT HERO IMAGE
+   ========================================================= */
+
+.home-page--about .about-hero__image {
+  display: block;
+
+  width: 100%;
+  max-width: 220px;
+
+  height: auto;
+
+  margin: 0 auto;
+}
+
+/* =========================================================
+   7. ABOUT CTA
+   ========================================================= */
+
+.home-page--about .about-cta {
+  position: static;
+
+  width: 100%;
+
+  margin: 0 auto;
+
+  padding: 24px 0 0;
+
+  text-align: center;
+}
+
+.home-page--about .about-cta__lead {
+  margin: 0 0 18px;
+
+  font-family: "Inter", Arial, Helvetica, sans-serif;
+
+  font-size: 18px;
+  line-height: 1;
+
+  font-weight: 400;
+
+  letter-spacing: 0;
+
+  text-align: center;
+
+  color: #7f776f;
+}
+
+.home-page--about .about-cta__button {
+  border: 0;
+  background: transparent;
+
+  padding: 0;
+  margin: 0;
+
+  font-family: "Inter", Arial, Helvetica, sans-serif;
+
+  font-size: 16px;
+  line-height: 1;
+
+  font-weight: 500;
+
+  letter-spacing: 0.1em;
+
+  text-align: center;
+
+  text-transform: uppercase;
+
+  color: #000000;
+
+  cursor: pointer;
+}
+
+/* =========================================================
+   8. ABOUT MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+  .home-page--about {
+    width: 100%;
+    height: 100dvh;
+    min-height: 100dvh;
+
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+
+    overflow: hidden;
+  }
+
+  .home-page--about .about-page {
+    width: 100%;
+    height: 100%;
+
+    min-height: 0;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    display: block;
+
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .home-page--about .about-content {
+    width: 100%;
+    max-width: 430px;
+
+    margin: 24px auto 0;
+
+    padding: 0 clamp(16px, 5vw, 20px) 32px;
+
+    text-align: center;
+  }
+
+  /* TITLE */
+
+  .home-page--about .about-title {
+    margin: 0 0 24px;
+
+    font-size: clamp(18px, 4.8vw, 20px);
+
+    line-height: 1.2;
+  }
+
+  /* GRID → ONE COLUMN */
+
+  .home-page--about .about-grid {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 0;
+
+    margin: 0 auto 24px;
+  }
+
+  /* LEFT TEXT */
+
+  .home-page--about .about-grid__col--left p {
+    width: 100%;
+    max-width: 360px;
+
+    margin: 0 auto 24px;
+
+    font-size: 12px;
+    line-height: 26px;
+
+    text-align: center;
+  }
+
+  /* IMAGE */
+
+  .home-page--about .about-hero__image {
+    width: min(58vw, 220px);
+
+    max-width: 220px;
+
+    margin: 0 auto 24px;
+  }
+
+  /* RIGHT / MIDDLE TEXT */
+
+  .home-page--about .about-grid__col--right p,
+  .home-page--about .about-grid__middle-text {
+    width: 100%;
+    max-width: 360px;
+
+    margin: 0 auto 16px;
+
+    padding: 0;
+
+    font-size: 12px;
+    line-height: 26px;
+
+    text-align: center;
+  }
+
+  /* CTA */
+
+  .home-page--about .about-cta {
+    width: 100%;
+
+    margin: 0 auto;
+
+    padding: 8px 0 32px;
+  }
+
+  .home-page--about .about-cta__lead {
+    margin-bottom: 16px;
+
+    font-size: 16px;
+  }
+
+  .home-page--about .about-cta__button {
+    font-size: 13px;
+  }
+}
+
+/* =========================================================
+   9. MOBILE — SHORT SCREEN
+   ========================================================= */
+
+@media (max-width: 768px) and (max-height: 760px) {
+  .home-page--about .about-content {
+    margin-top: 14px;
+
+    padding-left: 14px;
+    padding-right: 14px;
+    padding-bottom: 24px;
+  }
+
+  .home-page--about .about-title {
+    margin-bottom: 16px;
+
+    font-size: 18px;
+  }
+
+  .home-page--about .about-grid__col--left p,
+  .home-page--about .about-grid__col--right p,
+  .home-page--about .about-grid__middle-text {
+    font-family: "Spectral", serif;
+    font-weight: 200;
+    font-style: normal;
+    font-size: 12px;
+    line-height: 20px;
+    letter-spacing: 0;
+    text-align: center;
+  }
+
+  .home-page--about .about-grid__col--left p {
+    margin-bottom: 16px;
+  }
+
+  .home-page--about .about-hero__image {
+    width: min(48vw, 200px);
+
+    margin-bottom: 16px;
+  }
+
+  .home-page--about .about-cta {
+    padding-bottom: 24px;
+  }
+
+  .home-page--about .about-cta__lead {
+    font-size: 16px;
+  }
+
+  .home-page--about .about-cta__button {
+    font-size: 13px;
+  }
+}
+
+/* =========================================================
+   CLEANUP V1 — CONTACT US
+   ========================================================= */
+
+/* CONTACTS BASE */
+.contacts-page {
+  width: 100%;
+}
+
+/* DESKTOP */
+.contacts-page--desktop {
+  width: 100%;
+  height: 100%;
+
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+
+  overflow: hidden;
+}
+
+.contacts-page__video--desktop {
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+}
+
+.contacts-page__video-media--desktop {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  object-position: center;
+}
+
+/* DESKTOP ACTIONS */
+.contacts-page__actions--desktop {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 48px;
+
+  padding: 20px;
+
+  background: #ffffff;
+  border-top: 1px solid rgba(22, 22, 22, 0.08);
+
+  box-sizing: border-box;
+}
+
+/* SHARED ACTION */
+.contacts-page__action {
+  border: 0;
+  background: transparent;
+
+  padding: 0;
+  margin: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  cursor: pointer;
+
+  font-family: "Inter", sans-serif;
+  font-size: 12px;
+  line-height: 1.4;
+
+  color: #111111;
+}
+
+.contacts-page__action span {
+  text-align: center;
+}
+
+.contacts-page__icon {
+  width: 24px;
+  height: 24px;
+
+  display: block;
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+  .contacts-page--mobile {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    overflow: hidden;
+  }
+
+  .contacts-page__video--mobile {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+  }
+
+  .contacts-page__video-media--mobile {
+    display: block;
+
+    width: 100%;
+    height: auto;
+
+    object-fit: contain;
+  }
+
+  .contacts-page__actions--mobile {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10.5vw;
+    padding: 0 4vw;
+    background: #ffffff;
+    transform: translateY(-20vh);
+  }
+
+  .contacts-page__action {
+    gap: 0.6vh;
+
+    font-size: 3.2vw;
+    line-height: 1.4;
+  }
+
+  .contacts-page__icon {
+    width: 4vw;
+    height: 4vw;
+  }
+}
+
+
