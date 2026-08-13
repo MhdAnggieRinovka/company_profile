@@ -41,7 +41,6 @@ function WorkDetailDesktopHeader() {
   return (
     <header className="work-detail-desktop-header">
       <div className="work-detail-desktop-header__inner">
-
         <Link
           to="/"
           className="work-detail-desktop-header__brand"
@@ -54,10 +53,7 @@ function WorkDetailDesktopHeader() {
           className="work-detail-desktop-header__nav"
           aria-label="Main navigation"
         >
-          <Link
-            to="/about_us"
-            className="work-detail-desktop-header__link"
-          >
+          <Link to="/about_us" className="work-detail-desktop-header__link">
             ABOUT
           </Link>
 
@@ -75,7 +71,6 @@ function WorkDetailDesktopHeader() {
             CONTACTS
           </Link>
         </nav>
-
       </div>
     </header>
   );
@@ -844,6 +839,14 @@ export default function WorkDetailPage() {
 
   const isMobile = typeof window !== "undefined" && window.innerWidth <= 768;
 
+  const hasRelatedWorks = relatedWorks.length > 0;
+
+  /*
+   * Kalau tidak ada Related Projects,
+   * Close / Share HARUS selalu floating.
+   */
+  const effectiveActionsStopped = hasRelatedWorks && actionsStopped;
+
   /* =======================================================
   ACTIONS STYLE
   ======================================================= */
@@ -878,7 +881,7 @@ export default function WorkDetailPage() {
    * menjadi satu flow normal.
    */
 
-  const actionsStyle = actionsStopped
+  const actionsStyle = effectiveActionsStopped
     ? {
         position: "static",
 
@@ -951,7 +954,11 @@ export default function WorkDetailPage() {
   const actionsSlotStyle = {
     width: "100%",
 
-    height: isMobile ? `${MOBILE_ACTION_HEIGHT}px` : `${ACTION_HEIGHT}px`,
+    height: hasRelatedWorks
+      ? isMobile
+        ? `${MOBILE_ACTION_HEIGHT}px`
+        : `${ACTION_HEIGHT}px`
+      : "0px",
 
     flexShrink: 0,
   };
@@ -1042,16 +1049,14 @@ export default function WorkDetailPage() {
 
         ================================================= */}
 
-        {relatedWorks.length > 0 && (
-          <div className="work-detail__actions-slot" style={actionsSlotStyle}>
-            <WorkDetailActions
-              onShare={handleShare}
-              isStopped={actionsStopped}
-              actionsRef={actionsRef}
-              actionsStyle={actionsStyle}
-            />
-          </div>
-        )}
+        <div className="work-detail__actions-slot" style={actionsSlotStyle}>
+          <WorkDetailActions
+            onShare={handleShare}
+            isStopped={effectiveActionsStopped}
+            actionsRef={actionsRef}
+            actionsStyle={actionsStyle}
+          />
+        </div>
 
         {/* =================================================
         RELATED PROJECTS
