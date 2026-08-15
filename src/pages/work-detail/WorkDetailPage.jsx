@@ -5,7 +5,8 @@ import "react-loading-skeleton/dist/skeleton.css";
 
 import { RELATED_WORKS_API, WORK_DETAIL_API } from "../../services/api";
 
-import "./work-detail.css";
+// import "./work-detail.css";
+import "../../App.css";
 
 /* =========================================================
 FALLBACK TEXTS
