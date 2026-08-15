@@ -1205,47 +1205,72 @@ body {
 }
 
 /* =========================================================
-   8. ABOUT MOBILE
+   8. ABOUT — MOBILE
    ========================================================= */
 
 @media (max-width: 768px) {
   .home-page--about {
     width: 100%;
-
     height: 100dvh;
     min-height: 100dvh;
 
     display: grid;
-
-    grid-template-rows: auto 1fr auto;
+    grid-template-rows: auto minmax(0, 1fr) auto;
 
     overflow: hidden;
   }
 
+  /* ---------------------------------------------------------
+     ABOUT PAGE
+  --------------------------------------------------------- */
+
   .home-page--about .about-page {
     width: 100%;
+    min-width: 0;
+    min-height: 0;
     height: 100%;
 
-    min-height: 0;
-
-    overflow-y: auto;
     overflow-x: hidden;
+    overflow-y: auto;
 
     display: block;
 
+    box-sizing: border-box;
+
     -webkit-overflow-scrolling: touch;
+
+    /* Hide scrollbar */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
   }
+
+  .home-page--about .about-page::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+
+  /* ---------------------------------------------------------
+     ABOUT CONTENT
+  --------------------------------------------------------- */
 
   .home-page--about .about-content {
     width: 100%;
     max-width: 430px;
+    min-width: 0;
 
     margin: 24px auto 0;
 
-    padding: 0 clamp(16px, 5vw, 20px) 32px;
+    padding: 0 clamp(14px, 5vw, 20px) 32px;
+
+    box-sizing: border-box;
 
     text-align: center;
   }
+
+  /* ---------------------------------------------------------
+     TITLE
+  --------------------------------------------------------- */
 
   .home-page--about .about-title {
     margin: 0 0 24px;
@@ -1253,10 +1278,17 @@ body {
     font-size: clamp(18px, 4.8vw, 20px);
 
     line-height: 1.2;
+
+    text-align: center;
   }
+
+  /* ---------------------------------------------------------
+     CONTENT GRID
+  --------------------------------------------------------- */
 
   .home-page--about .about-grid {
     width: 100%;
+    min-width: 0;
 
     display: flex;
     flex-direction: column;
@@ -1266,6 +1298,15 @@ body {
     gap: 0;
 
     margin: 0 auto 24px;
+  }
+
+  /* ---------------------------------------------------------
+     LEFT TEXT
+  --------------------------------------------------------- */
+
+  .home-page--about .about-grid__col--left {
+    width: 100%;
+    min-width: 0;
   }
 
   .home-page--about .about-grid__col--left p {
@@ -1280,12 +1321,46 @@ body {
     text-align: center;
   }
 
-  .home-page--about .about-hero__image {
-    width: min(58vw, 220px);
+  /* ---------------------------------------------------------
+     IMAGE
+  --------------------------------------------------------- */
 
+  .home-page--about .about-grid__col--center {
+    width: 100%;
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .home-page--about .about-grid__col--center picture {
+    display: block;
+
+    width: 100%;
     max-width: 220px;
 
     margin: 0 auto 24px;
+  }
+
+  .home-page--about .about-hero__image {
+    display: block;
+
+    width: min(58vw, 220px);
+    max-width: 100%;
+    height: auto;
+
+    margin: 0 auto;
+  }
+
+  /* ---------------------------------------------------------
+     RIGHT + MIDDLE TEXT
+  --------------------------------------------------------- */
+
+  .home-page--about .about-grid__col--right,
+  .home-page--about .about-grid__middle-text {
+    width: 100%;
+    min-width: 0;
   }
 
   .home-page--about .about-grid__col--right p,
@@ -1294,7 +1369,6 @@ body {
     max-width: 360px;
 
     margin: 0 auto 16px;
-
     padding: 0;
 
     font-size: 12px;
@@ -1303,12 +1377,19 @@ body {
     text-align: center;
   }
 
+  /* ---------------------------------------------------------
+     CTA
+  --------------------------------------------------------- */
+
   .home-page--about .about-cta {
     width: 100%;
+    min-width: 0;
 
     margin: 0 auto;
 
     padding: 8px 0 32px;
+
+    box-sizing: border-box;
   }
 
   .home-page--about .about-cta__lead {
@@ -1323,15 +1404,17 @@ body {
 }
 
 /* =========================================================
-   9. MOBILE — SHORT SCREEN
+   9. ABOUT — VERY SMALL MOBILE
    ========================================================= */
 
-@media (max-width: 768px) and (max-height: 760px) {
+@media (max-width: 400px) {
   .home-page--about .about-content {
+    max-width: 100%;
+
     margin-top: 14px;
 
-    padding-left: 14px;
-    padding-right: 14px;
+    padding-left: 12px;
+    padding-right: 12px;
     padding-bottom: 24px;
   }
 
@@ -1361,10 +1444,14 @@ body {
     margin-bottom: 16px;
   }
 
-  .home-page--about .about-hero__image {
-    width: min(48vw, 200px);
+  .home-page--about .about-grid__col--center picture {
+    max-width: 200px;
 
     margin-bottom: 16px;
+  }
+
+  .home-page--about .about-hero__image {
+    width: min(48vw, 200px);
   }
 
   .home-page--about .about-cta {
