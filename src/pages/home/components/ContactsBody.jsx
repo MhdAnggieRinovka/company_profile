@@ -206,12 +206,6 @@ export default function ContactsBody() {
                 className="contacts-page__action"
                 onClick={handleVisitUs}
               >
-                <img
-                  src={visitUsIcon}
-                  alt="Visit Us"
-                  className="contacts-page__icon"
-                />
-
                 <span>Visit Us</span>
               </button>
 
@@ -224,12 +218,6 @@ export default function ContactsBody() {
                 className="contacts-page__action"
                 onClick={handleSendEmail}
               >
-                <img
-                  src={sendUsEmailIcon}
-                  alt="Send us Email"
-                  className="contacts-page__icon"
-                />
-
                 <span>Send us Email</span>
               </button>
 
@@ -242,12 +230,6 @@ export default function ContactsBody() {
                 className="contacts-page__action"
                 onClick={handleChatUs}
               >
-                <img
-                  src={chatUsIcon}
-                  alt="Chat Us"
-                  className="contacts-page__icon"
-                />
-
                 <span>Chat Us</span>
               </button>
             </>
