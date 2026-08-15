@@ -1487,6 +1487,44 @@ body {
 }
 
 /* =========================================================
+   10. ABOUT + CONTACT — SHORT DESKTOP
+   ========================================================= */
+
+@media (min-width: 769px) and (max-height: 800px) {
+  /* -------------------------------------------------------
+     ABOUT
+     ------------------------------------------------------- */
+
+  .home-page--about {
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .home-page--about .about-page {
+    height: auto;
+    min-height: calc(100dvh - 68px);
+
+    flex: 0 0 auto;
+
+    overflow-x: hidden;
+    overflow-y: visible;
+  }
+
+  /* -------------------------------------------------------
+     CONTACT
+     ------------------------------------------------------- */
+
+  .home-page--about.contacts-page-wrapper .contacts-page--desktop {
+    height: calc(100dvh - 68px);
+    min-height: 620px;
+
+    flex: 0 0 auto;
+
+    overflow: hidden;
+  }
+}
+
+/* =========================================================
    CLEANUP V1 — CONTACT US
    ========================================================= */
 
