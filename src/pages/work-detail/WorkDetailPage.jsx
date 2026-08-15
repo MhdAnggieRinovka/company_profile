@@ -1,12 +1,14 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
 import { RELATED_WORKS_API, WORK_DETAIL_API } from "../../services/api";
 
-// import "./work-detail.css";
 import "../../App.css";
+
+// SiteHeader utama yang sekarang dipakai Home / About / Contacts / Works
+import SiteHeader from "../home/components/SiteHeader";
 
 /* =========================================================
 FALLBACK TEXTS
@@ -35,51 +37,15 @@ function decodeHtml(text = "") {
 }
 
 /* =========================================================
-   DESKTOP HEADER
-========================================================= */
-
-function WorkDetailDesktopHeader() {
-  return (
-    <header className="work-detail-desktop-header">
-      <div className="work-detail-desktop-header__inner">
-        <Link
-          to="/"
-          className="work-detail-desktop-header__brand"
-          aria-label="KYUB home"
-        >
-          <img src="/logo-kyub.jpeg" alt="KYUB" />
-        </Link>
-
-        <nav
-          className="work-detail-desktop-header__nav"
-          aria-label="Main navigation"
-        >
-          <Link to="/about_us" className="work-detail-desktop-header__link">
-            ABOUT
-          </Link>
-
-          <Link
-            to="/?page=works"
-            className="work-detail-desktop-header__link work-detail-desktop-header__link--active"
-          >
-            WORK
-          </Link>
-
-          <Link
-            to="/?page=contacts"
-            className="work-detail-desktop-header__link"
-          >
-            CONTACTS
-          </Link>
-        </nav>
-      </div>
-    </header>
-  );
-}
-
-/* =========================================================
    MOBILE HEADER
 ========================================================= */
+
+/*
+ * MOBILE BELUM KITA REFACTOR.
+ *
+ * Untuk sementara tetap menggunakan
+ * header mobile Work Detail yang lama.
+ */
 
 function WorkDetailMobileHeader() {
   return (
@@ -99,14 +65,34 @@ function WorkDetailMobileHeader() {
    WORK DETAIL HEADER
 ========================================================= */
 
-function WorkDetailHeader() {
+function WorkDetailHeader({ onNavigate }) {
   return (
     <>
-      <WorkDetailDesktopHeader />
+      {/* =====================================================
+          DESKTOP
+          
+          SEKARANG MENGGUNAKAN SiteHeader UTAMA
+      ===================================================== */}
+
+      <div className="work-detail__desktop-site-header">
+        <SiteHeader
+          activePage="works"
+          showWorks={true}
+          onNavigate={onNavigate}
+        />
+      </div>
+
+      {/* =====================================================
+          MOBILE
+
+          BELUM DIUBAH
+      ===================================================== */}
+
       <WorkDetailMobileHeader />
     </>
   );
 }
+
 /* =========================================================
 MOBILE BOTTOM NAVIGATION
 ========================================================= */
@@ -136,7 +122,12 @@ function WorkDetailBottomNav() {
 CLOSE / SHARE
 ========================================================= */
 
-function WorkDetailActions({ onShare, isStopped, actionsRef, actionsStyle }) {
+function WorkDetailActions({
+  onShare,
+  isStopped,
+  actionsRef,
+  actionsStyle,
+}) {
   return (
     <div
       ref={actionsRef}
@@ -220,11 +211,11 @@ function WorkDetailActions({ onShare, isStopped, actionsRef, actionsStyle }) {
 SKELETON
 ========================================================= */
 
-function WorkDetailSkeleton() {
+function WorkDetailSkeleton({ onNavigate }) {
   return (
     <SkeletonTheme>
       <main className="work-detail-page">
-        <WorkDetailHeader />
+        <WorkDetailHeader onNavigate={onNavigate} />
 
         <section className="work-detail">
           {/* INTRO */}
@@ -305,6 +296,33 @@ MAIN PAGE
 
 export default function WorkDetailPage() {
   const { slug } = useParams();
+  const navigate = useNavigate();
+
+  /* =======================================================
+  NAVIGATION
+  ======================================================= */
+
+  function handleNavigate(page) {
+    if (page === "home") {
+      navigate("/");
+      return;
+    }
+
+    if (page === "about") {
+      navigate("/about_us");
+      return;
+    }
+
+    if (page === "works") {
+      navigate("/?page=works");
+      return;
+    }
+
+    if (page === "contacts") {
+      navigate("/?page=contacts");
+      return;
+    }
+  }
 
   /* =======================================================
   STATE
@@ -348,8 +366,8 @@ export default function WorkDetailPage() {
   /*
    * Tinggi slot mobile.
    *
-   * Disamakan dengan konsep CSS
-   * yang sebelumnya kita gunakan.
+   * Tetap dipertahankan karena
+   * mobile belum kita refactor.
    */
   const MOBILE_ACTION_HEIGHT = 52;
 
@@ -454,7 +472,9 @@ export default function WorkDetailPage() {
         });
 
         if (!response.ok) {
-          throw new Error(`Failed to fetch related works: ${response.status}`);
+          throw new Error(
+            `Failed to fetch related works: ${response.status}`,
+          );
         }
 
         const json = await response.json();
@@ -472,7 +492,8 @@ export default function WorkDetailPage() {
               item.acf?.portfoliocategory?.slug ||
               "";
 
-            const cover = item.acf?.cover_image || item.acf?.coverimage || null;
+            const cover =
+              item.acf?.cover_image || item.acf?.coverimage || null;
 
             const image =
               cover?.sizes?.medium_large ||
@@ -556,7 +577,9 @@ export default function WorkDetailPage() {
             image: imageUrl,
 
             alt:
-              imageField.alt || workItem.title?.rendered || `Work image ${i}`,
+              imageField.alt ||
+              workItem.title?.rendered ||
+              `Work image ${i}`,
 
             description:
               descriptionField ||
@@ -568,7 +591,7 @@ export default function WorkDetailPage() {
 
     /* =====================================================
       FALLBACK COVER IMAGE
-      ===================================================== */
+    ===================================================== */
 
     const coverImage = acf.cover_image || acf.coverimage;
 
@@ -673,8 +696,6 @@ export default function WorkDetailPage() {
         frameId = null;
 
         /*
-         * IMPORTANT
-         *
          * Ambil Related Projects
          * DI DALAM callback.
          */
@@ -693,19 +714,16 @@ export default function WorkDetailPage() {
 
         /* =================================================
               MOBILE
-              ================================================= */
+        ================================================= */
 
         if (isMobile) {
-          const bottomNav = document.querySelector(".work-detail-bottom-nav");
+          const bottomNav = document.querySelector(
+            ".work-detail-bottom-nav",
+          );
 
           const bottomNavHeight = bottomNav
             ? bottomNav.getBoundingClientRect().height
             : 38;
-
-          /*
-           * Action bar berada
-           * di atas bottom nav.
-           */
 
           const stopPoint =
             window.innerHeight - bottomNavHeight - MOBILE_ACTION_HEIGHT;
@@ -719,15 +737,7 @@ export default function WorkDetailPage() {
 
         /* =================================================
               DESKTOP
-              ================================================= */
-
-        /*
-         * Desktop tidak punya
-         * bottom navigation.
-         *
-         * Action bar berada
-         * di bagian paling bawah viewport.
-         */
+        ================================================= */
 
         const stopPoint = window.innerHeight - ACTION_HEIGHT;
 
@@ -758,10 +768,6 @@ export default function WorkDetailPage() {
      * =====================================================
      * RESIZE OBSERVER
      * =====================================================
-     *
-     * Observe BODY agar perubahan tinggi
-     * gambar/gallery juga bisa memicu
-     * pengecekan ulang.
      */
 
     let resizeObserver = null;
@@ -804,7 +810,7 @@ export default function WorkDetailPage() {
   ======================================================= */
 
   if (loading) {
-    return <WorkDetailSkeleton />;
+    return <WorkDetailSkeleton onNavigate={handleNavigate} />;
   }
 
   /* =======================================================
@@ -814,7 +820,7 @@ export default function WorkDetailPage() {
   if (error || !workItem) {
     return (
       <main className="work-detail-page">
-        <WorkDetailHeader />
+        <WorkDetailHeader onNavigate={handleNavigate} />
 
         <div className="work-detail__feedback">
           {error || "Work detail tidak ditemukan."}
@@ -838,7 +844,8 @@ export default function WorkDetailPage() {
   RESPONSIVE
   ======================================================= */
 
-  const isMobile = typeof window !== "undefined" && window.innerWidth <= 768;
+  const isMobile =
+    typeof window !== "undefined" && window.innerWidth <= 768;
 
   const hasRelatedWorks = relatedWorks.length > 0;
 
@@ -851,36 +858,6 @@ export default function WorkDetailPage() {
   /* =======================================================
   ACTIONS STYLE
   ======================================================= */
-
-  /*
-   * =====================================================
-   * FLOATING
-   * =====================================================
-   *
-   * Mobile:
-   *   fixed di atas bottom navigation.
-   *
-   * Desktop:
-   *   fixed di bagian paling bawah viewport.
-   *
-   * =====================================================
-   *
-   * STOPPED
-   * =====================================================
-   *
-   * position: static
-   *
-   * Karena action berada di dalam
-   * actions-slot yang tepat sebelum
-   * Related Projects, maka ketika
-   * stopped:
-   *
-   * Close / Share
-   *       ↓
-   * Related Projects
-   *
-   * menjadi satu flow normal.
-   */
 
   const actionsStyle = effectiveActionsStopped
     ? {
@@ -939,19 +916,6 @@ export default function WorkDetailPage() {
   ACTION SLOT
   ======================================================= */
 
-  /*
-   * SLOT SELALU ADA.
-   *
-   * Ini sangat penting.
-   *
-   * Ketika action berubah:
-   *
-   * fixed -> static
-   *
-   * Related Projects tidak ikut meloncat
-   * karena slot sudah mempunyai tinggi.
-   */
-
   const actionsSlotStyle = {
     width: "100%",
 
@@ -974,7 +938,7 @@ export default function WorkDetailPage() {
       HEADER
       ================================================= */}
 
-      <WorkDetailHeader />
+      <WorkDetailHeader onNavigate={handleNavigate} />
 
       {/* =================================================
       MAIN CONTENT
@@ -1025,7 +989,9 @@ export default function WorkDetailPage() {
 
                 {hasCaption ? (
                   <div className="work-detail__caption-wrap">
-                    <p className="work-detail__caption">{item.description}</p>
+                    <p className="work-detail__caption">
+                      {item.description}
+                    </p>
                   </div>
                 ) : null}
               </section>
@@ -1035,22 +1001,12 @@ export default function WorkDetailPage() {
 
         {/* =================================================
         CLOSE / SHARE SLOT
-        =================================================
-
-        SLOT INI SELALU ADA.
-
-        Saat gallery:
-          [slot]
-          Close / Share = fixed
-
-        Saat Related Projects mendekat:
-          [slot]
-          Close / Share = static
-          Related Projects
-
         ================================================= */}
 
-        <div className="work-detail__actions-slot" style={actionsSlotStyle}>
+        <div
+          className="work-detail__actions-slot"
+          style={actionsSlotStyle}
+        >
           <WorkDetailActions
             onShare={handleShare}
             isStopped={effectiveActionsStopped}
@@ -1064,8 +1020,13 @@ export default function WorkDetailPage() {
         ================================================= */}
 
         {relatedWorks.length > 0 && (
-          <section className="related-projects" ref={relatedProjectsRef}>
-            <h2 className="related-projects__title">Related Projects</h2>
+          <section
+            className="related-projects"
+            ref={relatedProjectsRef}
+          >
+            <h2 className="related-projects__title">
+              Related Projects
+            </h2>
 
             <div className="related-projects__grid">
               {relatedWorks.map((item) => (
@@ -1075,10 +1036,16 @@ export default function WorkDetailPage() {
                   className="related-projects__item"
                 >
                   <div className="related-projects__thumb">
-                    <img src={item.image} alt={item.title} loading="lazy" />
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      loading="lazy"
+                    />
                   </div>
 
-                  <p className="related-projects__name">{item.title}</p>
+                  <p className="related-projects__name">
+                    {item.title}
+                  </p>
                 </Link>
               ))}
             </div>

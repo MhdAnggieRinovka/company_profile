@@ -44,7 +44,6 @@ body {
   overflow-y: auto;
 }
 
-
 /* =========================================================
    WORKS FILTER
    ========================================================= */
@@ -3378,5 +3377,13 @@ body {
     object-fit: cover;
 
     display: block;
+  }
+}
+
+@media (min-width: 769px) {
+  .work-detail__desktop-site-header {
+    position: relative;
+    width: 100%;
+    transform: translateX(7px);
   }
 }
