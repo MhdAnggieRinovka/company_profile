@@ -7,11 +7,11 @@ import { RELATED_WORKS_API, WORK_DETAIL_API } from "../../services/api";
 
 import "../../App.css";
 
-// SiteHeader utama yang sekarang dipakai Home / About / Contacts / Works
+// SiteHeader utama yang dipakai Home / About / Contacts / Works
 import SiteHeader from "../home/components/SiteHeader";
 
 /* =========================================================
-FALLBACK TEXTS
+   FALLBACK TEXTS
 ========================================================= */
 
 const FALLBACK_TEXTS = [
@@ -23,7 +23,7 @@ const FALLBACK_TEXTS = [
 ];
 
 /* =========================================================
-HELPER
+   HELPER
 ========================================================= */
 
 function decodeHtml(text = "") {
@@ -37,64 +37,76 @@ function decodeHtml(text = "") {
 }
 
 /* =========================================================
-   MOBILE HEADER
+   RESPONSIVE HOOK
 ========================================================= */
 
-/*
- * MOBILE BELUM KITA REFACTOR.
- *
- * Untuk sementara tetap menggunakan
- * header mobile Work Detail yang lama.
- */
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(() => {
+    if (typeof window === "undefined") {
+      return false;
+    }
 
-function WorkDetailMobileHeader() {
-  return (
-    <header className="work-detail-mobile-header">
-      <Link
-        to="/"
-        className="work-detail-mobile-header__brand"
-        aria-label="KYUB home"
-      >
-        <img src="/logo-kyub.jpeg" alt="KYUB" />
-      </Link>
-    </header>
-  );
+    return window.innerWidth <= 768;
+  });
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  return isMobile;
 }
 
 /* =========================================================
    WORK DETAIL HEADER
 ========================================================= */
 
-function WorkDetailHeader({ onNavigate }) {
-  return (
-    <>
-      {/* =====================================================
-          DESKTOP
-          
-          SEKARANG MENGGUNAKAN SiteHeader UTAMA
-      ===================================================== */}
+/*
+ * PENTING:
+ *
+ * Kita TETAP menggunakan SiteHeader yang sama.
+ *
+ * Desktop:
+ *   hanya desktop wrapper yang dirender.
+ *
+ * Mobile:
+ *   hanya mobile wrapper yang dirender.
+ *
+ * Jadi SiteHeader tidak pernah muncul 2 kali
+ * pada saat yang sama.
+ */
 
-      <div className="work-detail__desktop-site-header">
+function WorkDetailHeader({ onNavigate, isMobile }) {
+  if (isMobile) {
+    return (
+      <div className="work-detail__mobile-site-header">
         <SiteHeader
           activePage="works"
           showWorks={true}
           onNavigate={onNavigate}
         />
       </div>
+    );
+  }
 
-      {/* =====================================================
-          MOBILE
-
-          BELUM DIUBAH
-      ===================================================== */}
-
-      <WorkDetailMobileHeader />
-    </>
+  return (
+    <div className="work-detail__desktop-site-header">
+      <SiteHeader activePage="works" showWorks={true} onNavigate={onNavigate} />
+    </div>
   );
 }
 
 /* =========================================================
-MOBILE BOTTOM NAVIGATION
+   MOBILE BOTTOM NAVIGATION
 ========================================================= */
 
 function WorkDetailBottomNav() {
@@ -119,15 +131,10 @@ function WorkDetailBottomNav() {
 }
 
 /* =========================================================
-CLOSE / SHARE
+   CLOSE / SHARE
 ========================================================= */
 
-function WorkDetailActions({
-  onShare,
-  isStopped,
-  actionsRef,
-  actionsStyle,
-}) {
+function WorkDetailActions({ onShare, isStopped, actionsRef, actionsStyle }) {
   return (
     <div
       ref={actionsRef}
@@ -139,6 +146,7 @@ function WorkDetailActions({
       style={actionsStyle}
     >
       {/* CLOSE */}
+
       <Link
         to="/?page=works"
         className="work-detail__action-link"
@@ -155,6 +163,7 @@ function WorkDetailActions({
       </Link>
 
       {/* SHARE */}
+
       <button
         type="button"
         className="work-detail__action-button"
@@ -208,17 +217,20 @@ function WorkDetailActions({
 }
 
 /* =========================================================
-SKELETON
+   SKELETON
 ========================================================= */
 
-function WorkDetailSkeleton({ onNavigate }) {
+function WorkDetailSkeleton({ onNavigate, isMobile }) {
   return (
     <SkeletonTheme>
       <main className="work-detail-page">
-        <WorkDetailHeader onNavigate={onNavigate} />
+        {/* HEADER */}
+
+        <WorkDetailHeader onNavigate={onNavigate} isMobile={isMobile} />
 
         <section className="work-detail">
           {/* INTRO */}
+
           <header className="work-detail__intro">
             <div className="work-detail__intro-meta">
               <Skeleton width={90} height={14} />
@@ -230,6 +242,7 @@ function WorkDetailSkeleton({ onNavigate }) {
           </header>
 
           {/* GALLERY */}
+
           <div className="work-detail__gallery">
             {Array.from({ length: 3 }).map((_, index) => (
               <section className="work-detail__block has-caption" key={index}>
@@ -256,6 +269,7 @@ function WorkDetailSkeleton({ onNavigate }) {
           </div>
 
           {/* RELATED PROJECTS */}
+
           <section className="related-projects">
             <h2 className="related-projects__title">Related Projects</h2>
 
@@ -284,6 +298,8 @@ function WorkDetailSkeleton({ onNavigate }) {
           </section>
         </section>
 
+        {/* MOBILE BOTTOM NAV */}
+
         <WorkDetailBottomNav />
       </main>
     </SkeletonTheme>
@@ -291,7 +307,7 @@ function WorkDetailSkeleton({ onNavigate }) {
 }
 
 /* =========================================================
-MAIN PAGE
+   MAIN PAGE
 ========================================================= */
 
 export default function WorkDetailPage() {
@@ -299,7 +315,13 @@ export default function WorkDetailPage() {
   const navigate = useNavigate();
 
   /* =======================================================
-  NAVIGATION
+     RESPONSIVE
+  ======================================================= */
+
+  const isMobile = useIsMobile();
+
+  /* =======================================================
+     NAVIGATION
   ======================================================= */
 
   function handleNavigate(page) {
@@ -325,7 +347,7 @@ export default function WorkDetailPage() {
   }
 
   /* =======================================================
-  STATE
+     STATE
   ======================================================= */
 
   const [workItem, setWorkItem] = useState(null);
@@ -336,18 +358,10 @@ export default function WorkDetailPage() {
 
   const [relatedWorks, setRelatedWorks] = useState([]);
 
-  /*
-   * FALSE
-   * = Close / Share masih floating
-   *
-   * TRUE
-   * = Close / Share sudah berhenti
-   *   tepat sebelum Related Projects
-   */
   const [actionsStopped, setActionsStopped] = useState(false);
 
   /* =======================================================
-  REFS
+     REFS
   ======================================================= */
 
   const relatedProjectsRef = useRef(null);
@@ -355,24 +369,15 @@ export default function WorkDetailPage() {
   const actionsRef = useRef(null);
 
   /* =======================================================
-  ACTION HEIGHT
+     ACTION HEIGHT
   ======================================================= */
 
-  /*
-   * Tinggi slot desktop.
-   */
   const ACTION_HEIGHT = 56;
 
-  /*
-   * Tinggi slot mobile.
-   *
-   * Tetap dipertahankan karena
-   * mobile belum kita refactor.
-   */
   const MOBILE_ACTION_HEIGHT = 52;
 
   /* =======================================================
-  RESET SCROLL
+     RESET SCROLL
   ======================================================= */
 
   useEffect(() => {
@@ -396,7 +401,7 @@ export default function WorkDetailPage() {
   }, [slug]);
 
   /* =======================================================
-  FETCH WORK DETAIL
+     FETCH WORK DETAIL
   ======================================================= */
 
   useEffect(() => {
@@ -452,7 +457,7 @@ export default function WorkDetailPage() {
   }, [slug]);
 
   /* =======================================================
-  FETCH RELATED WORKS
+     FETCH RELATED WORKS
   ======================================================= */
 
   useEffect(() => {
@@ -472,9 +477,7 @@ export default function WorkDetailPage() {
         });
 
         if (!response.ok) {
-          throw new Error(
-            `Failed to fetch related works: ${response.status}`,
-          );
+          throw new Error(`Failed to fetch related works: ${response.status}`);
         }
 
         const json = await response.json();
@@ -485,15 +488,13 @@ export default function WorkDetailPage() {
           "";
 
         const mapped = json
-
           .map((item) => {
             const itemCategorySlug =
               item.acf?.portfolio_category?.slug ||
               item.acf?.portfoliocategory?.slug ||
               "";
 
-            const cover =
-              item.acf?.cover_image || item.acf?.coverimage || null;
+            const cover = item.acf?.cover_image || item.acf?.coverimage || null;
 
             const image =
               cover?.sizes?.medium_large ||
@@ -545,7 +546,7 @@ export default function WorkDetailPage() {
   }, [workItem]);
 
   /* =======================================================
-  GALLERY DATA
+     GALLERY DATA
   ======================================================= */
 
   const galleryItems = useMemo(() => {
@@ -577,9 +578,7 @@ export default function WorkDetailPage() {
             image: imageUrl,
 
             alt:
-              imageField.alt ||
-              workItem.title?.rendered ||
-              `Work image ${i}`,
+              imageField.alt || workItem.title?.rendered || `Work image ${i}`,
 
             description:
               descriptionField ||
@@ -589,9 +588,7 @@ export default function WorkDetailPage() {
       }
     }
 
-    /* =====================================================
-      FALLBACK COVER IMAGE
-    ===================================================== */
+    /* FALLBACK COVER IMAGE */
 
     const coverImage = acf.cover_image || acf.coverimage;
 
@@ -615,7 +612,7 @@ export default function WorkDetailPage() {
   }, [workItem]);
 
   /* =======================================================
-  SHARE
+     SHARE
   ======================================================= */
 
   async function handleShare() {
@@ -626,19 +623,14 @@ export default function WorkDetailPage() {
     };
 
     try {
-      /* -----------------------------------------------
-      NATIVE SHARE
-      ----------------------------------------------- */
+      /* NATIVE SHARE */
 
       if (navigator.share) {
         await navigator.share(shareData);
-
         return;
       }
 
-      /* -----------------------------------------------
-      CLIPBOARD
-      ----------------------------------------------- */
+      /* CLIPBOARD */
 
       if (navigator.clipboard?.writeText) {
         await navigator.clipboard.writeText(window.location.href);
@@ -648,9 +640,7 @@ export default function WorkDetailPage() {
         return;
       }
 
-      /* -----------------------------------------------
-      FALLBACK
-      ----------------------------------------------- */
+      /* FALLBACK */
 
       const textArea = document.createElement("textarea");
 
@@ -671,7 +661,7 @@ export default function WorkDetailPage() {
   }
 
   /* =======================================================
-  CLOSE / SHARE POSITION
+     CLOSE / SHARE POSITION
   ======================================================= */
 
   useEffect(() => {
@@ -681,12 +671,6 @@ export default function WorkDetailPage() {
 
     let frameId = null;
 
-    /*
-     * =====================================================
-     * CHECK POSITION
-     * =====================================================
-     */
-
     const updateActionsState = () => {
       if (frameId !== null) {
         return;
@@ -695,31 +679,21 @@ export default function WorkDetailPage() {
       frameId = window.requestAnimationFrame(() => {
         frameId = null;
 
-        /*
-         * Ambil Related Projects
-         * DI DALAM callback.
-         */
-
         const relatedElement = relatedProjectsRef.current;
 
         if (!relatedElement) {
           setActionsStopped(false);
-
           return;
         }
 
         const relatedRect = relatedElement.getBoundingClientRect();
 
-        const isMobile = window.innerWidth <= 768;
-
         /* =================================================
-              MOBILE
-        ================================================= */
+             MOBILE
+          ================================================= */
 
         if (isMobile) {
-          const bottomNav = document.querySelector(
-            ".work-detail-bottom-nav",
-          );
+          const bottomNav = document.querySelector(".work-detail-bottom-nav");
 
           const bottomNavHeight = bottomNav
             ? bottomNav.getBoundingClientRect().height
@@ -736,8 +710,8 @@ export default function WorkDetailPage() {
         }
 
         /* =================================================
-              DESKTOP
-        ================================================= */
+             DESKTOP
+          ================================================= */
 
         const stopPoint = window.innerHeight - ACTION_HEIGHT;
 
@@ -747,28 +721,21 @@ export default function WorkDetailPage() {
       });
     };
 
-    /*
-     * Initial check
-     */
+    /* INITIAL */
+
     updateActionsState();
 
-    /*
-     * Scroll
-     */
+    /* SCROLL */
+
     window.addEventListener("scroll", updateActionsState, {
       passive: true,
     });
 
-    /*
-     * Resize
-     */
+    /* RESIZE */
+
     window.addEventListener("resize", updateActionsState);
 
-    /*
-     * =====================================================
-     * RESIZE OBSERVER
-     * =====================================================
-     */
+    /* RESIZE OBSERVER */
 
     let resizeObserver = null;
 
@@ -784,11 +751,7 @@ export default function WorkDetailPage() {
       }
     }
 
-    /*
-     * =====================================================
-     * CLEANUP
-     * =====================================================
-     */
+    /* CLEANUP */
 
     return () => {
       window.removeEventListener("scroll", updateActionsState);
@@ -803,24 +766,26 @@ export default function WorkDetailPage() {
         window.cancelAnimationFrame(frameId);
       }
     };
-  }, [workItem, relatedWorks.length]);
+  }, [workItem, relatedWorks.length, isMobile]);
 
   /* =======================================================
-  LOADING
+     LOADING
   ======================================================= */
 
   if (loading) {
-    return <WorkDetailSkeleton onNavigate={handleNavigate} />;
+    return (
+      <WorkDetailSkeleton onNavigate={handleNavigate} isMobile={isMobile} />
+    );
   }
 
   /* =======================================================
-  ERROR
+     ERROR
   ======================================================= */
 
   if (error || !workItem) {
     return (
       <main className="work-detail-page">
-        <WorkDetailHeader onNavigate={handleNavigate} />
+        <WorkDetailHeader onNavigate={handleNavigate} isMobile={isMobile} />
 
         <div className="work-detail__feedback">
           {error || "Work detail tidak ditemukan."}
@@ -832,7 +797,7 @@ export default function WorkDetailPage() {
   }
 
   /* =======================================================
-  CATEGORY
+     CATEGORY
   ======================================================= */
 
   const category =
@@ -841,35 +806,25 @@ export default function WorkDetailPage() {
     "Uncategorized";
 
   /* =======================================================
-  RESPONSIVE
+     RELATED WORKS
   ======================================================= */
-
-  const isMobile =
-    typeof window !== "undefined" && window.innerWidth <= 768;
 
   const hasRelatedWorks = relatedWorks.length > 0;
 
   /*
    * Kalau tidak ada Related Projects,
-   * Close / Share HARUS selalu floating.
+   * Close / Share selalu floating.
    */
+
   const effectiveActionsStopped = hasRelatedWorks && actionsStopped;
 
   /* =======================================================
-  ACTIONS STYLE
+     ACTIONS STYLE
   ======================================================= */
 
   const actionsStyle = effectiveActionsStopped
     ? {
         position: "static",
-
-        left: "auto",
-
-        right: "auto",
-
-        top: "auto",
-
-        bottom: "auto",
 
         width: "100%",
 
@@ -879,27 +834,14 @@ export default function WorkDetailPage() {
 
         boxSizing: "border-box",
 
-        /*
-         * DESKTOP ONLY
-         *
-         * Close / Share digeser sedikit
-         * ke atas agar lebih dekat dengan
-         * Related Projects.
-         *
-         * Mobile tetap tidak berubah.
-         */
         transform: isMobile ? "none" : "translateY(-14px)",
       }
     : {
         position: "fixed",
 
         left: 0,
-
         right: 0,
-
-        top: "auto",
-
-        bottom: isMobile ? "4vh" : "0px",
+        bottom: isMobile ? "38px" : "0px",
 
         width: "100%",
 
@@ -910,10 +852,12 @@ export default function WorkDetailPage() {
         boxSizing: "border-box",
 
         transform: "none",
+
+        zIndex: 1000,
       };
 
   /* =======================================================
-  ACTION SLOT
+     ACTION SLOT
   ======================================================= */
 
   const actionsSlotStyle = {
@@ -929,24 +873,24 @@ export default function WorkDetailPage() {
   };
 
   /* =======================================================
-  RENDER
+     RENDER
   ======================================================= */
 
   return (
     <main className="work-detail-page">
       {/* =================================================
-      HEADER
+          HEADER
       ================================================= */}
 
-      <WorkDetailHeader onNavigate={handleNavigate} />
+      <WorkDetailHeader onNavigate={handleNavigate} isMobile={isMobile} />
 
       {/* =================================================
-      MAIN CONTENT
+          MAIN CONTENT
       ================================================= */}
 
       <section className="work-detail">
         {/* =================================================
-        INTRO
+            INTRO
         ================================================= */}
 
         <header className="work-detail__intro">
@@ -965,7 +909,7 @@ export default function WorkDetailPage() {
         </header>
 
         {/* =================================================
-        GALLERY
+            GALLERY
         ================================================= */}
 
         <div className="work-detail__gallery">
@@ -989,9 +933,7 @@ export default function WorkDetailPage() {
 
                 {hasCaption ? (
                   <div className="work-detail__caption-wrap">
-                    <p className="work-detail__caption">
-                      {item.description}
-                    </p>
+                    <p className="work-detail__caption">{item.description}</p>
                   </div>
                 ) : null}
               </section>
@@ -1000,13 +942,10 @@ export default function WorkDetailPage() {
         </div>
 
         {/* =================================================
-        CLOSE / SHARE SLOT
+            CLOSE / SHARE SLOT
         ================================================= */}
 
-        <div
-          className="work-detail__actions-slot"
-          style={actionsSlotStyle}
-        >
+        <div className="work-detail__actions-slot" style={actionsSlotStyle}>
           <WorkDetailActions
             onShare={handleShare}
             isStopped={effectiveActionsStopped}
@@ -1016,17 +955,12 @@ export default function WorkDetailPage() {
         </div>
 
         {/* =================================================
-        RELATED PROJECTS
+            RELATED PROJECTS
         ================================================= */}
 
         {relatedWorks.length > 0 && (
-          <section
-            className="related-projects"
-            ref={relatedProjectsRef}
-          >
-            <h2 className="related-projects__title">
-              Related Projects
-            </h2>
+          <section className="related-projects" ref={relatedProjectsRef}>
+            <h2 className="related-projects__title">Related Projects</h2>
 
             <div className="related-projects__grid">
               {relatedWorks.map((item) => (
@@ -1036,16 +970,10 @@ export default function WorkDetailPage() {
                   className="related-projects__item"
                 >
                   <div className="related-projects__thumb">
-                    <img
-                      src={item.image}
-                      alt={item.title}
-                      loading="lazy"
-                    />
+                    <img src={item.image} alt={item.title} loading="lazy" />
                   </div>
 
-                  <p className="related-projects__name">
-                    {item.title}
-                  </p>
+                  <p className="related-projects__name">{item.title}</p>
                 </Link>
               ))}
             </div>
@@ -1054,7 +982,7 @@ export default function WorkDetailPage() {
       </section>
 
       {/* =================================================
-      MOBILE BOTTOM NAV
+          MOBILE BOTTOM NAV
       ================================================= */}
 
       <WorkDetailBottomNav />
