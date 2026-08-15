@@ -11,7 +11,7 @@
   --mobile-work-push-down: 3.8vh;
 
   --nav-link-size-desktop: 0.73vw;
-  --nav-link-size-mobile: 3vw;
+  --nav-link-size-mobile: 12px;
 
   --nav-letter-spacing-desktop: 0.1em;
   --nav-letter-spacing-mobile: 0.12em;
@@ -659,10 +659,8 @@ body {
   height: 68px;
 
   margin: 0 auto;
-  padding-inline:
-  calc(
-    (100% - var(--works-desktop-width)) / 2
-    + clamp(7px, 0.65vw, 10px)
+  padding-inline: calc(
+    (100% - var(--works-desktop-width)) / 2 + clamp(7px, 0.65vw, 10px)
   );
 
   display: grid;
@@ -1701,7 +1699,7 @@ body {
    --------------------------------------------------------- */
 
 .works-carousel {
-    width: var(--works-desktop-width);
+  width: var(--works-desktop-width);
   height: 100%;
 
   margin: 0 auto;
@@ -3199,9 +3197,8 @@ body {
 
     width: 100%;
 
-    height: 4vh;
-
-    min-height: 38px;
+    height: var(--mobile-bottom-nav-h);
+    min-height: 0;
 
     display: grid;
 
@@ -3213,9 +3210,11 @@ body {
     margin: 0;
     padding: 0;
 
-    border-top: 1px solid rgba(22, 22, 22, 0.12);
+    border-top: 1px solid rgba(22, 22, 22, 0.08);
 
     background: #ffffff;
+
+    box-sizing: border-box;
 
     z-index: 1100;
   }
@@ -3231,7 +3230,7 @@ body {
 
     font-family: "Inter", Arial, Helvetica, sans-serif;
 
-    font-size: clamp(11px, 3vw, 14px);
+    font-size: var(--nav-link-size-mobile);
 
     line-height: 1;
 
@@ -3249,7 +3248,7 @@ body {
   }
 
   .work-detail-bottom-nav__link--active {
-    font-size: clamp(11px, 3vw, 14px);
+    letter-spacing: var(--nav-letter-spacing-mobile);
 
     letter-spacing: 0.12em;
 
