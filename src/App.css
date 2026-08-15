@@ -643,13 +643,13 @@ body {
    2. SITE HEADER — DESKTOP
    ========================================================= */
 
-.home-page .site-header {
+.site-header {
   width: 100%;
 
   flex: 0 0 auto;
 }
 
-.home-page .site-header__inner {
+.site-header__inner {
   position: relative;
 
   width: min(100%, 1512px);
@@ -671,7 +671,7 @@ body {
    3. BRAND
    ========================================================= */
 
-.home-page .brand-button {
+.brand-button {
   width: 100px;
   height: 60px;
 
@@ -691,7 +691,7 @@ body {
   cursor: pointer;
 }
 
-.home-page .brand-button img {
+.brand-button img {
   display: block;
 
   width: clamp(94px, 8.95vw, 122px);
@@ -705,7 +705,7 @@ body {
    4. DESKTOP NAVIGATION
    ========================================================= */
 
-.home-page .site-nav {
+.site-nav {
   grid-column: 2;
 
   display: flex;
@@ -722,7 +722,7 @@ body {
   transform: none;
 }
 
-.home-page .nav-link {
+.nav-link {
   border: 0;
   background: transparent;
 
@@ -752,11 +752,11 @@ body {
     font-weight 0.2s ease;
 }
 
-.home-page .nav-link:hover {
+.nav-link:hover {
   color: #000000;
 }
 
-.home-page .nav-link.active {
+.nav-link.active {
   color: #000000;
   font-weight: 500;
 }
@@ -765,7 +765,7 @@ body {
    5. RIGHT SPACER
    ========================================================= */
 
-.home-page .site-header__spacer {
+.site-header__spacer {
   width: clamp(94px, 8.95vw, 122px);
 
   justify-self: end;
