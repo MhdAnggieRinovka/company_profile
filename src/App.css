@@ -2176,31 +2176,28 @@ body {
      FOOTER
      ------------------------------------------------------- */
 
-  .works-carousel__footer {
-    width: 100%;
-    height: auto;
-    min-height: 64px;
+.works-carousel__footer {
+  width: 100%;
+  height: auto;
+  min-height: 64px;
 
-    margin: 0;
+  margin: 0;
 
-    padding: 16px 16px 24px;
+  padding: 16px 16px 24px;
 
-    display: grid;
+  display: grid;
 
-    grid-template-columns:
-      32px
-      minmax(0, 1fr)
-      32px;
+  grid-template-columns: auto auto auto;
 
-    align-items: center;
-    justify-items: center;
+  align-items: center;
+  justify-content: center;
 
-    gap: clamp(14px, 6vw, 28px);
+  column-gap: clamp(8px, 3vw, 16px);
 
-    box-sizing: border-box;
+  box-sizing: border-box;
 
-    overflow: visible;
-  }
+  overflow: visible;
+}
 
   /* -------------------------------------------------------
      MOBILE ARROWS
