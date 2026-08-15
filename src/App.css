@@ -1487,10 +1487,23 @@ body {
 }
 
 /* =========================================================
-   10. ABOUT + CONTACT — SHORT DESKTOP
+   10. ABOUT + CONTACT + WORK — SHORT DESKTOP
    ========================================================= */
 
 @media (min-width: 769px) and (max-height: 800px) {
+  /* -------------------------------------------------------
+     SITE HEADER
+     ------------------------------------------------------- */
+
+  .home-page > .site-header {
+    position: sticky;
+    top: 0;
+
+    z-index: 1200;
+
+    background: #ffffff;
+  }
+
   /* -------------------------------------------------------
      ABOUT
      ------------------------------------------------------- */
@@ -1521,6 +1534,56 @@ body {
     flex: 0 0 auto;
 
     overflow: hidden;
+  }
+
+  /* -------------------------------------------------------
+     WORK
+     ------------------------------------------------------- */
+
+  /* -------------------------------------------------------
+   WORK
+   ------------------------------------------------------- */
+
+  .home-page--works {
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .home-page--works .works-page {
+    height: auto;
+    min-height: calc(100dvh - 68px);
+
+    flex: 0 0 auto;
+
+    overflow-x: hidden;
+    overflow-y: visible;
+  }
+
+  /* supaya row tengah mengikuti tinggi gambar */
+  .home-page--works .works-carousel {
+    height: auto;
+    min-height: 0;
+
+    grid-template-rows:
+      auto
+      auto
+      auto;
+
+    align-content: start;
+  }
+
+  /* side card selalu mengikuti tinggi preview */
+  .home-page--works .works-carousel__media-row {
+    align-items: stretch;
+  }
+
+  .home-page--works .works-carousel__side {
+    height: auto;
+    align-self: stretch;
+  }
+
+  .home-page--works .works-side-card {
+    height: 100%;
   }
 }
 
