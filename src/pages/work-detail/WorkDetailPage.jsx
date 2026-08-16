@@ -314,6 +314,28 @@ export default function WorkDetailPage() {
   const { slug } = useParams();
   const navigate = useNavigate();
 
+  function handleNavChange(page) {
+    if (page === "home") {
+      navigate("/");
+      return;
+    }
+
+    if (page === "about") {
+      navigate("/about_us");
+      return;
+    }
+
+    if (page === "works") {
+      navigate("/?page=works");
+      return;
+    }
+
+    if (page === "contacts") {
+      navigate("/?page=contacts");
+      return;
+    }
+  }
+
   /* =======================================================
      RESPONSIVE
   ======================================================= */
@@ -825,37 +847,30 @@ export default function WorkDetailPage() {
   const actionsStyle = effectiveActionsStopped
     ? {
         position: "static",
-
         width: "100%",
-
         minHeight: isMobile
           ? `${MOBILE_ACTION_HEIGHT}px`
           : `${ACTION_HEIGHT}px`,
-
         boxSizing: "border-box",
-
         transform: isMobile ? "none" : "translateY(-14px)",
       }
     : {
         position: "fixed",
-
         left: 0,
         right: 0,
-        bottom: isMobile ? "38px" : "0px",
+
+        bottom: isMobile ? "var(--mobile-bottom-nav-h)" : "0px",
 
         width: "100%",
-
         minHeight: isMobile
           ? `${MOBILE_ACTION_HEIGHT}px`
           : `${ACTION_HEIGHT}px`,
 
         boxSizing: "border-box",
-
         transform: "none",
 
         zIndex: 1000,
       };
-
   /* =======================================================
      ACTION SLOT
   ======================================================= */
@@ -985,7 +1000,13 @@ export default function WorkDetailPage() {
           MOBILE BOTTOM NAV
       ================================================= */}
 
-      <WorkDetailBottomNav />
+      <div className="home-page__mobile-bottom-nav work-detail__mobile-bottom-nav">
+        <SiteHeader
+          activePage="works"
+          showWorks={true}
+          onNavigate={handleNavChange}
+        />
+      </div>
     </main>
   );
 }
