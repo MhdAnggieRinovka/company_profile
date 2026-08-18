@@ -644,6 +644,10 @@ body {
   width: 100%;
 
   flex: 0 0 auto;
+
+  border-bottom: 1px solid rgba(22, 22, 22, 0.08);
+
+  box-sizing: border-box;
 }
 
 .site-header__inner {
@@ -1031,9 +1035,9 @@ body {
 }
 
 .home-page--about .about-content {
-  width: min(72vw, 960px);
+  width: min(90vw, 1200px);
 
-  margin: 40px auto 0;
+  margin: 34px auto 0;
 
   padding: 0 0 32px;
 
@@ -1077,11 +1081,11 @@ body {
 
   align-items: start;
 
-  column-gap: clamp(40px, 6vw, 90px);
+  column-gap: clamp(70px, 7vw, 100px);
 
-  margin: 0 auto 32px;
+  margin: 0 auto 0;
 
-  position: static;
+  position: relative;
 }
 
 /* =========================================================
@@ -1091,6 +1095,7 @@ body {
 .home-page--about .about-grid__col--left,
 .home-page--about .about-grid__col--right {
   width: 100%;
+  padding-top: 44px;
 }
 
 .home-page--about .about-grid__col--left p,
@@ -1115,16 +1120,24 @@ body {
 
 .home-page--about .about-grid__middle-text {
   width: 411px;
+
   margin: 0;
+
   position: relative;
+
   left: 50%;
-  transform: translateX(-50%);
-  font-family: "Spectral", serif;
+  transform: translateX(-50%) translateY(2.5rem);
+
+  font-family: "Spectral";
+
   font-weight: 200;
   font-style: normal;
+
   font-size: 20px;
   line-height: 32px;
+
   letter-spacing: 0;
+
   text-align: center;
 }
 
@@ -1168,15 +1181,16 @@ body {
 
   width: 100%;
 
-  margin: 0 auto;
+  margin: 4rem auto 0;
 
-  padding: 24px 0 0;
+  padding: 0;
 
   text-align: center;
 }
 
 .home-page--about .about-cta__lead {
-  font-family: "Spectral", Georgia, serif;
+  margin: 0 0 1rem;
+  font-family: "Spectral";
 
   font-weight: 400;
   font-style: italic;
@@ -1214,6 +1228,56 @@ body {
   color: #000000;
 
   cursor: pointer;
+}
+
+.home-page--about .about-grid__col--center {
+  position: relative;
+
+  transform: translateY(-1rem);
+}
+
+/* =========================================================
+   7.1 ABOUT — MEDIUM / SMALL DESKTOP
+   ========================================================= */
+
+@media (min-width: 769px) and (max-width: 1200px) {
+  .home-page--about .about-content {
+    width: 92vw;
+    max-width: 1100px;
+  }
+
+  .home-page--about .about-grid {
+    grid-template-columns:
+      minmax(0, 1fr)
+      clamp(160px, 20vw, 220px)
+      minmax(0, 1fr);
+
+    column-gap: clamp(24px, 4vw, 56px);
+  }
+
+  /* LEFT + RIGHT
+     width mengecil mengikuti kolom,
+     tapi maksimal tetap 411px
+  */
+  .home-page--about .about-grid__col--left p,
+  .home-page--about .about-grid__col--right p {
+    width: min(411px, 100%);
+    max-width: 100%;
+  }
+
+  /* IMAGE ikut mengecil kalau ruang tengah mulai sempit */
+  .home-page--about .about-hero__image {
+    width: 100%;
+    max-width: min(220px, 100%);
+  }
+
+  /* MIDDLE TEXT tetap lebar,
+     tapi tidak boleh sampai keluar viewport
+  */
+  .home-page--about .about-grid__middle-text {
+    width: min(411px, 46vw);
+    max-width: calc(100vw - 2rem);
+  }
 }
 
 /* =========================================================
