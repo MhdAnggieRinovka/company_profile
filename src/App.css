@@ -1055,10 +1055,9 @@ body {
 
   font-family: "Inter";
 
-  font-size: clamp(18px, 1.25vw, 20px);
+  font-size: 20px;
 
   line-height: 1.2;
-
   font-weight: 500;
   font-style: normal;
   color: #3b3b3b;
