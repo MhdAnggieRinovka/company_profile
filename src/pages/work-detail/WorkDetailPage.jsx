@@ -859,7 +859,7 @@ export default function WorkDetailPage() {
         left: 0,
         right: 0,
 
-        bottom: isMobile ? "var(--mobile-bottom-nav-h)" : "0px",
+        bottom: isMobile ? "calc(var(--mobile-bottom-nav-h) - 2px)" : "0px",
 
         width: "100%",
         minHeight: isMobile
@@ -1000,13 +1000,15 @@ export default function WorkDetailPage() {
           MOBILE BOTTOM NAV
       ================================================= */}
 
-      <div className="home-page__mobile-bottom-nav work-detail__mobile-bottom-nav">
-        <SiteHeader
-          activePage="works"
-          showWorks={true}
-          onNavigate={handleNavChange}
-        />
-      </div>
+      {isMobile && (
+        <div className="home-page__mobile-bottom-nav work-detail__mobile-bottom-nav">
+          <SiteHeader
+            activePage="works"
+            showWorks={true}
+            onNavigate={handleNavChange}
+          />
+        </div>
+      )}
     </main>
   );
 }

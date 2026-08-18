@@ -7,7 +7,7 @@
   --header-desktop-h: 5.2vh;
   --filters-desktop-h: 7.4vh;
 
-  --mobile-bottom-nav-h: 4vh;
+  --mobile-bottom-nav-h: 3.25rem;
   --mobile-work-push-down: 3.8vh;
 
   --nav-link-size-desktop: 0.73vw;
@@ -552,12 +552,6 @@ body {
   }
 }
 
-@media (max-width: 768px) {
-  .contacts-page__action span {
-    font-size: 4vw;
-  }
-}
-
 /* =========================================================
    ANIMATION — SHARED
    ========================================================= */
@@ -1055,7 +1049,7 @@ body {
 .home-page--about .about-title {
   margin: 0 0 40px;
 
-  font-family: "Inter", Arial, Helvetica, sans-serif;
+  font-family: "Inter";
 
   font-size: clamp(18px, 1.25vw, 20px);
 
@@ -1182,20 +1176,19 @@ body {
 }
 
 .home-page--about .about-cta__lead {
-  margin: 0 0 18px;
-
-  font-family: "Inter", Arial, Helvetica, sans-serif;
-
-  font-size: 18px;
-  line-height: 1;
+  font-family: "Spectral", Georgia, serif;
 
   font-weight: 400;
+  font-style: italic;
+
+  font-size: 20px;
+  line-height: 1;
 
   letter-spacing: 0;
 
   text-align: center;
 
-  color: #7f776f;
+  color: #3b3b3b;
 }
 
 .home-page--about .about-cta__button {
@@ -1205,7 +1198,7 @@ body {
   padding: 0;
   margin: 0;
 
-  font-family: "Inter", Arial, Helvetica, sans-serif;
+  font-family: "Inter";
 
   font-size: 16px;
   line-height: 1;
@@ -1294,7 +1287,7 @@ body {
   .home-page--about .about-title {
     margin: 0 0 24px;
 
-    font-size: clamp(18px, 4.8vw, 20px);
+    font-size: 12px;
 
     line-height: 1.2;
 
@@ -1683,6 +1676,16 @@ body {
 }
 
 .contacts-page__action span {
+  font-family: "Spectral", Georgia, serif;
+
+  font-weight: 400;
+  font-style: normal;
+
+  font-size: 16px;
+  line-height: 1;
+
+  letter-spacing: 0;
+
   text-align: center;
 }
 
@@ -3179,24 +3182,26 @@ body {
 
   .work-detail__actions {
     width: 100%;
-
-    min-height: 52px;
+    min-height: var(--mobile-bottom-nav-h);
 
     margin: 0;
-
     padding: 0 16px;
 
     display: flex;
-
     align-items: center;
     justify-content: center;
 
     gap: 24px;
 
+    box-sizing: border-box;
+
     background: #ffffff;
 
     border-top: 1px solid rgba(22, 22, 22, 0.08);
     border-bottom: 1px solid rgba(22, 22, 22, 0.08);
+
+    /* PENTING */
+    border-bottom: 0;
 
     z-index: 10;
 
@@ -3225,6 +3230,15 @@ body {
     color: #111111;
 
     cursor: pointer;
+  }
+
+  .work-detail__mobile-bottom-nav .site-nav {
+    margin: 0 !important;
+    padding: 0 !important;
+
+    border-top: 1px solid rgba(22, 22, 22, 0.08) !important;
+
+    background: #ffffff !important;
   }
 
   .work-detail__action-icon {
@@ -3339,9 +3353,12 @@ body {
     bottom: 0;
 
     width: 100%;
-    background: #ffffff;
+    height: var(--mobile-bottom-nav-h);
+
     margin: 0;
     padding: 0;
+
+    background: #ffffff;
 
     z-index: 1100;
   }
