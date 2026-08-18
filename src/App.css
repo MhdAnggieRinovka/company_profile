@@ -1061,7 +1061,7 @@ body {
 
   font-weight: 500;
   font-style: normal;
-
+  color: #3b3b3b;
   text-align: center;
 }
 
@@ -1186,6 +1186,7 @@ body {
   padding: 0;
 
   text-align: center;
+  color: #3b3b3b;
 }
 
 .home-page--about .about-cta__lead {
@@ -1285,14 +1286,22 @@ body {
    ========================================================= */
 
 @media (max-width: 768px) {
+  .home-page--about .about-grid__col--left p,
+  .home-page--about .about-grid__col--right p,
+  .home-page--about .about-grid__middle-text {
+    width: min(78vw, 285px);
+    max-width: 285px;
+
+    margin-left: auto;
+    margin-right: auto;
+  }
+
   .home-page--about {
     width: 100%;
     height: 100dvh;
     min-height: 100dvh;
-
     display: grid;
     grid-template-rows: auto minmax(0, 1fr) auto;
-
     overflow: hidden;
   }
 
@@ -1305,17 +1314,11 @@ body {
     min-width: 0;
     min-height: 0;
     height: 100%;
-
     overflow-x: hidden;
     overflow-y: auto;
-
     display: block;
-
     box-sizing: border-box;
-
     -webkit-overflow-scrolling: touch;
-
-    /* Hide scrollbar */
     scrollbar-width: none;
     -ms-overflow-style: none;
   }
@@ -1334,13 +1337,9 @@ body {
     width: 100%;
     max-width: 430px;
     min-width: 0;
-
-    margin: 24px auto 0;
-
-    padding: 0 clamp(14px, 5vw, 20px) 32px;
-
+    margin: clamp(22px, 3.5vh, 30px) auto 0;
+    padding: 0 clamp(16px, 5vw, 22px) clamp(24px, 4vh, 34px);
     box-sizing: border-box;
-
     text-align: center;
   }
 
@@ -1349,12 +1348,10 @@ body {
   --------------------------------------------------------- */
 
   .home-page--about .about-title {
-    margin: 0 0 24px;
-
+    padding-top: 1rem;
+    margin: 0 0 clamp(28px, 4vh, 36px);
     font-size: 12px;
-
     line-height: 1.2;
-
     text-align: center;
   }
 
@@ -1363,17 +1360,14 @@ body {
   --------------------------------------------------------- */
 
   .home-page--about .about-grid {
+    padding-top: 1rem;
     width: 100%;
     min-width: 0;
-
     display: flex;
     flex-direction: column;
-
     align-items: center;
-
     gap: 0;
-
-    margin: 0 auto 24px;
+    margin: 0 auto;
   }
 
   /* ---------------------------------------------------------
@@ -1381,18 +1375,24 @@ body {
   --------------------------------------------------------- */
 
   .home-page--about .about-grid__col--left {
+    order: 1;
     width: 100%;
     min-width: 0;
+    padding-top: 0;
   }
 
   .home-page--about .about-grid__col--left p {
-    width: 100%;
-    max-width: 360px;
+    max-width: 100%;
 
-    margin: 0 auto 24px;
+    margin: 0 auto clamp(26px, 4vh, 34px);
+
+    position: static;
+
+    left: auto;
+    transform: none;
 
     font-size: 12px;
-    line-height: 26px;
+    line-height: 20px;
 
     text-align: center;
   }
@@ -1402,60 +1402,81 @@ body {
   --------------------------------------------------------- */
 
   .home-page--about .about-grid__col--center {
-    width: 100%;
-    min-width: 0;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    display: contents;
+    transform: none;
   }
 
   .home-page--about .about-grid__col--center picture {
+    order: 2;
     display: block;
-
     width: 100%;
-    max-width: 220px;
-
-    margin: 0 auto 24px;
+    max-width: 200px;
+    margin: 0 auto clamp(28px, 4.5vh, 38px);
   }
 
   .home-page--about .about-hero__image {
     display: block;
-
-    width: min(58vw, 220px);
+    width: min(48vw, 200px);
     max-width: 100%;
     height: auto;
-
     margin: 0 auto;
   }
 
   /* ---------------------------------------------------------
-     RIGHT + MIDDLE TEXT
+     RIGHT TEXT
   --------------------------------------------------------- */
 
-  .home-page--about .about-grid__col--right,
-  .home-page--about .about-grid__middle-text {
+  .home-page--about .about-grid__col--right {
+    order: 3;
+
     width: 100%;
     min-width: 0;
+
+    padding-top: 0;
   }
 
-  .home-page--about .about-grid__col--right p,
-  .home-page--about .about-grid__middle-text {
-    width: 100%;
-    max-width: 360px;
+  .home-page--about .about-grid__col--right p {
+    max-width: 100%;
 
-    margin: 0 auto 16px;
-    padding: 0;
+    margin: 0 auto clamp(28px, 4vh, 34px);
+
+    position: static;
+
+    left: auto;
+    transform: none;
 
     font-size: 12px;
-    line-height: 26px;
+    line-height: 20px;
+
+    text-align: center;
+  }
+
+  /* ---------------------------------------------------------
+     MIDDLE TEXT
+     --------------------------------------------------------- */
+
+  .home-page--about .about-grid__middle-text {
+    order: 4;
+    max-width: 100%;
+
+    margin: 0 auto clamp(30px, 4.5vh, 38px);
+
+    padding: 0;
+
+    position: static;
+
+    left: auto;
+    transform: none;
+
+    font-size: 12px;
+    line-height: 20px;
 
     text-align: center;
   }
 
   /* ---------------------------------------------------------
      CTA
-  --------------------------------------------------------- */
+     --------------------------------------------------------- */
 
   .home-page--about .about-cta {
     width: 100%;
@@ -1463,19 +1484,19 @@ body {
 
     margin: 0 auto;
 
-    padding: 8px 0 32px;
+    padding: 0 0 24px;
 
     box-sizing: border-box;
   }
 
   .home-page--about .about-cta__lead {
-    margin-bottom: 16px;
+    margin: 0 0 1rem;
 
     font-size: 16px;
   }
 
   .home-page--about .about-cta__button {
-    font-size: 13px;
+    font-size: 12px;
   }
 }
 
@@ -1497,13 +1518,17 @@ body {
   .home-page--about .about-title {
     margin-bottom: 16px;
 
-    font-size: 18px;
+    font-size: 12px;
   }
 
   .home-page--about .about-grid__col--left p,
   .home-page--about .about-grid__col--right p,
   .home-page--about .about-grid__middle-text {
-    font-family: "Spectral", serif;
+    width: min(240px, 75vw);
+    margin-left: auto;
+    margin-right: auto;
+
+    font-family: "Spectral";
 
     font-weight: 200;
     font-style: normal;
@@ -1514,6 +1539,8 @@ body {
     letter-spacing: 0;
 
     text-align: center;
+
+    color: #3b3b3b;
   }
 
   .home-page--about .about-grid__col--left p {
@@ -1539,7 +1566,7 @@ body {
   }
 
   .home-page--about .about-cta__button {
-    font-size: 13px;
+    font-size: 12px;
   }
 }
 
