@@ -117,13 +117,13 @@ function WorkDetailBottomNav() {
       </Link>
 
       <Link
-        to="/?page=works"
+        to="/works"
         className="work-detail-bottom-nav__link work-detail-bottom-nav__link--active"
       >
         WORK
       </Link>
 
-      <Link to="/?page=contacts" className="work-detail-bottom-nav__link">
+      <Link to="/contacts" className="work-detail-bottom-nav__link">
         CONTACTS
       </Link>
     </nav>
@@ -147,11 +147,7 @@ function WorkDetailActions({ onShare, isStopped, actionsRef, actionsStyle }) {
     >
       {/* CLOSE */}
 
-      <Link
-        to="/?page=works"
-        className="work-detail__action-link"
-        aria-label="Close"
-      >
+      <Link to="/works" className="work-detail__action-link" aria-label="Close">
         <span
           className="work-detail__action-icon work-detail__action-icon--close"
           aria-hidden="true"
@@ -315,25 +311,14 @@ export default function WorkDetailPage() {
   const navigate = useNavigate();
 
   function handleNavChange(page) {
-    if (page === "home") {
-      navigate("/");
-      return;
-    }
+    const routes = {
+      home: "/",
+      about: "/about_us",
+      works: "/works",
+      contacts: "/contacts",
+    };
 
-    if (page === "about") {
-      navigate("/about_us");
-      return;
-    }
-
-    if (page === "works") {
-      navigate("/?page=works");
-      return;
-    }
-
-    if (page === "contacts") {
-      navigate("/?page=contacts");
-      return;
-    }
+    navigate(routes[page] ?? "/");
   }
 
   /* =======================================================
@@ -342,31 +327,6 @@ export default function WorkDetailPage() {
 
   const isMobile = useIsMobile();
 
-  /* =======================================================
-     NAVIGATION
-  ======================================================= */
-
-  function handleNavigate(page) {
-    if (page === "home") {
-      navigate("/");
-      return;
-    }
-
-    if (page === "about") {
-      navigate("/about_us");
-      return;
-    }
-
-    if (page === "works") {
-      navigate("/?page=works");
-      return;
-    }
-
-    if (page === "contacts") {
-      navigate("/?page=contacts");
-      return;
-    }
-  }
 
   /* =======================================================
      STATE
@@ -796,7 +756,7 @@ export default function WorkDetailPage() {
 
   if (loading) {
     return (
-      <WorkDetailSkeleton onNavigate={handleNavigate} isMobile={isMobile} />
+      <WorkDetailSkeleton onNavigate={handleNavChange} isMobile={isMobile} />
     );
   }
 
@@ -807,7 +767,7 @@ export default function WorkDetailPage() {
   if (error || !workItem) {
     return (
       <main className="work-detail-page">
-        <WorkDetailHeader onNavigate={handleNavigate} isMobile={isMobile} />
+        <WorkDetailHeader onNavigate={handleNavChange} isMobile={isMobile} />
 
         <div className="work-detail__feedback">
           {error || "Work detail tidak ditemukan."}
@@ -897,7 +857,7 @@ export default function WorkDetailPage() {
           HEADER
       ================================================= */}
 
-      <WorkDetailHeader onNavigate={handleNavigate} isMobile={isMobile} />
+      <WorkDetailHeader onNavigate={handleNavChange} isMobile={isMobile} />
 
       {/* =================================================
           MAIN CONTENT

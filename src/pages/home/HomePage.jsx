@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { useSearchParams, useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import "../../App.css";
 
@@ -14,32 +14,14 @@ import useWorksData from "./hooks/useWorksData";
 import AboutPage from "./components/AboutPage"; // final design ABOUT
 import HeroHome from "./components/HeroHome";
 
-export default function HomePage() {
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  const location = useLocation();
+export default function HomePage({ initialPage = "home" }) {
   const navigate = useNavigate();
 
   /* =========================================================
      PAGE
   ========================================================= */
 
-  const getPageFromParams = () => {
-    // /about_us = ABOUT
-    if (location.pathname === "/about_us") {
-      return "about";
-    }
-
-    const pageParam = searchParams.get("page");
-
-    if (pageParam === "works") return "works";
-    if (pageParam === "contacts") return "contacts";
-
-    // / = HERO HOME
-    return "home";
-  };
-
-  const [activePage, setActivePage] = useState(getPageFromParams());
+  const [activePage, setActivePage] = useState(initialPage);
 
   const [activeFilter, setActiveFilter] = useState("All");
 
@@ -65,28 +47,23 @@ export default function HomePage() {
   ========================================================= */
 
   useEffect(() => {
-    setActivePage(getPageFromParams());
-  }, [searchParams, location.pathname]);
+    setActivePage(initialPage);
+  }, [initialPage]);
 
   /* =========================================================
      NAVIGATION
   ========================================================= */
 
   function handleNavChange(page) {
-    setActivePage(page);
-    if (page === "home") {
-      navigate("/");
-      return;
-    }
-    if (page === "about") {
-      navigate("/about_us");
-      return;
-    }
+    const routes = {
+      home: "/",
+      about: "/about_us",
+      works: "/works",
+      contacts: "/contacts",
+    };
 
-    if (page === "works" || page === "contacts") {
-      navigate(`/?page=${page}`);
-      return;
-    }
+    setActivePage(page);
+    navigate(routes[page] ?? "/");
   }
 
   /* =========================================================
