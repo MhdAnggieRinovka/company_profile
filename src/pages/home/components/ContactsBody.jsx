@@ -1,20 +1,15 @@
-// src/pages/home/components/ContactsBody.jsx
-
 import { useEffect, useState } from "react";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
 import useContactsPage from "../hooks/useContactsPage";
 
-import visitUsIcon from "../../../assets/visit-us.svg";
-import sendUsEmailIcon from "../../../assets/send-us-email.svg";
-import chatUsIcon from "../../../assets/chat-us.svg";
-
 export default function ContactsBody() {
   const {
     loading,
     error,
-    videoUrl,
+    wideMedia,
+    squareMedia,
     googleMapsUrl,
     email,
     whatsappNumber,
@@ -39,6 +34,14 @@ export default function ContactsBody() {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  const activeMedia = isMobile
+    ? squareMedia?.url
+      ? squareMedia
+      : wideMedia
+    : wideMedia?.url
+      ? wideMedia
+      : squareMedia;
 
   /* =========================================================
      ACTIONS
@@ -81,10 +84,7 @@ export default function ContactsBody() {
   ========================================================= */
 
   return (
-    <SkeletonTheme
-      baseColor="#ece7e1"
-      highlightColor="#f7f3ef"
-    >
+    <SkeletonTheme baseColor="#ece7e1" highlightColor="#f7f3ef">
       <section className={rootClass}>
         {/* =====================================================
             DESKTOP / MOBILE IMAGE
@@ -123,16 +123,36 @@ export default function ContactsBody() {
               SUCCESS
           ================================================= */}
 
-          {!loading && !error && videoUrl && (
-            <img
-              src={videoUrl}
-              alt="Contacts background"
-              className={
-                isMobile
-                  ? "contacts-page__video-media contacts-page__video-media--mobile"
-                  : "contacts-page__video-media contacts-page__video-media--desktop"
-              }
-            />
+          {!loading && !error && activeMedia?.url && (
+            <>
+              {activeMedia.mimeType?.startsWith("video/") ? (
+                <video
+                  key={activeMedia.url}
+                  src={activeMedia.url}
+                  className={
+                    isMobile
+                      ? "contacts-page__video-media contacts-page__video-media--mobile"
+                      : "contacts-page__video-media contacts-page__video-media--desktop"
+                  }
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="auto"
+                  aria-label="Contacts background"
+                />
+              ) : (
+                <img
+                  src={activeMedia.url}
+                  alt="Contacts background"
+                  className={
+                    isMobile
+                      ? "contacts-page__video-media contacts-page__video-media--mobile"
+                      : "contacts-page__video-media contacts-page__video-media--desktop"
+                  }
+                />
+              )}
+            </>
           )}
         </div>
 
@@ -161,10 +181,7 @@ export default function ContactsBody() {
                   circle
                 />
 
-                <Skeleton
-                  width={isMobile ? 70 : 82}
-                  height={16}
-                />
+                <Skeleton width={isMobile ? 70 : 82} height={16} />
               </div>
 
               {/* SEND EMAIL */}
@@ -175,10 +192,7 @@ export default function ContactsBody() {
                   circle
                 />
 
-                <Skeleton
-                  width={isMobile ? 95 : 115}
-                  height={16}
-                />
+                <Skeleton width={isMobile ? 95 : 115} height={16} />
               </div>
 
               {/* CHAT US */}
@@ -189,10 +203,7 @@ export default function ContactsBody() {
                   circle
                 />
 
-                <Skeleton
-                  width={isMobile ? 55 : 65}
-                  height={16}
-                />
+                <Skeleton width={isMobile ? 55 : 65} height={16} />
               </div>
             </>
           ) : (

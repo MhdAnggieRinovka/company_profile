@@ -6,7 +6,17 @@ const CONTACTS_API =
 export default function useContactsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [videoUrl, setVideoUrl] = useState("");
+
+  const [wideMedia, setWideMedia] = useState({
+    url: "",
+    mimeType: "",
+  });
+
+  const [squareMedia, setSquareMedia] = useState({
+    url: "",
+    mimeType: "",
+  });
+
   const [googleMapsUrl, setGoogleMapsUrl] = useState("");
   const [email, setEmail] = useState("");
   const [whatsappNumber, setWhatsappNumber] = useState("");
@@ -25,7 +35,9 @@ export default function useContactsPage() {
         });
 
         if (!response.ok) {
-          throw new Error(`Failed to fetch contacts page: ${response.status}`);
+          throw new Error(
+            `Failed to fetch contacts page: ${response.status}`,
+          );
         }
 
         const json = await response.json();
@@ -40,13 +52,22 @@ export default function useContactsPage() {
         const acf = firstItem.acf;
 
         const wideVideo = acf.wide_video;
-        const video =
-          wideVideo?.sizes?.medium_large ||
-          wideVideo?.sizes?.large ||
-          wideVideo?.url ||
-          "";
+        const squareVideo = acf.square_video;
 
-        setVideoUrl(video);
+        setWideMedia({
+          url:
+            wideVideo?.sizes?.medium_large ||
+            wideVideo?.sizes?.large ||
+            wideVideo?.url ||
+            "",
+          mimeType: wideVideo?.mime_type || "",
+        });
+
+        setSquareMedia({
+          url: squareVideo?.url || "",
+          mimeType: squareVideo?.mime_type || "",
+        });
+
         setGoogleMapsUrl(acf.google_maps_url || "");
         setEmail(acf.contact_email || "");
         setWhatsappNumber(acf.whatsapp_number || "");
@@ -71,7 +92,10 @@ export default function useContactsPage() {
   return {
     loading,
     error,
-    videoUrl,
+
+    wideMedia,
+    squareMedia,
+
     googleMapsUrl,
     email,
     whatsappNumber,
