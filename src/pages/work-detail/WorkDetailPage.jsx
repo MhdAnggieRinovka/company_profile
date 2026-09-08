@@ -33,7 +33,8 @@ function decodeHtml(text = "") {
     .replace(/&quot;/g, '"')
     .replace(/&#039;/g, "'")
     .replace(/&apos;/g, "'")
-    .replace(/&#8217;/g, "’")
+    .replace(/&#8217;/g, "&")
+    .replace(/&#038;/g, "&")
     .replace(/&nbsp;/g, " ");
 }
 

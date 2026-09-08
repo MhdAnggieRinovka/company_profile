@@ -14,11 +14,32 @@ function ScrollToTop() {
     });
   }, [pathname]);
 
+  function PageTitle() {
+    const { pathname } = useLocation();
+
+    useEffect(() => {
+      if (pathname === "/") {
+        document.title = "Home";
+      } else if (pathname === "/about_us") {
+        document.title = "About";
+      } else if (pathname === "/works") {
+        document.title = "Works";
+      } else if (pathname === "/contacts") {
+        document.title = "Contacts";
+      } else if (pathname.startsWith("/work/")) {
+        document.title = "Work";
+      }
+    }, [pathname]);
+
+    return null;
+  }
+
   return null;
 }
 
 export default function App() {
   return (
+    
     <Routes>
       <Route path="/" element={<HomePage initialPage="home" />} />
 

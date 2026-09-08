@@ -159,7 +159,7 @@ export default function AboutPage({ onGoToContacts }) {
             className="about-cta__button"
             onClick={onGoToContacts}
           >
-            Send Us a Message
+            Message
           </button>
         </div>
       </div>

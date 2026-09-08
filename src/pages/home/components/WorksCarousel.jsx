@@ -22,6 +22,9 @@ export default function WorksCarousel({
   const [cursorVisible, setCursorVisible] = useState(false);
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
   const [heroRect, setHeroRect] = useState(null);
+  const canHover =
+    typeof window !== "undefined" &&
+    window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 
   const [animateHero, setAnimateHero] = useState(false);
   const [transitionDirection, setTransitionDirection] = useState("right");
@@ -49,7 +52,7 @@ export default function WorksCarousel({
   }, [activeWork]);
 
   function handleAreaMouseMove(event) {
-    if (isMobile) return;
+    if (isMobile || !canHover) return;
 
     const rect = event.currentTarget.getBoundingClientRect();
     const middleX = rect.left + rect.width / 2;
@@ -64,25 +67,25 @@ export default function WorksCarousel({
   }
 
   function handleAreaMouseEnter() {
-    if (isMobile) return;
+    if (isMobile || !canHover) return;
     setCursorVisible(true);
   }
 
   function handleAreaMouseLeave() {
-    if (isMobile) return;
+    if (isMobile || !canHover) return;
     setCursorVisible(false);
     setHeroRect(null);
   }
 
   // mouse di atas gambar hero (desktop): tandai supaya panah custom tidak muncul
   function handleHeroMouseEnter(event) {
-    if (isMobile) return;
+    if (isMobile || !canHover) return;
     const rect = event.currentTarget.getBoundingClientRect();
     setHeroRect(rect);
   }
 
   function handleHeroMouseLeave() {
-    if (isMobile) return;
+    if (isMobile || !canHover) return;
     setHeroRect(null);
   }
 
@@ -210,7 +213,7 @@ export default function WorksCarousel({
 
               <div
                 className={`works-carousel__media-row ${
-                  cursorVisible ? "is-cursor-visible" : ""
+                  canHover && cursorVisible ? "is-cursor-visible" : ""
                 } ${animateHero ? "works-carousel__media-row--book-animated" : ""} ${
                   animateHero
                     ? `works-carousel__media-row--from-${transitionDirection}`
@@ -234,18 +237,21 @@ export default function WorksCarousel({
                     - cursorVisible = true
                     - mouse TIDAK sedang di atas hero (heroRect === null)
                 */}
-                {!isMobile && cursorVisible && heroRect === null && (
-                  <span
-                    className="works-carousel__custom-cursor"
-                    aria-hidden="true"
-                    style={{
-                      left: `${cursorPosition.x}px`,
-                      top: `${cursorPosition.y}px`,
-                    }}
-                  >
-                    <img src={cursorIcon} alt="" />
-                  </span>
-                )}
+                {!isMobile &&
+                  canHover &&
+                  cursorVisible &&
+                  heroRect === null && (
+                    <span
+                      className="works-carousel__custom-cursor"
+                      aria-hidden="true"
+                      style={{
+                        left: `${cursorPosition.x}px`,
+                        top: `${cursorPosition.y}px`,
+                      }}
+                    >
+                      <img src={cursorIcon} alt="" />
+                    </span>
+                  )}
 
                 {!isMobile && (
                   <div className="works-carousel__side" aria-hidden="true">

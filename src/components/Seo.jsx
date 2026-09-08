@@ -9,7 +9,12 @@ import {
 
 function truncate(text = "", maxLength = 160) {
   if (text.length <= maxLength) return text;
-  return text.slice(0, maxLength).replace(/\s+\S*$/, "").trim() + "…";
+  return (
+    text
+      .slice(0, maxLength)
+      .replace(/\s+\S*$/, "")
+      .trim() + "…"
+  );
 }
 
 export default function Seo({
@@ -22,10 +27,15 @@ export default function Seo({
   noindex = false,
   children,
 }) {
-  const fullTitle = title?.includes(SITE_NAME) ? title : `${title} — ${SITE_NAME}`;
+  const fullTitle = !title
+    ? SITE_NAME
+    : title.startsWith(`${SITE_NAME} —`)
+      ? "Home"
+      : title.replace(new RegExp(`\\s*—\\s*${SITE_NAME}$`), "");
   const metaDescription = truncate(description || SITE_DEFAULT_DESCRIPTION);
   const metaImage = image || SITE_DEFAULT_IMAGE;
-  const metaUrl = url || (typeof window !== "undefined" ? window.location.href : SITE_URL);
+  const metaUrl =
+    url || (typeof window !== "undefined" ? window.location.href : SITE_URL);
   const metaCanonical = canonical || metaUrl;
 
   return (

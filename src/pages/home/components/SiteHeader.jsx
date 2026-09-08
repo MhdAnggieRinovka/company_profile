@@ -33,7 +33,7 @@ export default function SiteHeader({ activePage, showWorks, onNavigate }) {
             className={activePage === "contacts" ? "nav-link active" : "nav-link"}
             onClick={() => onNavigate("contacts")}
           >
-            CONTACTS
+            CONTACT
           </button>
         </nav>
 

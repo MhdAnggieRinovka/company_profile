@@ -278,7 +278,7 @@ export default function ContactsBody() {
                 className="contacts-page__action"
                 onClick={handleVisitUs}
               >
-                <span>Visit Us</span>
+                <span>Visit</span>
               </button>
 
               {/* =================================================
@@ -290,7 +290,7 @@ export default function ContactsBody() {
                 className="contacts-page__action"
                 onClick={handleSendEmail}
               >
-                <span>Send us Email</span>
+                <span>Email</span>
               </button>
 
               {/* =================================================
@@ -302,7 +302,7 @@ export default function ContactsBody() {
                 className="contacts-page__action"
                 onClick={handleChatUs}
               >
-                <span>Chat Us</span>
+                <span>Chat</span>
               </button>
             </>
           )}

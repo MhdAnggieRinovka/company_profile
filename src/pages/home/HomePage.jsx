@@ -104,7 +104,9 @@ export default function HomePage({ initialPage = "home" }) {
       }
     }
 
-    return result;
+    return result.sort((a, b) => {
+      return Number(b.year) - Number(a.year);
+    });
   }, [worksData, activeFilter]);
 
   /* =========================================================
@@ -196,54 +198,54 @@ export default function HomePage({ initialPage = "home" }) {
       <>
         <Seo {...getPageSeoConfig(activePage)} />
         <main className="home-page home-page--hero-home">
-        {/* =========================
+          {/* =========================
           DESKTOP HEADER
       ========================= */}
-        {!isMobile && (
-          <SiteHeader
-            activePage={activePage}
-            showWorks={false}
-            onNavigate={handleNavChange}
-          />
-        )}
+          {!isMobile && (
+            <SiteHeader
+              activePage={activePage}
+              showWorks={false}
+              onNavigate={handleNavChange}
+            />
+          )}
 
-        {/* =========================
+          {/* =========================
           MOBILE TOP HEADER
       ========================= */}
-        {isMobile && (
-          <div className="home-page__mobile-top-header">
-            <SiteHeader
-              activePage={activePage}
-              showWorks={false}
-              onNavigate={handleNavChange}
-            />
-          </div>
-        )}
+          {isMobile && (
+            <div className="home-page__mobile-top-header">
+              <SiteHeader
+                activePage={activePage}
+                showWorks={false}
+                onNavigate={handleNavChange}
+              />
+            </div>
+          )}
 
-        {/* =========================
+          {/* =========================
           HERO HOME
       ========================= */}
-        <HeroHome
-          loading={loading}
-          error={error}
-          videoUrl={videoUrl}
-          squareVideoUrl={squareVideoUrl}
-          title={title}
-        />
+          <HeroHome
+            loading={loading}
+            error={error}
+            videoUrl={videoUrl}
+            squareVideoUrl={squareVideoUrl}
+            title={title}
+          />
 
-        {/* =========================
+          {/* =========================
           MOBILE BOTTOM NAV
       ========================= */}
-        {isMobile && (
-          <div className="home-page__mobile-bottom-nav home-page__mobile-bottom-nav--home">
-            <SiteHeader
-              activePage={activePage}
-              showWorks={false}
-              onNavigate={handleNavChange}
-            />
-          </div>
-        )}
-      </main>
+          {isMobile && (
+            <div className="home-page__mobile-bottom-nav home-page__mobile-bottom-nav--home">
+              <SiteHeader
+                activePage={activePage}
+                showWorks={false}
+                onNavigate={handleNavChange}
+              />
+            </div>
+          )}
+        </main>
       </>
     );
   }
@@ -256,44 +258,44 @@ export default function HomePage({ initialPage = "home" }) {
       <>
         <Seo {...getPageSeoConfig(activePage)} />
         <main className="home-page home-page--works">
-        {/* MOBILE TOP HEADER */}
-        <div className="home-page__mobile-top-header">
-          <SiteHeader
-            activePage={activePage}
-            showWorks={true}
-            onNavigate={handleNavChange}
+          {/* MOBILE TOP HEADER */}
+          <div className="home-page__mobile-top-header">
+            <SiteHeader
+              activePage={activePage}
+              showWorks={true}
+              onNavigate={handleNavChange}
+            />
+          </div>
+
+          <WorksCarousel
+            isMobile={isMobile}
+            worksLoading={worksLoading}
+            worksError={worksError}
+            filteredWorks={filteredWorks}
+            activeWork={activeWork}
+            leftItemOne={leftItemOne}
+            leftItemTwo={leftItemTwo}
+            rightItemOne={rightItemOne}
+            rightItemTwo={rightItemTwo}
+            goPrevWork={goPrevWork}
+            goNextWork={goNextWork}
+            goToWorkByOffset={goToWorkByOffset}
           />
-        </div>
 
-        <WorksCarousel
-          isMobile={isMobile}
-          worksLoading={worksLoading}
-          worksError={worksError}
-          filteredWorks={filteredWorks}
-          activeWork={activeWork}
-          leftItemOne={leftItemOne}
-          leftItemTwo={leftItemTwo}
-          rightItemOne={rightItemOne}
-          rightItemTwo={rightItemTwo}
-          goPrevWork={goPrevWork}
-          goNextWork={goNextWork}
-          goToWorkByOffset={goToWorkByOffset}
-        />
-
-        <WorksFilters
-          activeFilter={activeFilter}
-          onChangeFilter={setActiveFilter}
-        />
-
-        {/* MOBILE BOTTOM NAV */}
-        <div className="home-page__mobile-bottom-nav">
-          <SiteHeader
-            activePage={activePage}
-            showWorks={true}
-            onNavigate={handleNavChange}
+          <WorksFilters
+            activeFilter={activeFilter}
+            onChangeFilter={setActiveFilter}
           />
-        </div>
-      </main>
+
+          {/* MOBILE BOTTOM NAV */}
+          <div className="home-page__mobile-bottom-nav">
+            <SiteHeader
+              activePage={activePage}
+              showWorks={true}
+              onNavigate={handleNavChange}
+            />
+          </div>
+        </main>
       </>
     );
   }
@@ -307,31 +309,31 @@ export default function HomePage({ initialPage = "home" }) {
       <>
         <Seo {...getPageSeoConfig(activePage)} />
         <main className="home-page home-page--about">
-        {/* MOBILE TOP HEADER */}
-        <div className="home-page__mobile-top-header">
-          <SiteHeader
-            activePage={activePage}
-            showWorks={false}
-            onNavigate={handleNavChange}
-          />
-        </div>
+          {/* MOBILE TOP HEADER */}
+          <div className="home-page__mobile-top-header">
+            <SiteHeader
+              activePage={activePage}
+              showWorks={false}
+              onNavigate={handleNavChange}
+            />
+          </div>
 
-        {/* CONTENT */}
-        {activePage === "contacts" ? (
-          <ContactsBody />
-        ) : (
-          <AboutPage onGoToContacts={() => handleNavChange("contacts")} />
-        )}
+          {/* CONTENT */}
+          {activePage === "contacts" ? (
+            <ContactsBody />
+          ) : (
+            <AboutPage onGoToContacts={() => handleNavChange("contacts")} />
+          )}
 
-        {/* MOBILE BOTTOM NAV */}
-        <div className="home-page__mobile-bottom-nav">
-          <SiteHeader
-            activePage={activePage}
-            showWorks={true}
-            onNavigate={handleNavChange}
-          />
-        </div>
-      </main>
+          {/* MOBILE BOTTOM NAV */}
+          <div className="home-page__mobile-bottom-nav">
+            <SiteHeader
+              activePage={activePage}
+              showWorks={true}
+              onNavigate={handleNavChange}
+            />
+          </div>
+        </main>
       </>
     );
   }
@@ -351,41 +353,41 @@ export default function HomePage({ initialPage = "home" }) {
               : "home-page home-page--about"
         }
       >
-      {/* HEADER DESKTOP */}
-      <SiteHeader
-        activePage={activePage}
-        showWorks={showWorks}
-        onNavigate={handleNavChange}
-      />
+        {/* HEADER DESKTOP */}
+        <SiteHeader
+          activePage={activePage}
+          showWorks={showWorks}
+          onNavigate={handleNavChange}
+        />
 
-      {showWorks ? (
-        <>
-          <WorksFilters
-            activeFilter={activeFilter}
-            onChangeFilter={setActiveFilter}
-          />
+        {showWorks ? (
+          <>
+            <WorksFilters
+              activeFilter={activeFilter}
+              onChangeFilter={setActiveFilter}
+            />
 
-          <WorksCarousel
-            isMobile={isMobile}
-            worksLoading={worksLoading}
-            worksError={worksError}
-            filteredWorks={filteredWorks}
-            activeWork={activeWork}
-            leftItemOne={leftItemOne}
-            leftItemTwo={leftItemTwo}
-            rightItemOne={rightItemOne}
-            rightItemTwo={rightItemTwo}
-            goPrevWork={goPrevWork}
-            goNextWork={goNextWork}
-            goToWorkByOffset={goToWorkByOffset}
-          />
-        </>
-      ) : activePage === "contacts" ? (
-        <ContactsBody />
-      ) : (
-        <AboutPage onGoToContacts={() => handleNavChange("contacts")} />
-      )}
-    </main>
+            <WorksCarousel
+              isMobile={isMobile}
+              worksLoading={worksLoading}
+              worksError={worksError}
+              filteredWorks={filteredWorks}
+              activeWork={activeWork}
+              leftItemOne={leftItemOne}
+              leftItemTwo={leftItemTwo}
+              rightItemOne={rightItemOne}
+              rightItemTwo={rightItemTwo}
+              goPrevWork={goPrevWork}
+              goNextWork={goNextWork}
+              goToWorkByOffset={goToWorkByOffset}
+            />
+          </>
+        ) : activePage === "contacts" ? (
+          <ContactsBody />
+        ) : (
+          <AboutPage onGoToContacts={() => handleNavChange("contacts")} />
+        )}
+      </main>
     </>
   );
 }
