@@ -2007,7 +2007,7 @@ body {
 
   text-align: center;
 
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: serif;
 
   font-size: clamp(20px, 1.25vw, 24px);
 
@@ -2878,7 +2878,7 @@ body {
 .work-detail__title {
   margin: 0;
 
-  font-family: "Spectral", Georgia, "Times New Roman", serif;
+  font-family: serif;
 
   font-weight: 700;
 
