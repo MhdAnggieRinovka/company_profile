@@ -6,6 +6,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 export default function AboutPage({ onGoToContacts }) {
   const [about, setAbout] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     async function fetchAbout() {
@@ -13,10 +14,16 @@ export default function AboutPage({ onGoToContacts }) {
         const res = await fetch(
           "https://cms.kyubstudio.com/wp-json/wp/v2/page_about_us",
         );
+
+        if (!res.ok) {
+          throw new Error(`Failed to fetch about page: ${res.status}`);
+        }
+
         const json = await res.json();
         setAbout(json[0]); // ambil item pertama
       } catch (e) {
         console.error("Failed to load about page", e);
+        setError(e.message || "Failed to load about page.");
       } finally {
         setLoading(false);
       }
@@ -60,6 +67,14 @@ export default function AboutPage({ onGoToContacts }) {
           </div>
         </div>
       </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <main className="work-detail-page">
+        <div className="work-detail__feedback">Oops! Something went wrong.</div>
+      </main>
     );
   }
 
@@ -138,13 +153,13 @@ export default function AboutPage({ onGoToContacts }) {
 
         {/* CTA */}
         <div className="about-cta">
-          <p className="about-cta__lead">Let&apos;s Collaborate,</p>
+          <p className="about-cta__lead">{acf.cta_text || "Let&apos;s Collaborate"},</p>
           <button
             type="button"
             className="about-cta__button"
             onClick={onGoToContacts}
           >
-            {acf.cta_text || "SEND US A MESSAGE"}
+            Send Us a Message
           </button>
         </div>
       </div>

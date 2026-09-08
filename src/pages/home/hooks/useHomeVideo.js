@@ -3,6 +3,7 @@ import { HOME_API_URL } from "../../../services/api";
 
 export default function useHomeVideo() {
   const [videoUrl, setVideoUrl] = useState("");
+  const [squareVideoUrl, setSquareVideoUrl] = useState("");
   const [title, setTitle] = useState("Home Video");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -26,21 +27,32 @@ export default function useHomeVideo() {
 
         const json = await response.json();
         const firstItem = Array.isArray(json) ? json[0] : json;
-        const videoData = firstItem?.acf?.wide_video;
+        const acf = firstItem?.acf ?? {};
 
-        let finalVideoUrl = "";
-        if (typeof videoData === "string") {
-          finalVideoUrl = videoData;
-        } else if (videoData && typeof videoData === "object") {
-          finalVideoUrl = videoData.url;
+        const wideVideoData = acf.wide_video;
+        const squareVideoData = acf.square_video;
+
+        let finalWideVideoUrl = "";
+        if (typeof wideVideoData === "string") {
+          finalWideVideoUrl = wideVideoData;
+        } else if (wideVideoData && typeof wideVideoData === "object") {
+          finalWideVideoUrl = wideVideoData.url;
         }
 
-        if (!finalVideoUrl) {
+        let finalSquareVideoUrl = "";
+        if (typeof squareVideoData === "string") {
+          finalSquareVideoUrl = squareVideoData;
+        } else if (squareVideoData && typeof squareVideoData === "object") {
+          finalSquareVideoUrl = squareVideoData.url;
+        }
+
+        if (!finalWideVideoUrl && !finalSquareVideoUrl) {
           throw new Error("Video URL tidak ditemukan dalam data API.");
         }
 
         if (ignore) return;
-        setVideoUrl(finalVideoUrl);
+        setVideoUrl(finalWideVideoUrl);
+        setSquareVideoUrl(finalSquareVideoUrl);
         setTitle(firstItem?.title?.rendered || "Home Video");
       } catch (err) {
         if (ignore) return;
@@ -59,6 +71,7 @@ export default function useHomeVideo() {
 
   return {
     videoUrl,
+    squareVideoUrl,
     title,
     loading,
     error,

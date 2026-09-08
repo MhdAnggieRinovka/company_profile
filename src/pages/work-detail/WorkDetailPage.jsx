@@ -9,6 +9,7 @@ import "../../App.css";
 
 // SiteHeader utama yang dipakai Home / About / Contacts / Works
 import SiteHeader from "../home/components/SiteHeader";
+import Seo from "../../components/Seo";
 
 /* =========================================================
    FALLBACK TEXTS
@@ -34,6 +35,69 @@ function decodeHtml(text = "") {
     .replace(/&apos;/g, "'")
     .replace(/&#8217;/g, "’")
     .replace(/&nbsp;/g, " ");
+}
+
+function stripHtml(html = "") {
+  if (typeof window === "undefined") {
+    return html.replace(/<[^>]+>/g, "").trim();
+  }
+
+  const tmp = document.createElement("div");
+  tmp.innerHTML = html;
+  return (tmp.textContent || tmp.innerText || "").trim();
+}
+
+function truncate(text = "", maxLength = 160) {
+  if (text.length <= maxLength) return text;
+  return text.slice(0, maxLength).replace(/\s+\S*$/, "").trim() + "…";
+}
+
+function getWorkDescription(workItem) {
+  const rawExcerpt = workItem.excerpt?.rendered || "";
+  const rawContent = workItem.content?.rendered || "";
+  const category =
+    workItem.acf?.portfolio_category?.name ||
+    workItem.acf?.portfoliocategory?.name ||
+    "";
+
+  const text = stripHtml(rawExcerpt || rawContent);
+
+  if (text) {
+    return truncate(text);
+  }
+
+  return category
+    ? `${category} project by KYUB.`
+    : "Creative project by KYUB.";
+}
+
+function getWorkImage(workItem) {
+  const acf = workItem?.acf;
+  if (!acf) return "";
+
+  const cover = acf.cover_image || acf.coverimage;
+  if (cover?.sizes?.large || cover?.sizes?.medium_large || cover?.url) {
+    return (
+      cover.sizes?.large ||
+      cover.sizes?.medium_large ||
+      cover.sizes?.medium ||
+      cover.url
+    );
+  }
+
+  for (let i = 1; i <= 10; i += 1) {
+    const imageField = acf[`image_${i}`] || acf[`image${i}`];
+    if (imageField?.sizes?.large || imageField?.sizes?.medium_large || imageField?.url) {
+      return (
+        imageField.sizes?.large ||
+        imageField.sizes?.medium_large ||
+        imageField.sizes?.medium ||
+        imageField.url
+      );
+    }
+  }
+
+  return "";
 }
 
 /* =========================================================
@@ -756,7 +820,10 @@ export default function WorkDetailPage() {
 
   if (loading) {
     return (
-      <WorkDetailSkeleton onNavigate={handleNavChange} isMobile={isMobile} />
+      <>
+        <Seo title="Work" description="Loading project details from KYUB." />
+        <WorkDetailSkeleton onNavigate={handleNavChange} isMobile={isMobile} />
+      </>
     );
   }
 
@@ -766,17 +833,32 @@ export default function WorkDetailPage() {
 
   if (error || !workItem) {
     return (
-      <main className="work-detail-page">
-        <WorkDetailHeader onNavigate={handleNavChange} isMobile={isMobile} />
+      <>
+        <Seo
+          title="Work Not Found"
+          description="The requested project could not be found. Browse more works by KYUB."
+        />
+        <main className="work-detail-page">
+          <WorkDetailHeader onNavigate={handleNavChange} isMobile={isMobile} />
 
-        <div className="work-detail__feedback">
-          {error || "Work detail tidak ditemukan."}
-        </div>
+          <div className="work-detail__feedback">
+            {error || "Work detail tidak ditemukan."}
+          </div>
 
-        <WorkDetailBottomNav />
-      </main>
+          <WorkDetailBottomNav />
+        </main>
+      </>
     );
   }
+
+  /* =======================================================
+     SEO DATA
+  ======================================================= */
+
+  const workTitle = decodeHtml(workItem.title?.rendered || "Untitled");
+  const workDescription = getWorkDescription(workItem);
+  const workImage = getWorkImage(workItem);
+  const workUrl = typeof window !== "undefined" ? window.location.href : "";
 
   /* =======================================================
      CATEGORY
@@ -852,12 +934,20 @@ export default function WorkDetailPage() {
   ======================================================= */
 
   return (
-    <main className="work-detail-page">
-      {/* =================================================
+    <>
+      <Seo
+        title={workTitle}
+        description={workDescription}
+        image={workImage}
+        url={workUrl}
+        type="article"
+      />
+      <main className="work-detail-page">
+        {/* =================================================
           HEADER
       ================================================= */}
 
-      <WorkDetailHeader onNavigate={handleNavChange} isMobile={isMobile} />
+        <WorkDetailHeader onNavigate={handleNavChange} isMobile={isMobile} />
 
       {/* =================================================
           MAIN CONTENT
@@ -970,5 +1060,6 @@ export default function WorkDetailPage() {
         </div>
       )}
     </main>
+    </>
   );
 }

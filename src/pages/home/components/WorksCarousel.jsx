@@ -24,6 +24,17 @@ export default function WorksCarousel({
   const [heroRect, setHeroRect] = useState(null);
 
   const [animateHero, setAnimateHero] = useState(false);
+  const [transitionDirection, setTransitionDirection] = useState("right");
+
+  function navigatePrev() {
+    setTransitionDirection("left");
+    goPrevWork();
+  }
+
+  function navigateNext() {
+    setTransitionDirection("right");
+    goNextWork();
+  }
 
   useEffect(() => {
     if (!activeWork) return;
@@ -32,7 +43,7 @@ export default function WorksCarousel({
 
     const timeout = setTimeout(() => {
       setAnimateHero(false);
-    }, 480);
+    }, 150);
 
     return () => clearTimeout(timeout);
   }, [activeWork]);
@@ -88,21 +99,21 @@ export default function WorksCarousel({
     const middleX = rect.left + rect.width / 2;
 
     if (event.clientX < middleX) {
-      goPrevWork();
+      navigatePrev();
     } else {
-      goNextWork();
+      navigateNext();
     }
   }
 
   function handleAreaKeyDown(event) {
     if (event.key === "ArrowLeft") {
       event.preventDefault();
-      goPrevWork();
+      navigatePrev();
     }
 
     if (event.key === "ArrowRight") {
       event.preventDefault();
-      goNextWork();
+      navigateNext();
     }
   }
 
@@ -187,7 +198,7 @@ export default function WorksCarousel({
         )}
 
         {!worksLoading && worksError && (
-          <div className="works-feedback">Failed to load works</div>
+          <div className="works-feedback">Oops! Something went wrong.</div>
         )}
 
         {!worksLoading &&
@@ -200,6 +211,10 @@ export default function WorksCarousel({
               <div
                 className={`works-carousel__media-row ${
                   cursorVisible ? "is-cursor-visible" : ""
+                } ${animateHero ? "works-carousel__media-row--book-animated" : ""} ${
+                  animateHero
+                    ? `works-carousel__media-row--from-${transitionDirection}`
+                    : ""
                 }`}
                 onMouseMove={handleAreaMouseMove}
                 onMouseEnter={handleAreaMouseEnter}
@@ -270,7 +285,9 @@ export default function WorksCarousel({
                       to={`/work/${activeWork.slug}`}
                       className={
                         "works-carousel__hero" +
-                        (animateHero ? " works-carousel__hero--animated" : "")
+                        (animateHero
+                          ? ` works-carousel__hero--animated works-carousel__hero--from-${transitionDirection}`
+                          : "")
                       }
                       aria-label={activeWork.title || "View work detail"}
                     >
@@ -285,7 +302,9 @@ export default function WorksCarousel({
                       to={`/work/${activeWork.slug}`}
                       className={
                         "works-carousel__hero" +
-                        (animateHero ? " works-carousel__hero--animated" : "")
+                        (animateHero
+                          ? ` works-carousel__hero--animated works-carousel__hero--from-${transitionDirection}`
+                          : "")
                       }
                       onMouseEnter={handleHeroMouseEnter}
                       onMouseLeave={handleHeroMouseLeave}
@@ -338,7 +357,7 @@ export default function WorksCarousel({
                   <button
                     type="button"
                     className="works-carousel__mobile-nav works-carousel__mobile-nav--prev"
-                    onClick={goPrevWork}
+                    onClick={navigatePrev}
                     aria-label="Previous work"
                   >
                     <img src={chevronLeft} alt="" />
@@ -356,7 +375,7 @@ export default function WorksCarousel({
                   <button
                     type="button"
                     className="works-carousel__mobile-nav works-carousel__mobile-nav--next"
-                    onClick={goNextWork}
+                    onClick={navigateNext}
                     aria-label="Next work"
                   >
                     <img src={chevronRight} alt="" />

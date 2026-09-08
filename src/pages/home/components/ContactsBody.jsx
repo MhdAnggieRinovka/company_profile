@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
@@ -22,6 +22,12 @@ export default function ContactsBody() {
   const [isMobile, setIsMobile] = useState(
     typeof window !== "undefined" ? window.innerWidth <= 768 : false,
   );
+  const [isMediaLoading, setIsMediaLoading] = useState(true);
+  const mediaRef = useRef(null);
+
+  const handleMediaReady = useCallback(() => {
+    setIsMediaLoading(false);
+  }, []);
 
   useEffect(() => {
     function handleResize() {
@@ -42,6 +48,43 @@ export default function ContactsBody() {
     : wideMedia?.url
       ? wideMedia
       : squareMedia;
+
+  useEffect(() => {
+    if (loading) {
+      setIsMediaLoading(true);
+      return;
+    }
+
+    if (!error && activeMedia?.url) {
+      setIsMediaLoading(true);
+      return;
+    }
+
+    setIsMediaLoading(false);
+  }, [loading, error, activeMedia?.url]);
+
+  useEffect(() => {
+    if (loading || error || !activeMedia?.url) {
+      return;
+    }
+
+    const node = mediaRef.current;
+    if (!node) {
+      return;
+    }
+
+    // Some browsers may skip load events for already-cached/ready media.
+    if (node.tagName === "IMG" && node.complete) {
+      setIsMediaLoading(false);
+      return;
+    }
+
+    if (node.tagName === "VIDEO" && node.readyState >= 2) {
+      setIsMediaLoading(false);
+    }
+  }, [loading, error, activeMedia?.url, isMobile]);
+
+  const showMediaSkeleton = loading || isMediaLoading;
 
   /* =========================================================
      ACTIONS
@@ -96,28 +139,39 @@ export default function ContactsBody() {
               ? "contacts-page__video contacts-page__video--mobile"
               : "contacts-page__video contacts-page__video--desktop"
           }
+          style={{
+            position: "relative",
+          }}
         >
           {/* =================================================
               LOADING
           ================================================= */}
 
-          {loading && (
-            <Skeleton
-              width="100%"
-              height="100%"
-              borderRadius={0}
+          {showMediaSkeleton && (
+            <div
               style={{
-                display: "block",
-                lineHeight: 1,
+                position: "absolute",
+                inset: 0,
+                zIndex: 1,
               }}
-            />
+            >
+              <Skeleton
+                width="100%"
+                height="100%"
+                borderRadius={0}
+                style={{
+                  display: "block",
+                  lineHeight: 1,
+                }}
+              />
+            </div>
           )}
 
           {/* =================================================
               ERROR
           ================================================= */}
 
-          {!loading && error && <div>{error}</div>}
+          {!loading && error && <div>Oops! Something went wrong.</div>}
 
           {/* =================================================
               SUCCESS
@@ -128,6 +182,7 @@ export default function ContactsBody() {
               {activeMedia.mimeType?.startsWith("video/") ? (
                 <video
                   key={activeMedia.url}
+                  ref={mediaRef}
                   src={activeMedia.url}
                   className={
                     isMobile
@@ -140,9 +195,13 @@ export default function ContactsBody() {
                   playsInline
                   preload="auto"
                   aria-label="Contacts background"
+                  onLoadedData={handleMediaReady}
+                  onCanPlay={handleMediaReady}
+                  onError={handleMediaReady}
                 />
               ) : (
                 <img
+                  ref={mediaRef}
                   src={activeMedia.url}
                   alt="Contacts background"
                   className={
@@ -150,6 +209,8 @@ export default function ContactsBody() {
                       ? "contacts-page__video-media contacts-page__video-media--mobile"
                       : "contacts-page__video-media contacts-page__video-media--desktop"
                   }
+                  onLoad={handleMediaReady}
+                  onError={handleMediaReady}
                 />
               )}
             </>
@@ -175,33 +236,33 @@ export default function ContactsBody() {
             <>
               {/* VISIT US */}
               <div className="contacts-page__action contacts-page__action--skeleton">
-                <Skeleton
+                {/* <Skeleton
                   width={isMobile ? 24 : 28}
                   height={isMobile ? 24 : 28}
                   circle
-                />
+                /> */}
 
                 <Skeleton width={isMobile ? 70 : 82} height={16} />
               </div>
 
               {/* SEND EMAIL */}
               <div className="contacts-page__action contacts-page__action--skeleton">
-                <Skeleton
+                {/* <Skeleton
                   width={isMobile ? 24 : 28}
                   height={isMobile ? 24 : 28}
                   circle
-                />
+                /> */}
 
                 <Skeleton width={isMobile ? 95 : 115} height={16} />
               </div>
 
               {/* CHAT US */}
               <div className="contacts-page__action contacts-page__action--skeleton">
-                <Skeleton
+                {/* <Skeleton
                   width={isMobile ? 24 : 28}
                   height={isMobile ? 24 : 28}
                   circle
-                />
+                /> */}
 
                 <Skeleton width={isMobile ? 55 : 65} height={16} />
               </div>

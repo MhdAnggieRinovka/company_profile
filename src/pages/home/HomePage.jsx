@@ -13,6 +13,8 @@ import useWorksData from "./hooks/useWorksData";
 
 import AboutPage from "./components/AboutPage"; // final design ABOUT
 import HeroHome from "./components/HeroHome";
+import Seo from "../../components/Seo";
+import { getPageSeoConfig } from "../../config/site";
 
 export default function HomePage({ initialPage = "home" }) {
   const navigate = useNavigate();
@@ -34,7 +36,7 @@ export default function HomePage({ initialPage = "home" }) {
   ========================================================= */
 
   // masih dipakai untuk HeroHome
-  const { videoUrl, title, loading, error } = useHomeVideo();
+  const { videoUrl, squareVideoUrl, title, loading, error } = useHomeVideo();
 
   /* =========================================================
      WORK DATA
@@ -191,7 +193,9 @@ export default function HomePage({ initialPage = "home" }) {
 
   if (activePage === "home") {
     return (
-      <main className="home-page home-page--hero-home">
+      <>
+        <Seo {...getPageSeoConfig(activePage)} />
+        <main className="home-page home-page--hero-home">
         {/* =========================
           DESKTOP HEADER
       ========================= */}
@@ -223,6 +227,7 @@ export default function HomePage({ initialPage = "home" }) {
           loading={loading}
           error={error}
           videoUrl={videoUrl}
+          squareVideoUrl={squareVideoUrl}
           title={title}
         />
 
@@ -239,6 +244,7 @@ export default function HomePage({ initialPage = "home" }) {
           </div>
         )}
       </main>
+      </>
     );
   }
 
@@ -247,7 +253,9 @@ export default function HomePage({ initialPage = "home" }) {
   ========================================================= */
   if (isMobile && showWorks) {
     return (
-      <main className="home-page home-page--works">
+      <>
+        <Seo {...getPageSeoConfig(activePage)} />
+        <main className="home-page home-page--works">
         {/* MOBILE TOP HEADER */}
         <div className="home-page__mobile-top-header">
           <SiteHeader
@@ -286,6 +294,7 @@ export default function HomePage({ initialPage = "home" }) {
           />
         </div>
       </main>
+      </>
     );
   }
 
@@ -295,7 +304,9 @@ export default function HomePage({ initialPage = "home" }) {
 
   if (isMobile && !showWorks) {
     return (
-      <main className="home-page home-page--about">
+      <>
+        <Seo {...getPageSeoConfig(activePage)} />
+        <main className="home-page home-page--about">
         {/* MOBILE TOP HEADER */}
         <div className="home-page__mobile-top-header">
           <SiteHeader
@@ -321,6 +332,7 @@ export default function HomePage({ initialPage = "home" }) {
           />
         </div>
       </main>
+      </>
     );
   }
   /* =========================================================
@@ -328,15 +340,17 @@ export default function HomePage({ initialPage = "home" }) {
   ========================================================= */
 
   return (
-    <main
-      className={
-        showWorks
-          ? "home-page home-page--works"
-          : activePage === "contacts"
-            ? "home-page home-page--about contacts-page-wrapper"
-            : "home-page home-page--about"
-      }
-    >
+    <>
+      <Seo {...getPageSeoConfig(activePage)} />
+      <main
+        className={
+          showWorks
+            ? "home-page home-page--works"
+            : activePage === "contacts"
+              ? "home-page home-page--about contacts-page-wrapper"
+              : "home-page home-page--about"
+        }
+      >
       {/* HEADER DESKTOP */}
       <SiteHeader
         activePage={activePage}
@@ -372,5 +386,6 @@ export default function HomePage({ initialPage = "home" }) {
         <AboutPage onGoToContacts={() => handleNavChange("contacts")} />
       )}
     </main>
+    </>
   );
 }

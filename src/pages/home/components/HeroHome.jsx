@@ -1,7 +1,38 @@
+import { useEffect, useState } from "react";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
-export default function HeroHome({ loading, error, videoUrl, title }) {
+export default function HeroHome({
+  loading,
+  error,
+  videoUrl,
+  squareVideoUrl,
+  title,
+}) {
+  /* =========================================================
+     RESPONSIVE
+  ========================================================= */
+
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== "undefined" ? window.innerWidth <= 768 : false,
+  );
+
+  useEffect(() => {
+    function handleResize() {
+      setIsMobile(window.innerWidth <= 768);
+    }
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  const activeVideoUrl = isMobile
+    ? squareVideoUrl || videoUrl
+    : videoUrl || squareVideoUrl;
+
   return (
     <section className="hero-home" aria-label="Homepage hero">
       <SkeletonTheme baseColor="#ece7e1" highlightColor="#f7f3ef">
@@ -37,11 +68,11 @@ export default function HeroHome({ loading, error, videoUrl, title }) {
                 </div>
               )}
 
-              {!loading && !error && videoUrl && (
+              {!loading && !error && activeVideoUrl && (
                 <video
-                  key={videoUrl}
+                  key={activeVideoUrl}
                   className="hero-media__video"
-                  src={videoUrl}
+                  src={activeVideoUrl}
                   autoPlay
                   muted
                   loop

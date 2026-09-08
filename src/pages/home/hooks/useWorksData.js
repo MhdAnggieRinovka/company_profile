@@ -1,10 +1,18 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { WORKS_API_URL } from "../../../services/api";
 
 export default function useWorksData(activePage) {
   const [worksData, setWorksData] = useState([]);
-  const [worksLoading, setWorksLoading] = useState(false);
+  const [worksLoading, setWorksLoading] = useState(activePage === "works");
   const [worksError, setWorksError] = useState("");
+
+  useLayoutEffect(() => {
+    if (activePage !== "works") return;
+
+    // Ensure skeleton is shown before paint when entering /works.
+    setWorksLoading(true);
+    setWorksError("");
+  }, [activePage]);
 
   useEffect(() => {
     if (activePage !== "works") return;
