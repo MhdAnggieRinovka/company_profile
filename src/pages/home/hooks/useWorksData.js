@@ -35,33 +35,23 @@ export default function useWorksData(activePage) {
 
         const json = await response.json();
 
-        const mapped = json
-          .map((item) => ({
-            id: item.id,
-            slug: item.slug,
-            title: item.title?.rendered?.replace(/&#038;/g, "&") || "",
-            category:
-              item.acf?.portfolio_category?.name ||
-              item.acf?.portfoliocategory?.name ||
-              "Uncategorized",
-            year: item.acf?.year || "2024",
-            image:
-              item.acf?.cover_image?.sizes?.large ||
-              item.acf?.cover_image?.sizes?.medium_large ||
-              item.acf?.cover_image?.sizes?.medium ||
-              item.acf?.cover_image?.url ||
-              item.acf?.coverimage?.sizes?.large ||
-              item.acf?.coverimage?.sizes?.medium_large ||
-              item.acf?.coverimage?.sizes?.medium ||
-              item.acf?.coverimage?.url ||
-              "",
-            alt:
-              item.acf?.cover_image?.alt ||
-              item.acf?.coverimage?.alt ||
-              item.title?.rendered ||
-              "",
-          }))
-          .sort((a, b) => Number(b.year) - Number(a.year));
+        const mapped = json.map((item) => ({
+          id: item.id,
+          slug: item.slug,
+          title: item.title?.rendered?.replace(/&#038;/g, "&") || "",
+          category:
+            item.acf?.portfolio_category?.name ||
+            item.acf?.portfoliocategory?.name ||
+            "Uncategorized",
+          year: item.acf?.year || "2024",
+          image: item.acf?.image_1?.url || "",
+
+          alt:
+            item.acf?.image_1?.alt ||
+            item.acf?.cover_image?.alt ||
+            item.title?.rendered ||
+            "",
+        }));
 
         if (!ignore) setWorksData(mapped);
       } catch (err) {

@@ -199,7 +199,7 @@ function WorkDetailBottomNav() {
       </Link>
 
       <Link to="/contacts" className="work-detail-bottom-nav__link">
-        CONTACTS
+        CONTACT
       </Link>
     </nav>
   );
