@@ -22,12 +22,12 @@ export function getPageSeoConfig(page) {
         "Learn about KYUB, our process, our team, and how we help brands build memorable identities and digital presence.",
     },
     works: {
-      title: `Works — ${SITE_NAME}`,
+      title: `Work — ${SITE_NAME}`,
       description:
         "Explore our portfolio of branding projects, company profiles, and creative campaigns crafted for ambitious brands.",
     },
     contacts: {
-      title: `Contacts — ${SITE_NAME}`,
+      title: `Contact — ${SITE_NAME}`,
       description:
         "Get in touch with KYUB. Let's talk about your next branding, company profile, or digital project.",
     },
