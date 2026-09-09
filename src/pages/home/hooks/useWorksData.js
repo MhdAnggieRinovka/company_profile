@@ -44,7 +44,7 @@ export default function useWorksData(activePage) {
             item.acf?.portfoliocategory?.name ||
             "Uncategorized",
           year: item.acf?.year || "2024",
-          image: item.acf?.image_1?.url || item.acf?.cover_image?.url || "",
+          image: item.acf?.image_1?.url || "",
 
           alt:
             item.acf?.image_1?.alt ||

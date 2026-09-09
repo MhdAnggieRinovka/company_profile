@@ -50,7 +50,12 @@ function stripHtml(html = "") {
 
 function truncate(text = "", maxLength = 160) {
   if (text.length <= maxLength) return text;
-  return text.slice(0, maxLength).replace(/\s+\S*$/, "").trim() + "…";
+  return (
+    text
+      .slice(0, maxLength)
+      .replace(/\s+\S*$/, "")
+      .trim() + "…"
+  );
 }
 
 function getWorkDescription(workItem) {
@@ -88,12 +93,17 @@ function getWorkImage(workItem) {
 
   for (let i = 1; i <= 15; i += 1) {
     const imageField = acf[`image_${i}`] || acf[`image${i}`];
-    if (imageField?.sizes?.large || imageField?.sizes?.medium_large || imageField?.url) {
+
+    if (
+      imageField?.url ||
+      imageField?.sizes?.large ||
+      imageField?.sizes?.medium_large
+    ) {
       return (
+        imageField.url ||
         imageField.sizes?.large ||
         imageField.sizes?.medium_large ||
-        imageField.sizes?.medium ||
-        imageField.url
+        imageField.sizes?.medium
       );
     }
   }
@@ -392,7 +402,6 @@ export default function WorkDetailPage() {
 
   const isMobile = useIsMobile();
 
-
   /* =======================================================
      STATE
   ======================================================= */
@@ -602,7 +611,6 @@ export default function WorkDetailPage() {
     }
 
     const acf = workItem.acf;
-
     const items = [];
 
     for (let i = 1; i <= 15; i += 1) {
@@ -611,47 +619,35 @@ export default function WorkDetailPage() {
       const descriptionField =
         acf[`description_${i}`] || acf[`description${i}`] || "";
 
-      if (imageField?.url) {
-        const imageUrl =
-          imageField.sizes?.large ||
-          imageField.sizes?.medium_large ||
-          imageField.sizes?.medium ||
-          imageField.url;
-
-        if (!items.find((existing) => existing.image === imageUrl)) {
-          items.push({
-            key: `image_${i}`,
-
-            image: imageUrl,
-
-            alt:
-              imageField.alt || workItem.title?.rendered || `Work image ${i}`,
-
-            description:
-              descriptionField ||
-              (i <= 3 ? FALLBACK_TEXTS[(i - 1) % FALLBACK_TEXTS.length] : ""),
-          });
-        }
+      if (!imageField?.url) {
+        continue;
       }
+
+      items.push({
+        key: `image_${i}`,
+
+        // LANGSUNG PAKAI ORIGINAL URL DARI API
+        image: imageField.url,
+
+        alt: imageField.alt || workItem.title?.rendered || `Work image ${i}`,
+
+        // KALAU CMS KOSONG, CAPTION JUGA KOSONG
+        description: descriptionField,
+      });
     }
 
     /* FALLBACK COVER IMAGE */
-
     const coverImage = acf.cover_image || acf.coverimage;
 
     if (items.length === 0 && coverImage?.url) {
       items.push({
         key: "cover_image",
 
-        image:
-          coverImage.sizes?.large ||
-          coverImage.sizes?.medium_large ||
-          coverImage.sizes?.medium ||
-          coverImage.url,
+        image: coverImage.url,
 
         alt: coverImage.alt || workItem.title?.rendered || "Cover image",
 
-        description: FALLBACK_TEXTS[0],
+        description: "",
       });
     }
 
@@ -950,117 +946,117 @@ export default function WorkDetailPage() {
 
         <WorkDetailHeader onNavigate={handleNavChange} isMobile={isMobile} />
 
-      {/* =================================================
+        {/* =================================================
           MAIN CONTENT
       ================================================= */}
 
-      <section className="work-detail">
-        {/* =================================================
+        <section className="work-detail">
+          {/* =================================================
             INTRO
         ================================================= */}
 
-        <header className="work-detail__intro">
-          <div className="work-detail__intro-meta">
-            <p className="work-detail__meta">{category}</p>
-          </div>
+          <header className="work-detail__intro">
+            <div className="work-detail__intro-meta">
+              <p className="work-detail__meta">{category}</p>
+            </div>
 
-          <div className="work-detail__intro-title">
-            <h1
-              className="work-detail__title"
-              dangerouslySetInnerHTML={{
-                __html: workItem.title?.rendered || "Untitled",
-              }}
-            />
-          </div>
-        </header>
+            <div className="work-detail__intro-title">
+              <h1
+                className="work-detail__title"
+                dangerouslySetInnerHTML={{
+                  __html: workItem.title?.rendered || "Untitled",
+                }}
+              />
+            </div>
+          </header>
 
-        {/* =================================================
+          {/* =================================================
             GALLERY
         ================================================= */}
 
-        <div className="work-detail__gallery">
-          {galleryItems.map((item, index) => {
-            const hasCaption = index < 3 && !!item.description;
+          <div className="work-detail__gallery">
+            {galleryItems.map((item, index) => {
+              const hasCaption = index < 3 && !!item.description;
 
-            return (
-              <section
-                className={`work-detail__block ${
-                  hasCaption ? "has-caption" : "no-caption"
-                }`}
-                key={item.key}
-              >
-                <figure className="work-detail__figure">
-                  <img
-                    src={item.image}
-                    alt={item.alt}
-                    loading={index === 0 ? "eager" : "lazy"}
-                  />
-                </figure>
+              return (
+                <section
+                  className={`work-detail__block ${
+                    hasCaption ? "has-caption" : "no-caption"
+                  }`}
+                  key={item.key}
+                >
+                  <figure className="work-detail__figure">
+                    <img
+                      src={item.image}
+                      alt={item.alt}
+                      loading={index === 0 ? "eager" : "lazy"}
+                    />
+                  </figure>
 
-                {hasCaption ? (
-                  <div className="work-detail__caption-wrap">
-                    <p className="work-detail__caption">{item.description}</p>
-                  </div>
-                ) : null}
-              </section>
-            );
-          })}
-        </div>
+                  {hasCaption ? (
+                    <div className="work-detail__caption-wrap">
+                      <p className="work-detail__caption">{item.description}</p>
+                    </div>
+                  ) : null}
+                </section>
+              );
+            })}
+          </div>
 
-        {/* =================================================
+          {/* =================================================
             CLOSE / SHARE SLOT
         ================================================= */}
 
-        <div className="work-detail__actions-slot" style={actionsSlotStyle}>
-          <WorkDetailActions
-            onShare={handleShare}
-            isStopped={effectiveActionsStopped}
-            actionsRef={actionsRef}
-            actionsStyle={actionsStyle}
-          />
-        </div>
+          <div className="work-detail__actions-slot" style={actionsSlotStyle}>
+            <WorkDetailActions
+              onShare={handleShare}
+              isStopped={effectiveActionsStopped}
+              actionsRef={actionsRef}
+              actionsStyle={actionsStyle}
+            />
+          </div>
 
-        {/* =================================================
+          {/* =================================================
             RELATED PROJECTS
         ================================================= */}
 
-        {relatedWorks.length > 0 && (
-          <section className="related-projects" ref={relatedProjectsRef}>
-            <h2 className="related-projects__title">Related Projects</h2>
+          {relatedWorks.length > 0 && (
+            <section className="related-projects" ref={relatedProjectsRef}>
+              <h2 className="related-projects__title">Related Projects</h2>
 
-            <div className="related-projects__grid">
-              {relatedWorks.map((item) => (
-                <Link
-                  key={item.id}
-                  to={`/work/${item.slug}`}
-                  className="related-projects__item"
-                >
-                  <div className="related-projects__thumb">
-                    <img src={item.image} alt={item.title} loading="lazy" />
-                  </div>
+              <div className="related-projects__grid">
+                {relatedWorks.map((item) => (
+                  <Link
+                    key={item.id}
+                    to={`/work/${item.slug}`}
+                    className="related-projects__item"
+                  >
+                    <div className="related-projects__thumb">
+                      <img src={item.image} alt={item.title} loading="lazy" />
+                    </div>
 
-                  <p className="related-projects__name">{item.title}</p>
-                </Link>
-              ))}
-            </div>
-          </section>
-        )}
-      </section>
+                    <p className="related-projects__name">{item.title}</p>
+                  </Link>
+                ))}
+              </div>
+            </section>
+          )}
+        </section>
 
-      {/* =================================================
+        {/* =================================================
           MOBILE BOTTOM NAV
       ================================================= */}
 
-      {isMobile && (
-        <div className="home-page__mobile-bottom-nav work-detail__mobile-bottom-nav">
-          <SiteHeader
-            activePage="works"
-            showWorks={true}
-            onNavigate={handleNavChange}
-          />
-        </div>
-      )}
-    </main>
+        {isMobile && (
+          <div className="home-page__mobile-bottom-nav work-detail__mobile-bottom-nav">
+            <SiteHeader
+              activePage="works"
+              showWorks={true}
+              onNavigate={handleNavChange}
+            />
+          </div>
+        )}
+      </main>
     </>
   );
 }
