@@ -60,8 +60,8 @@ export default function HomePage({ initialPage = "home" }) {
     const routes = {
       home: "/",
       about: "/about_us",
-      works: "/works",
-      contacts: "/contacts",
+      works: "/work",
+      contacts: "/contact",
     };
 
     setActivePage(page);

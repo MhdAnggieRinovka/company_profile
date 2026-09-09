@@ -39,15 +39,14 @@ function ScrollToTop() {
 
 export default function App() {
   return (
-    
     <Routes>
       <Route path="/" element={<HomePage initialPage="home" />} />
 
       <Route path="/about_us" element={<HomePage initialPage="about" />} />
 
-      <Route path="/works" element={<HomePage initialPage="works" />} />
+      <Route path="/work" element={<HomePage initialPage="works" />} />
 
-      <Route path="/contacts" element={<HomePage initialPage="contacts" />} />
+      <Route path="/contact" element={<HomePage initialPage="contacts" />} />
 
       <Route path="/work/:slug" element={<WorkDetailPage />} />
     </Routes>
