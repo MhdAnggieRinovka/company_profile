@@ -44,19 +44,11 @@ export default function useWorksData(activePage) {
             item.acf?.portfoliocategory?.name ||
             "Uncategorized",
           year: item.acf?.year || "2024",
-          image:
-            item.acf?.cover_image?.sizes?.large ||
-            item.acf?.cover_image?.sizes?.medium_large ||
-            item.acf?.cover_image?.sizes?.medium ||
-            item.acf?.cover_image?.url ||
-            item.acf?.coverimage?.sizes?.large ||
-            item.acf?.coverimage?.sizes?.medium_large ||
-            item.acf?.coverimage?.sizes?.medium ||
-            item.acf?.coverimage?.url ||
-            "",
+          image: item.acf?.image_1?.url || item.acf?.cover_image?.url || "",
+
           alt:
+            item.acf?.image_1?.alt ||
             item.acf?.cover_image?.alt ||
-            item.acf?.coverimage?.alt ||
             item.title?.rendered ||
             "",
         }));

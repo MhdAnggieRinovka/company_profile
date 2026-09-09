@@ -74,7 +74,6 @@ export default function HeroHome({
                   className="hero-media__video"
                   src={activeVideoUrl}
                   autoPlay
-                  muted
                   loop
                   playsInline
                   preload="auto"

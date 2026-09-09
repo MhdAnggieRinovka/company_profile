@@ -86,7 +86,7 @@ function getWorkImage(workItem) {
     );
   }
 
-  for (let i = 1; i <= 10; i += 1) {
+  for (let i = 1; i <= 15; i += 1) {
     const imageField = acf[`image_${i}`] || acf[`image${i}`];
     if (imageField?.sizes?.large || imageField?.sizes?.medium_large || imageField?.url) {
       return (
@@ -605,7 +605,7 @@ export default function WorkDetailPage() {
 
     const items = [];
 
-    for (let i = 1; i <= 10; i += 1) {
+    for (let i = 1; i <= 15; i += 1) {
       const imageField = acf[`image_${i}`] || acf[`image${i}`];
 
       const descriptionField =
