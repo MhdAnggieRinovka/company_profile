@@ -4350,3 +4350,57 @@ body,
 
   display: block;
 }
+
+.home-page--hero-home .hero-media {
+  position: relative;
+}
+
+.home-page--hero-home .hero-media__sound-button {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  z-index: 5;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  border: 1px solid rgba(22, 22, 22, 0.12);
+  background: rgba(255, 255, 255, 0.88);
+
+  padding: 8px 12px;
+  border-radius: 999px;
+
+  font-family: "Inter", sans-serif;
+  font-size: 12px;
+  line-height: 1;
+  font-weight: 400;
+  color: #111111;
+
+  cursor: pointer;
+}
+
+.home-page--hero-home .hero-media__sound-button:hover {
+  background: rgba(255, 255, 255, 0.96);
+}
+
+.home-page--hero-home .hero-media__sound-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+
+.home-page--hero-home .hero-media__sound-label {
+  display: inline-block;
+}
+
+@media (max-width: 768px) {
+  .home-page--hero-home .hero-media__sound-button {
+    right: 12px;
+    bottom: 12px;
+    padding: 7px 10px;
+    font-size: 11px;
+    gap: 6px;
+  }
+}
