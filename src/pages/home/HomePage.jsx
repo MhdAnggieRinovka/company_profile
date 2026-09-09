@@ -56,17 +56,17 @@ export default function HomePage({ initialPage = "home" }) {
      NAVIGATION
   ========================================================= */
 
-  function handleNavChange(page) {
-    const routes = {
-      home: "/",
-      about: "/about_us",
-      works: "/works",
-      contacts: "/contacts",
-    };
+function handleNavChange(page) {
+  const routes = {
+    home: "/",
+    about: "/about_us",
+    works: "/work",
+    contacts: "/contact",
+  };
 
-    setActivePage(page);
-    navigate(routes[page] ?? "/");
-  }
+  setActivePage(page);
+  navigate(routes[page] ?? "/");
+}
 
   /* =========================================================
      RESPONSIVE
